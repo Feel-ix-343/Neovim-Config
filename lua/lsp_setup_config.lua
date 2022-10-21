@@ -68,7 +68,7 @@ end
 
 -- nvim-cmp supports additional completion capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 -- Enable the following language servers
 local servers = { 'clangd', 'pyright', 'tsserver', 'html', 'cssls' }
@@ -131,7 +131,7 @@ metals_config.settings = {
   superMethodLensesEnabled = true,
 }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-metals_config.capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+metals_config.capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 -- starting metals
 local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
@@ -205,7 +205,6 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
-local a = 3
 
 
 
