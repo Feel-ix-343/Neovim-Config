@@ -1,5 +1,69 @@
--- LSP Mappings
-local lspconfig = require 'lspconfig'
+local servers = { 'clangd', 'pyright', 'html', 'cssls', "sumneko_lua", "rust_analyzer", "tsserver" }
+
+local lsp_status = require('lsp-status')
+lsp_status.register_progress()
+lsp_status.config({
+  status_symbol = "",
+  indicator_errors = 'E',
+  indicator_warnings = 'W',
+  indicator_info = 'i',
+  indicator_hint = '?',
+  indicator_ok = 'Ok',
+})
+
+-- Mason
+require("mason").setup()
+require('mason-lspconfig').setup({
+  ensure_installed = servers,
+  automatic_installation = true
+})
+
+-- Lint
+local null_ls = require("null-ls")
+null_ls.setup()
+
+local mason_null_ls = require("mason-null-ls")
+mason_null_ls.setup({
+  automatic_setup = true -- Sets up mason sources for null-ls
+})
+mason_null_ls.setup_handlers()
+
+-- DAP
+local dap = require'dap'
+require("mason-nvim-dap").setup({
+  automatic_installation = true,
+  automatic_setup = true
+})
+require'mason-nvim-dap'.setup_handlers({
+  function (source_name)
+    -- all sources with no handler get passed here
+    require('mason-nvim-dap.automatic_setup')(source_name)
+  end,
+  lldb = function(source_name)
+    dap.adapters.codelldb = {
+      type = 'server',
+      port = "${port}",
+      executable = {
+        command = 'codelldb',
+        args = {"--port", "${port}" }
+      }
+    }
+    dap.configurations.cpp = {
+      {
+        name = "Launch file",
+        type = "codelldb",
+        request = "launch",
+        program = function()
+          print("Compiling Current File for Debug")
+          print("File Name: " .. vim.fn.expand("%"))
+          os.execute('g++ -g ' .. vim.fn.expand("%") .. " -o " .. vim.fn.expand("%:r") .. "DEBUG" )
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+      },
+    }
+  end
+})
 
 
 local on_attach = function(client, bufnr)
@@ -42,7 +106,7 @@ local on_attach = function(client, bufnr)
   end, { silent = true })
 
   -- Outline
-  keymap("n","<leader>o", "<cmd>LSoutlineToggle<CR>",{ silent = true })
+  keymap("n", "<leader>o", "<cmd>LSoutlineToggle<CR>", { silent = true })
 
   -- Hover Doc
   keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
@@ -57,21 +121,13 @@ local on_attach = function(client, bufnr)
 end
 
 
-
--- local ig = require 'inlay-hints'
--- 
--- local on_attach = function (client, buffer)
---   on_attach(client, buffer)
---   ig.on_attach(client, buffer)
--- end
-
-
 -- nvim-cmp supports additional completion capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
--- Enable the following language servers
-local servers = { 'clangd', 'pyright', 'tsserver', 'html', 'cssls' }
+local lspconfigservers = { 'clangd', 'pyright', 'html', 'cssls', 'tsserver' }
+
+local lspconfig = require('lspconfig')
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
@@ -80,35 +136,6 @@ for _, lsp in ipairs(servers) do
   }
 end
 
--- typescript
-lspconfig.tsserver.setup({
-  on_attach = on_attach,
-  settings = {
-    javascript = {
-      inlayHints = {
-        includeInlayEnumMemberValueHints = true,
-        includeInlayFunctionLikeReturnTypeHints = true,
-        includeInlayFunctionParameterTypeHints = true,
-        includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-        includeInlayPropertyDeclarationTypeHints = true,
-        includeInlayVariableTypeHints = true,
-      },
-    },
-    typescript = {
-      inlayHints = {
-        includeInlayEnumMemberValueHints = true,
-        includeInlayFunctionLikeReturnTypeHints = true,
-        includeInlayFunctionParameterTypeHints = true,
-        includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-        includeInlayPropertyDeclarationTypeHints = true,
-        includeInlayVariableTypeHints = true,
-      },
-    },
-  },
-})
-
 -- rust
 require("rust-tools").setup({
   tools = {
@@ -116,6 +143,12 @@ require("rust-tools").setup({
   },
   server = {
     on_attach = on_attach
+  },
+  dap = {
+    adapter = require('rust-tools.dap').get_codelldb_adapter(
+    "codelldb", 
+    vim.env.HOME .. "/.local/share/nvim/mason/packages/codelldb/extension/lldb/lib/liblldb.so" -- TODO: Set this yoruself
+    )
   }
 })
 
@@ -146,11 +179,11 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- JAVA
 -- Uses the jdtls-launcher
-lspconfig.jdtls.setup{
+lspconfig.jdtls.setup {
   on_attach = on_attach,
   cmd = { 'jdtls' },
   root_dir = function(fname)
-    return require'lspconfig'.util.root_pattern('pom.xml', 'gradle.build', '.git')(fname) or vim.fn.getcwd()
+    return require 'lspconfig'.util.root_pattern('pom.xml', 'gradle.build', '.git')(fname) or vim.fn.getcwd()
   end
 }
 
@@ -195,21 +228,15 @@ lspconfig.sumneko_lua.setup {
 -- LSP Icons
 local signs = {
   Error = " ",
-  Warn = " ",
-  Hint  ="ﴞ",
-  Info =  " ",
+  Warn  = " ",
+  Hint  = "ﴞ",
+  Info  = " ",
 }
 
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
-
-
-
-
-
-
 
 
 

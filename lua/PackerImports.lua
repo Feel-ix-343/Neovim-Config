@@ -1,8 +1,15 @@
+---@diagnostic disable: 113
 
 local use = require('packer').use
 require('packer').startup(function()
 	use 'wbthomason/packer.nvim' -- Package manager
 	use 'neovim/nvim-lspconfig' -- Collection of configurations for the built-in LSP client
+  use { "williamboman/mason.nvim" }
+  use 'williamboman/mason-lspconfig.nvim'
+  use {
+    "jose-elias-alvarez/null-ls.nvim",
+    "jayp0521/mason-null-ls.nvim",
+  }
 
 	use {
 		'nvim-treesitter/nvim-treesitter',
@@ -45,9 +52,11 @@ require('packer').startup(function()
 				  component_separators = { left = '', right = ''},
 				  section_separators = { left = '', right = ''},
 			  },
+        sections = { lualine_c = { "require'lsp-status'.status()" } }
 		  }
 	  end
   }
+use { 'nvim-lua/lsp-status.nvim' }
 
   use { 'hrsh7th/nvim-cmp', -- Autocompletion plugin
   config = function()
@@ -292,7 +301,7 @@ require('packer').startup(function()
   use {
 	  'nvim-telescope/telescope.nvim',
 	  config = function ()
-		  require('telescope').setup({})
+      require('telescope').setup({})
 		  vim.keymap.set("n", "<leader>tr", require('telescope.builtin').lsp_references, {noremap = true})
 		  vim.keymap.set("n", "<leader>ts", require('telescope.builtin').grep_string, {noremap = true})
 		  vim.keymap.set("n", "<leader>tf", require("telescope.builtin").find_files, {noremap = true})
@@ -354,7 +363,10 @@ use {
 	end
 }
 
+use "jayp0521/mason-nvim-dap.nvim"
+
 use { 'mfussenegger/nvim-dap', config = function ()
+  -- Key Commands
 	vim.cmd[[
 	nnoremap <silent> <F5> <Cmd>lua require'dap'.continue()<CR>
 	nnoremap <silent> <F10> <Cmd>lua require'dap'.step_over()<CR>
@@ -365,40 +377,11 @@ use { 'mfussenegger/nvim-dap', config = function ()
 	nnoremap <silent> <Leader>dr <Cmd>lua require'dap'.repl.open()<CR>
 	nnoremap <silent> <Leader>dl <Cmd>lua require'dap'.run_last()<CR>
 	]]
-	local dap = require'dap'
-	dap.adapters.lldb = {
-		type = "executable",
-		command = "/usr/bin/lldb-vscode",
-		name = "lldb"
-	}
-	dap.configurations.rust = {
-		{
-			name = 'Launch',
-			type = 'lldb',
-			request = 'launch',
-			program = function()
-				return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-			end,
-			cwd = '${workspaceFolder}',
-			stopOnEntry = false,
-			args = {},
 
-			-- 💀
-			-- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
-			--
-			--    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
-			--
-			-- Otherwise you might get the following error:
-			--
-			--    Error on launch: Failed to attach to the target process
-			--
-			-- But you should be aware of the implications:
-			-- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
-			-- runInTerminal = false,
-		},
-	}
 end}
 use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}, config = function ()
+  vim.keymap.set('n', "<leader>do", require('dapui').open, {} )
+  vim.keymap.set('n', "<leader>dc", require('dapui').close, {} )
 	require("dapui").setup({
 		icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
 		mappings = {
@@ -455,6 +438,7 @@ use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}, config = fun
 			max_value_lines = 100, -- Can be integer or nil.
 		}
 	})
+  
 
 end }
 

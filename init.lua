@@ -44,7 +44,11 @@ vim.keymap.set("n", "<leader>s", ":source %<CR>", {nowait=true, noremap=true})
 -- keymappings end
 
 
-
+vim.cmd[[
+setlocal foldmethod=indent
+set nofoldenable
+set foldlevel=99
+]]
 vim.opt.clipboard = 'unnamedplus' -- clipboard
 vim.opt.expandtab = true -- convert tabs to spaces
 vim.opt.shiftwidth = 2 -- the number of spaces inserted for each indentation
