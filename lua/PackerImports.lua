@@ -85,10 +85,8 @@ use { 'nvim-lua/lsp-status.nvim' }
 			  { name = 'nvim_lsp' },
 			  { name = 'luasnip' }, -- For luasnip users.
 			  { name = "path" },
-			  -- { name = 'ultisnips' }, -- For ultisnips users.
-			  -- { name = 'snippy' }, -- For snippy users.
 		  }, {
-			  -- { name = 'buffer' },
+			  -- { name = 'buffer' }, -- I don't like buffer completion
 		  })
 	  })
 
@@ -170,7 +168,7 @@ use { 'nvim-lua/lsp-status.nvim' }
 				  cache_code_action = true,
 				  sign = true,
 				  update_time = 150,
-				  sign_priority = 20,
+				  sign_priority = 50,
 				  virtual_text = true,
 			  },
 			  -- finder icons
@@ -209,7 +207,7 @@ use { 'nvim-lua/lsp-status.nvim' }
 			  -- if in_cusomt = true you must set in_enable to false
 			  symbol_in_winbar = {
 				  in_custom = false,
-				  enable = false,
+				  enable = true,
 				  separator = ' ',
 				  show_file = true,
 				  -- define how to customize filename, eg: %:., %

@@ -4,8 +4,9 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- config imports
-require('PackerImports')
+require('PackerImports') -- Includes the configs for functions
 require('lsp_setup_config')
+require('DapSetup') -- Must be after the lsp_setup_config
 -- config imports end
 
 --Set colorscheme
@@ -45,11 +46,11 @@ vim.keymap.set("n", "<leader>s", ":source %<CR>", {nowait=true, noremap=true})
 
 
 vim.cmd[[
-setlocal foldmethod=indent
+set foldmethod=indent
 set nofoldenable
 set foldlevel=99
 ]]
-vim.opt.clipboard = 'unnamedplus' -- clipboard
+vim.opt.clipboard = 'unnamedplus' -- Setting the clip board to the regular copy/paste one
 vim.opt.expandtab = true -- convert tabs to spaces
 vim.opt.shiftwidth = 2 -- the number of spaces inserted for each indentation
 vim.opt.tabstop = 2 -- insert 2 spaces for a tab
@@ -79,9 +80,6 @@ vim.o.smartcase = true
 --Decrease update time
 vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
-
--- Set completeopt to have a better completion experience
---vim.o.completeopt = 'menuone,noselect'
 
 
 -- Highlight on yank

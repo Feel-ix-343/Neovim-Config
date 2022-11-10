@@ -1,4 +1,4 @@
-local servers = { 'clangd', 'pyright', 'html', 'cssls', "sumneko_lua", "rust_analyzer", "tsserver" }
+local servers = { 'clangd', 'pyright', 'html', 'cssls', "sumneko_lua", "rust_analyzer", "tsserver" }-- "hls" } -- the haskell installation is out of date; I have compiled it from source using ghcup
 
 local lsp_status = require('lsp-status')
 lsp_status.register_progress()
@@ -15,7 +15,7 @@ lsp_status.config({
 require("mason").setup()
 require('mason-lspconfig').setup({
   ensure_installed = servers,
-  automatic_installation = true
+  --automatic_installation = true,
 })
 
 -- Lint
@@ -28,113 +28,40 @@ mason_null_ls.setup({
 })
 mason_null_ls.setup_handlers()
 
--- DAP
-local dap = require'dap'
-require("mason-nvim-dap").setup({
-  automatic_installation = true,
-  automatic_setup = true
-})
-require'mason-nvim-dap'.setup_handlers({
-  function (source_name)
-    -- all sources with no handler get passed here
-    require('mason-nvim-dap.automatic_setup')(source_name)
-  end,
-  lldb = function(source_name)
-    dap.adapters.codelldb = {
-      type = 'server',
-      port = "${port}",
-      executable = {
-        command = 'codelldb',
-        args = {"--port", "${port}" }
-      }
-    }
-    dap.configurations.cpp = {
-      {
-        name = "Launch file",
-        type = "codelldb",
-        request = "launch",
-        program = function()
-          print("Compiling Current File for Debug")
-          print("File Name: " .. vim.fn.expand("%"))
-          os.execute('g++ -g ' .. vim.fn.expand("%") .. " -o " .. vim.fn.expand("%:r") .. "DEBUG" )
-          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-        end,
-        cwd = '${workspaceFolder}',
-      },
-    }
-  end
-})
 
 
 local on_attach = function(client, bufnr)
   local keymap = vim.keymap.set
-
-  -- Lsp finder find the symbol definition implement reference
-  -- if there is no implement it will hide
-  -- when you use action in finder like open vsplit then you can
-  -- use <C-t> to jump back
   keymap("n", "gh", ":Lspsaga lsp_finder<CR>", { silent = true })
-
-  -- Code action
   keymap("n", "<leader>a", "<cmd>Lspsaga code_action<CR>", { silent = true })
-
-  -- Rename
   keymap("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
-
-  -- Peek Definition
-  -- you can edit the definition file in this flaotwindow
-  -- also support open/vsplit/etc operation check definition_action_keys
-  -- support tagstack C-t jump back
   keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
-
-  -- Show line diagnostics
   keymap("n", "<leader>d", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
-
-  -- Show cursor diagnostic
   keymap("n", "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>", { silent = true })
-
-  -- Diagnsotic jump can use `<c-o>` to jump back
   keymap("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { silent = true })
   keymap("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", { silent = true })
-
-  -- Only jump to error
   keymap("n", "[E", function()
     require("lspsaga.diagnostic").goto_prev({ severity = vim.diagnostic.severity.ERROR })
   end, { silent = true })
   keymap("n", "]E", function()
     require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic.severity.ERROR })
   end, { silent = true })
-
-  -- Outline
   keymap("n", "<leader>o", "<cmd>LSoutlineToggle<CR>", { silent = true })
-
-  -- Hover Doc
   keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
-
-  -- Float terminal
   keymap("n", "<A-d>", "<cmd>Lspsaga open_floaterm<CR>", { silent = true })
-  -- if you want pass somc cli command into terminal you can do like this
-  -- open lazygit in lspsaga float terminal
-  -- keymap("n", "<A-d>", "<cmd>Lspsaga open_floaterm lazygit<CR>", { silent = true })
-  -- close floaterm
   keymap("t", "<A-d>", [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]], { silent = true })
 end
 
 
--- nvim-cmp supports additional completion capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
-local lspconfigservers = { 'clangd', 'pyright', 'html', 'cssls', 'tsserver' }
-
+local lspconfigservers = { 'clangd', 'pyright', 'html', 'cssls', 'tsserver', 'hls' }
 local lspconfig = require('lspconfig')
-
-for _, lsp in ipairs(servers) do
+for _, lsp in ipairs(lspconfigservers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
     capabilities = capabilities,
   }
 end
+
 
 -- rust
 require("rust-tools").setup({
@@ -144,7 +71,7 @@ require("rust-tools").setup({
   server = {
     on_attach = on_attach
   },
-  dap = {
+  dap = { -- Enabling rust to use codelldb; This is related to the dap functions
     adapter = require('rust-tools.dap').get_codelldb_adapter(
     "codelldb", 
     vim.env.HOME .. "/.local/share/nvim/mason/packages/codelldb/extension/lldb/lib/liblldb.so" -- TODO: Set this yoruself
@@ -163,8 +90,6 @@ metals_config.settings = {
   showInferredType = true,
   superMethodLensesEnabled = true,
 }
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-metals_config.capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 -- starting metals
 local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
@@ -173,6 +98,7 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     on_attach()
     require("metals").initialize_or_attach(metals_config)
+    require('metals').setup_dap()
   end,
   group = nvim_metals_group,
 })
