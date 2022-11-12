@@ -1,4 +1,3 @@
----@diagnostic disable: 113
 
 local use = require('packer').use
 require('packer').startup(function()
@@ -16,9 +15,10 @@ require('packer').startup(function()
 		config = function()
 			local treesitter = require'nvim-treesitter.configs'
 			treesitter.setup {
+        ensure_installed = "all",
 				highlight = {
-					enabled = true,
-					additional_vim_regex_highlighting = true
+					enable = true,
+					additional_vim_regex_highlighting = false
 				},
 				indent = {
 					enable = true
@@ -206,8 +206,8 @@ use { 'nvim-lua/lsp-status.nvim' }
 			  -- and set it to your custom winbar or some winbar plugins.
 			  -- if in_cusomt = true you must set in_enable to false
 			  symbol_in_winbar = {
-				  in_custom = false,
-				  enable = true,
+				  -- in_custom = false,
+				  enable = false,
 				  separator = ' ',
 				  show_file = true,
 				  -- define how to customize filename, eg: %:., %
@@ -535,6 +535,7 @@ end }
         -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
         separator = nil,
       }
+      vim.cmd[[hi TreesitterContextBottom gui=underline guisp=black]]
     end
   }
 

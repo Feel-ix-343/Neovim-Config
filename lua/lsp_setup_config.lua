@@ -53,12 +53,11 @@ local on_attach = function(client, bufnr)
 end
 
 
-local lspconfigservers = { 'clangd', 'pyright', 'html', 'cssls', 'tsserver', 'hls' }
+local lspconfigservers = { 'clangd', 'pyright', 'html', 'cssls', 'tsserver', 'hls', "astro" }
 local lspconfig = require('lspconfig')
 for _, lsp in ipairs(lspconfigservers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
-    capabilities = capabilities,
   }
 end
 
@@ -123,7 +122,6 @@ table.insert(runtime_path, 'lua/?/init.lua')
 
 lspconfig.sumneko_lua.setup {
   on_attach = on_attach,
-  capabilities = capabilities,
   settings = {
     Lua = {
       runtime = {
@@ -151,7 +149,7 @@ lspconfig.sumneko_lua.setup {
   },
 }
 
--- LSP Icons
+-- LSP Icons and highlighting for saga
 local signs = {
   Error = " ",
   Warn  = " ",
