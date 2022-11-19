@@ -1,4 +1,3 @@
-
 local use = require('packer').use
 require('packer').startup(function()
 	use 'wbthomason/packer.nvim' -- Package manager
@@ -308,6 +307,17 @@ use { 'nvim-lua/lsp-status.nvim' }
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
 
+  use({
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    config = function()
+      require("lsp_lines").setup()
+
+      vim.diagnostic.config({
+        virtual_text = false
+      })
+    end,
+  })
+
   use({'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" }})
 
   use {
@@ -345,6 +355,8 @@ use {
 		require('neoscroll').setup()
 	end
 }
+
+  use 'simrat39/rust-tools.nvim'
 
   use 'tpope/vim-fugitive'
   use {
