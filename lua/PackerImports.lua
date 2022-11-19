@@ -346,8 +346,20 @@ use {
 	end
 }
 
-use 'simrat39/rust-tools.nvim'
-use 'tpope/vim-fugitive'
+  use 'tpope/vim-fugitive'
+  use {
+    'lewis6991/gitsigns.nvim',
+    -- tag = 'release' -- To use the latest release (do not use this if you run Neovim nightly or dev builds!)
+    config = function()
+      require("gitsigns").setup()
+    end
+  }
+  use { 'sindrets/diffview.nvim', requires = {'nvim-lua/plenary.nvim', "nvimsindrets/diffview.nvim"}, config = function()
+    local diffview = require('diffview')
+    vim.keymap.set("n", "<leader>go", ":DiffviewOpen<CR>")
+    vim.keymap.set("n", "<leader>gc", ":DiffviewClose<CR>")
+    diffview.setup()
+  end}
 
 -- Lua
 use {
