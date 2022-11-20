@@ -46,8 +46,8 @@ require('packer').startup(function()
 	  config = function ()
 		  require('lualine').setup {
 			  options = {
+				  theme = 'catppuccin',
 				  icons_enabled = true,
-				  theme = 'auto',
 				  component_separators = { left = '', right = ''},
 				  section_separators = { left = '', right = ''},
 			  },
@@ -232,7 +232,7 @@ use { 'nvim-lua/lsp-status.nvim' }
 			  },
 			  -- custom lsp kind
 			  -- usage { Field = 'color code'} or {Field = {your icon, your color code}}
-			  custom_kind = {},
+        custom_kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
 			  -- if you don't use nvim-lspconfig you must pass your server name and
 			  -- the related filetypes into this table
 			  -- like server_filetype_map = { metals = { "sbt", "scala" } }

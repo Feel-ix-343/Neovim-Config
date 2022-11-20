@@ -16,13 +16,48 @@ vim.cmd [[let g:tokyonight_enable_italic = 1]]
 vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
 require('catppuccin').setup({
   transparent_background=true,
+  integrations = {
+    cmp = true,
+    gitsigns = true,
+    barbar = true,
+    lsp_saga = true,
+    mason = true,
+    dap = {
+      enabled = true,
+      enable_ui = true,
+    },
+    nvimtree = true,
+    native_lsp = {
+      enabled = true,
+      virtual_text = {
+        errors = { "italic" },
+        hints = { "italic" },
+        warnings = { "italic" },
+        information = { "italic" },
+      },
+      underlines = {
+        errors = { "underline" },
+        hints = { "underline" },
+        warnings = { "underline" },
+        information = { "underline" },
+      },
+    },
+    treesitter_context = true,
+    treesitter = true,
+    telescope = true,
+    which_key = true,
+  }
 })
-vim.cmd [[colorscheme catppuccin]]
+vim.cmd.colorscheme "catppuccin"
 -- colorscheme end
 
 --highlighting
 vim.cmd[[
-highlight NormalFloat guibg=none
+  highlight NormalFloat guibg=none
+  highlight LspFloatWinNormal guibg=none
+  highlight BufferInactive guibg=none
+  highlight BufferInactiveSign guibg=none
+  highlight BufferInactiveMod guibg=none
 ]]
 --highlighting end
 

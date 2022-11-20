@@ -13,20 +13,39 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +98 ~/.config/nvim/init.lua
-badd +152 lsp_setup_config.lua
-badd +4 PackerImports.lua
-badd +0 fugitive:///home/felix/.config/nvim/.git//
+badd +60 ~/.config/nvim/init.lua
+badd +50 PackerImports.lua
+badd +38 ~/.config/nvim/lua/DapSetup.lua
 argglobal
 %argdel
 $argadd ~/.config/nvim/init.lua
-edit fugitive:///home/felix/.config/nvim/.git//
+tabnew +setlocal\ bufhidden=wipe
+tabrewind
+edit ~/.config/nvim/init.lua
+argglobal
+balt PackerImports.lua
+setlocal fdm=indent
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal nofen
+let s:l = 60 - ((26 * winheight(0) + 26) / 53)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 60
+normal! 0
+tabnext
+edit diffview:///home/felix/.config/nvim/.git/:0:/init.lua
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
 wincmd _ | wincmd |
-split
-1wincmd k
+vsplit
+1wincmd h
 wincmd w
 let &splitbelow = s:save_splitbelow
 let &splitright = s:save_splitright
@@ -37,19 +56,17 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 21 + 23) / 46)
-exe '2resize ' . ((&lines * 21 + 23) / 46)
+wincmd =
 argglobal
-balt lsp_setup_config.lua
-setlocal fdm=indent
+setlocal fdm=diff
 setlocal fde=0
 setlocal fmr={{{,}}}
 setlocal fdi=#
-setlocal fdl=99
+setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
-setlocal nofen
-let s:l = 1 - ((0 * winheight(0) + 10) / 21)
+setlocal fen
+let s:l = 1 - ((0 * winheight(0) + 26) / 53)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
@@ -57,47 +74,28 @@ keepjumps 1
 normal! 0
 wincmd w
 argglobal
-if bufexists(fnamemodify("PackerImports.lua", ":p")) | buffer PackerImports.lua | else | edit PackerImports.lua | endif
+if bufexists(fnamemodify("~/.config/nvim/init.lua", ":p")) | buffer ~/.config/nvim/init.lua | else | edit ~/.config/nvim/init.lua | endif
 if &buftype ==# 'terminal'
-  silent file PackerImports.lua
+  silent file ~/.config/nvim/init.lua
 endif
-balt lsp_setup_config.lua
 setlocal fdm=indent
 setlocal fde=0
 setlocal fmr={{{,}}}
 setlocal fdi=#
-setlocal fdl=99
+setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
-setlocal fen
-4
-normal! zo
-14
-normal! zo
-16
-normal! zo
-18
-normal! zo
-445
-normal! zo
-446
-normal! zo
-459
-normal! zo
-461
-normal! zo
-462
-normal! zo
-let s:l = 4 - ((3 * winheight(0) + 10) / 21)
+setlocal nofen
+let s:l = 1 - ((0 * winheight(0) + 26) / 53)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 4
+keepjumps 1
 normal! 0
 wincmd w
-exe '1resize ' . ((&lines * 21 + 23) / 46)
-exe '2resize ' . ((&lines * 21 + 23) / 46)
-tabnext 1
+2wincmd w
+wincmd =
+tabnext 2
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
 endif
@@ -111,6 +109,7 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
+set hlsearch
 nohlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session
