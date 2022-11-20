@@ -564,7 +564,7 @@ end }
   }
   use { 'rcarriga/nvim-notify', config = function ()
     require('notify').setup({
-      background_color = "none"
+      background_colour = "FloatShadow"
     })
     vim.notify = require('notify')
   end}
