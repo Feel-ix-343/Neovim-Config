@@ -52,13 +52,23 @@ require('catppuccin').setup({
 vim.cmd.colorscheme "catppuccin"
 -- colorscheme end
 
---highlighting
+--highlighting ;; Making background colors transparent
 vim.cmd[[
   highlight NormalFloat guibg=none
   highlight LspFloatWinNormal guibg=none
   highlight BufferInactive guibg=none
   highlight BufferInactiveSign guibg=none
   highlight BufferInactiveMod guibg=none
+  highlight BufferInactiveIndex guibg=none
+  highlight BufferVisible guibg=none
+  highlight BufferVisibleSign guibg=none
+  highlight BufferVisibleMod guibg=none
+  highlight BufferVisibleIndex guibg=none
+  highlight BufferVisibleTarget guibg=none
+  highlight BufferInactiveTarget guibg=none
+  highlight BufferTabpage guibg=none
+  highlight BufferTabpages guibg=none
+  highlight CursorColumn guibg=none
 ]]
 --highlighting end
 
