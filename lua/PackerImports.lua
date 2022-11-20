@@ -562,5 +562,10 @@ end }
       vim.cmd[[hi TreesitterContextBottom gui=underline guisp=black]]
     end
   }
-
+  use { 'rcarriga/nvim-notify', config = function ()
+    require('notify').setup({
+      background_color = "none"
+    })
+    vim.notify = require('notify')
+  end}
 end)

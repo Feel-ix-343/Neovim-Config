@@ -46,6 +46,7 @@ require('catppuccin').setup({
     treesitter = true,
     telescope = true,
     which_key = true,
+    notify = true
   }
 })
 vim.cmd.colorscheme "catppuccin"
