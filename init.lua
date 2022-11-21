@@ -11,8 +11,9 @@ require('DapSetup') -- Must be after the lsp_setup_config
 
 --Set colorscheme
 vim.o.termguicolors = true
-vim.cmd [[let g:tokyonight_style = 'storm']]
-vim.cmd [[let g:tokyonight_enable_italic = 1]]
+require('tokyonight').setup({
+  transparent = true
+})
 vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
 require('catppuccin').setup({
   transparent_background=true,
@@ -49,6 +50,7 @@ require('catppuccin').setup({
     notify = true
   }
 })
+-- vim.cmd.colorscheme "tokyonight-moon"
 vim.cmd.colorscheme "catppuccin"
 -- colorscheme end
 

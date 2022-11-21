@@ -37,6 +37,8 @@ require('packer').startup(function()
 	use 'pgdouyon/vim-yin-yang'
 	use 'sainnhe/everforest'
 	use 'luisiacc/gruvbox-baby'
+  use {'shaunsingh/oxocarbon.nvim', run = './install.sh'}
+  use {'michaeldyrynda/carbon'}
 	------------------------------------------------------
 
   use {'akinsho/bufferline.nvim', tag = "*", requires = 'kyazdani42/nvim-web-devicons'}
@@ -298,11 +300,20 @@ use { 'nvim-lua/lsp-status.nvim' }
   use {
 	  'nvim-telescope/telescope.nvim',
 	  config = function ()
-      require('telescope').setup({})
+      local telescope = require('telescope')
+      telescope.setup({
+        pickers = {
+          colorscheme = {
+            enable_preview = true
+          }
+        }
+      })
 		  vim.keymap.set("n", "<leader>tr", require('telescope.builtin').lsp_references, {noremap = true})
 		  vim.keymap.set("n", "<leader>ts", require('telescope.builtin').grep_string, {noremap = true})
 		  vim.keymap.set("n", "<leader>tf", require("telescope.builtin").find_files, {noremap = true})
 		  vim.keymap.set("n", "<leader>tk", require("telescope.builtin").keymaps, {noremap=true})
+
+
 	  end,
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
