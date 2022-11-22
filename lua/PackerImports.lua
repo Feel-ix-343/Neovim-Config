@@ -382,8 +382,29 @@ use {
     vim.keymap.set("n", "<leader>go", ":DiffviewOpen<CR>")
     vim.keymap.set("n", "<leader>gc", ":DiffviewClose<CR>")
     diffview.setup()
+
+    local diffviewOpen = false
+    local toggleDiffview = function ()
+      if not diffviewOpen then
+        diffviewOpen = true
+        vim.cmd(":DiffviewOpen")
+      else
+        diffviewOpen = false
+        vim.cmd(":DiffviewClose")
+      end
+    end
+    vim.keymap.set("n", "<leader>gd", toggleDiffview)
+
   end}
 
+  use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim', config = function ()
+    require('neogit').setup({
+      integrations = {
+        diffview = true
+      }
+    })
+    vim.keymap.set("n", "<leader>gg", ":Neogit<CR>")
+  end }
 -- Lua
 use {
 	"folke/which-key.nvim",
