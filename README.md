@@ -3,7 +3,7 @@ This is my personal neovim config.
 
 It has support for:
 - Nvim Lsp with Type Script, Scala, Rust, Python
-- Debugging in Rust; It is somewhat simple to add support for other languages, but I have not done this yet.
+- Debugging in all the supported languages
 - Some other stuff as well
 
 ## Why I use Neovim
