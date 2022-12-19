@@ -8,7 +8,7 @@ require'mason-nvim-dap'.setup_handlers({
     -- all sources with no handler get passed here
     require('mason-nvim-dap.automatic_setup')(source_name)
   end,
-  lldb = function(source_name)
+  codelldb = function(source_name)
     dap.adapters.codelldb = {
       type = 'server',
       port = "${port}",
