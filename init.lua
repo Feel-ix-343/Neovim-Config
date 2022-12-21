@@ -3,55 +3,19 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- config imports
-require('PackerImports') -- Includes the configs for functions
-require('lsp_setup_config')
-require('DapSetup') -- Must be after the lsp_setup_config
--- config imports end
 
 --Set colorscheme
 vim.o.termguicolors = true
-require('tokyonight').setup({
-  transparent = true
-})
-vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
-require('catppuccin').setup({
-  transparent_background=true,
-  integrations = {
-    cmp = true,
-    gitsigns = true,
-    barbar = true,
-    lsp_saga = true,
-    mason = true,
-    dap = {
-      enabled = true,
-      enable_ui = true,
-    },
-    nvimtree = true,
-    native_lsp = {
-      enabled = true,
-      virtual_text = {
-        errors = { "italic" },
-        hints = { "italic" },
-        warnings = { "italic" },
-        information = { "italic" },
-      },
-      underlines = {
-        errors = { "underline" },
-        hints = { "underline" },
-        warnings = { "underline" },
-        information = { "underline" },
-      },
-    },
-    treesitter_context = true,
-    treesitter = true,
-    telescope = true,
-    which_key = true,
-    notify = true
-  }
-})
+
+-- require('github-theme')
 -- vim.cmd.colorscheme "tokyonight-moon"
-vim.cmd.colorscheme "catppuccin"
+-- vim.cmd.colorscheme "nightfly"
+-- vim.opt.background = "dark"
+-- vim.cmd.colorscheme "oxocarbon"
+-- vim.cmd.colorscheme "catppuccin"
+vim.g.mellow_italic_functions = true
+vim.g.mellow_bold_functions = true
+vim.cmd [[colorscheme mellow]]
 -- colorscheme end
 
 --highlighting ;; Making background colors transparent
@@ -81,12 +45,10 @@ vim.api.nvim_set_keymap('n', '<leader>j', '<C-w>j', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>k', '<C-w>k', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>l', '<C-w>l', {noremap=true})
 
-
-vim.api.nvim_set_keymap('n', '<leader>e', ':NvimTreeToggle<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader><leader>',':w<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>q', ':q<CR>', {noremap=true})
 
-vim.api.nvim_set_keymap('i', '<C-BS>', '<C-w>', {noremap=true}) --mapping backspace to delete the whole word
+vim.api.nvim_set_keymap('i', '<C-h>', '<C-w>', {noremap=true}) --mapping backspace to delete the whole word
 
 vim.api.nvim_set_keymap("n", "<leader>ps", ":PackerSync<CR>", {noremap=true})
 vim.keymap.set("n", "<leader>s", ":source %<CR>", {nowait=true, noremap=true})
@@ -94,10 +56,11 @@ vim.keymap.set("n", "<leader>s", ":source %<CR>", {nowait=true, noremap=true})
 
 
 vim.cmd[[
-set foldmethod=indent
-set nofoldenable
-set foldlevel=99
+  set foldmethod=indent
+  set nofoldenable
+  set foldlevel=99
 ]]
+
 vim.opt.clipboard = 'unnamedplus' -- Setting the clip board to the regular copy/paste one
 vim.opt.expandtab = true -- convert tabs to spaces
 vim.opt.shiftwidth = 2 -- the number of spaces inserted for each indentation

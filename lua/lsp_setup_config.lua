@@ -1,4 +1,4 @@
-local servers = { 'clangd', 'pyright', 'html', 'cssls', "sumneko_lua", "rust_analyzer", "tsserver" }-- "hls" } -- the haskell installation is out of date; I have compiled it from source using ghcup
+local servers = { 'clangd', 'pyright', 'html', 'cssls', "sumneko_lua", "rust_analyzer", "tsserver", "bashls", "astro" }-- "hls" } -- the haskell installation is out of date; I have compiled it from source using ghcup
 
 local lsp_status = require('lsp-status')
 lsp_status.register_progress()
@@ -15,20 +15,30 @@ lsp_status.config({
 require("mason").setup()
 require('mason-lspconfig').setup({
   ensure_installed = servers,
-  --automatic_installation = true,
+  --automatic_installation = true, -- I don't enable this beacuse I don't want it to auto install the haskell langauge server
 })
-
 -- Lint
 local null_ls = require("null-ls")
+
 null_ls.setup({
   sources = {
-    null_ls.builtins.code_actions.gitsigns
+    null_ls.builtins.code_actions.gitsigns.with({
+      config = {
+        filter_actions = function(title)
+          return title:lower():match("blame") == nil -- filter out blame actions
+        end,
+      },
+    }),
+    null_ls.builtins.completion.tags,
   }
+
 })
 
 local mason_null_ls = require("mason-null-ls")
 mason_null_ls.setup({
-  automatic_setup = true -- Sets up mason sources for null-ls
+  automatic_setup = {
+    exclude = {"clangd"}
+  }
 })
 mason_null_ls.setup_handlers()
 
@@ -50,18 +60,22 @@ local on_attach = function(client, bufnr)
   keymap("n", "]E", function()
     require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic.severity.ERROR })
   end, { silent = true })
-  keymap("n", "<leader>o", "<cmd>LSoutlineToggle<CR>", { silent = true })
+  keymap("n", "<leader>o", "<cmd>Lspsaga outline<CR>", { silent = true })
   keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
   keymap("n", "<A-d>", "<cmd>Lspsaga open_floaterm<CR>", { silent = true })
   keymap("t", "<A-d>", [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]], { silent = true })
 end
 
 
-local lspconfigservers = { 'clangd', 'pyright', 'html', 'cssls', 'tsserver', 'hls', "astro" }
+
+local lspconfigservers = { 'pyright', 'html', 'cssls', 'tsserver', 'hls', "astro", "bashls", "gopls", "tailwindcss" }
 local lspconfig = require('lspconfig')
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 for _, lsp in ipairs(lspconfigservers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
+    capabilities = capabilities
   }
 end
 
@@ -76,7 +90,7 @@ require("rust-tools").setup({
   },
   dap = { -- Enabling rust to use codelldb; This is related to the dap functions
     adapter = require('rust-tools.dap').get_codelldb_adapter(
-    "codelldb", 
+    "codelldb",
     vim.env.HOME .. "/.local/share/nvim/mason/packages/codelldb/extension/lldb/lib/liblldb.so" -- TODO: Set this yoruself
     )
   }
@@ -106,15 +120,6 @@ vim.api.nvim_create_autocmd("FileType", {
   group = nvim_metals_group,
 })
 
--- JAVA
--- Uses the jdtls-launcher
-lspconfig.jdtls.setup {
-  on_attach = on_attach,
-  cmd = { 'jdtls' },
-  root_dir = function(fname)
-    return require 'lspconfig'.util.root_pattern('pom.xml', 'gradle.build', '.git')(fname) or vim.fn.getcwd()
-  end
-}
 
 -- LUA
 -- Example custom server
@@ -147,4 +152,8 @@ for type, icon in pairs(signs) do
 end
 
 
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.offsetEncoding = { "utf-16" }
+require("lspconfig").clangd.setup({ capabilities = capabilities, on_attach = on_attach })
 
