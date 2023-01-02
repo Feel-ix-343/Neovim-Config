@@ -64,6 +64,8 @@ local on_attach = function(client, bufnr)
   keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
   keymap("n", "<A-d>", "<cmd>Lspsaga open_floaterm<CR>", { silent = true })
   keymap("t", "<A-d>", [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]], { silent = true })
+
+  keymap("i", "<C-K>", vim.lsp.buf.signature_help, { silent = true })
 end
 
 
@@ -156,4 +158,3 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.offsetEncoding = { "utf-16" }
 require("lspconfig").clangd.setup({ capabilities = capabilities, on_attach = on_attach })
-

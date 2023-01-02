@@ -48,7 +48,7 @@ require('packer').startup(function()
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
-  use 'hrsh7th/cmp-nvim-lsp-signature-help'
+  -- use 'hrsh7th/cmp-nvim-lsp-signature-help'
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
 
@@ -89,12 +89,8 @@ require('packer').startup(function()
 
   use({'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" }})
 
-  use {
-	  'windwp/nvim-autopairs',
-	  config = function()
-		  require('nvim-autopairs').setup()
-	  end
-  }
+  use { 'windwp/nvim-autopairs' }
+  use 'windwp/nvim-ts-autotag'
 
   use { "folke/todo-comments.nvim",
   requires = "nvim-lua/plenary.nvim",
@@ -189,6 +185,8 @@ use {
 
 
   use { 'nvim-treesitter/nvim-treesitter-context', }
+  use 'nvim-treesitter/playground'
+
 
   use {
     "nvim-neo-tree/neo-tree.nvim",
@@ -199,4 +197,6 @@ use {
       "MunifTanjim/nui.nvim",
     }
   }
+
+  use 'github/copilot.vim'
 end)
