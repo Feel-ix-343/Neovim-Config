@@ -64,12 +64,13 @@ require('packer').startup(function()
     "jose-elias-alvarez/null-ls.nvim",
     "jayp0521/mason-null-ls.nvim",
   }
+  use 'simrat39/rust-tools.nvim'
   -- LSP STUFF END ---------------------------------------------------------------
 
-  use {
-    'romgrk/barbar.nvim',
-    requires = {'kyazdani42/nvim-web-devicons'}
-  }
+  -- use {
+  --   'romgrk/barbar.nvim',
+  --   requires = {'kyazdani42/nvim-web-devicons'}
+  -- }
 
   use {
 	  'nvim-telescope/telescope.nvim',
@@ -114,14 +115,12 @@ require('packer').startup(function()
 
 use 'tpope/vim-obsession'
 
-use {
-	'karb94/neoscroll.nvim',
-	config = function ()
-		require('neoscroll').setup()
-	end
-}
-
-  use 'simrat39/rust-tools.nvim'
+  use {
+    'karb94/neoscroll.nvim',
+    config = function ()
+      require('neoscroll').setup()
+    end
+  }
 
   use 'tpope/vim-fugitive'
   use {
@@ -203,6 +202,7 @@ use {
       }
     end
   }
+  -- END
 
 
   use {
@@ -216,4 +216,22 @@ use {
   }
 
   use 'github/copilot.vim'
+
+  use {
+    'phaazon/hop.nvim',
+    branch = 'v2', -- optional but strongly recommended
+    config = function()
+    end
+  }
+
+  use 'nvim-lua/plenary.nvim'
+  use 'ThePrimeagen/harpoon' -- config in telescope and harpoon config files
+
+  use {
+    "cbochs/portal.nvim",
+    requires = {
+      "cbochs/grapple.nvim",  -- Optional: provides the "grapple" query item
+      "ThePrimeagen/harpoon", -- Optional: provides the "harpoon" query item
+    },
+  }
 end)
