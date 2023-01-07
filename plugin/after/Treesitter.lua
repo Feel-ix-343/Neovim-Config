@@ -26,7 +26,55 @@ treesitter.setup {
       goto_node = '<cr>',
       show_help = '?',
     },
-  }
+  },
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true,
+      keymaps = {
+        ["ia"] = "@attribute.inner",
+        ["aa"] = "@attribute.outer",
+        ["ie"] = "@block.inner",
+        ["ae"] = "@block.outer",
+        ["ic"] = "@call.inner",
+        ["ac"] = "@call.outer",
+        ["iC"] = "@class.inner",
+        ["aC"] = "@class.outer",
+        ["ad"] = "@comment.outer",
+        ["iF"] = "@conditional.inner",
+        ["aF"] = "@conditional.outer",
+        ["if"] = "@function.inner",
+        ["af"] = "@function.outer",
+        ["il"] = "@loop.inner",
+        ["al"] = "@loop.outer",
+        ["ip"] = "@parameter.inner",
+        ["ap"] = "@parameter.outer",
+        ["as"] = "@statement.outer",
+        ["iS"] = "@scopename.inner",
+        ["aS"] = "@scopename.outer",
+      },
+    },
+    move = {
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        ["]m"] = "@function.outer",
+        ["]]"] = "@class.outer",
+      },
+      goto_next_end = {
+        ["]M"] = "@function.outer",
+        ["]["] = "@class.outer",
+      },
+      goto_previous_start = {
+        ["[m"] = "@function.outer",
+        ["[["] = "@class.outer",
+      },
+      goto_previous_end = {
+        ["[M"] = "@function.outer",
+        ["[]"] = "@class.outer",
+      },
+    },
+  },
 }
 
 require('nvim-ts-autotag').setup()
