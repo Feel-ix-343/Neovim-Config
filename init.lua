@@ -59,10 +59,11 @@ vim.keymap.set("n", "<leader>s", ":source %<CR>", {nowait=true, noremap=true})
 
 
 vim.cmd[[
-  set foldmethod=indent
-  set nofoldenable
   set foldlevel=99
 ]]
+
+vim.o.foldmethod = "expr"
+vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 
 vim.opt.clipboard = 'unnamedplus' -- Setting the clip board to the regular copy/paste one
 vim.opt.expandtab = true -- convert tabs to spaces
