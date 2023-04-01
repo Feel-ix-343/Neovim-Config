@@ -24,7 +24,7 @@ return {
     vim.keymap.set("n", "<leader>tf", require("telescope.builtin").find_files, {noremap = true})
     vim.keymap.set("n", "<leader>tg", require("telescope.builtin").git_files, {noremap = true})
     vim.keymap.set("n", "<leader>tk", require("telescope.builtin").keymaps, {noremap=true})
-    vim.keymap.set("n", "<leader>to", require("telescope.builtin").treesitter, {noremap=true})
+    vim.keymap.set("n", "<leader>to", require("telescope.builtin").lsp_document_symbols, {noremap=true})
 
     require('telescope').load_extension("harpoon")
     vim.keymap.set("n", "<leader>th", require("telescope._extensions.marks"), {noremap = true})

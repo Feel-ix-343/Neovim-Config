@@ -6,6 +6,16 @@ return {
       "mason.nvim",
       "mfussenegger/nvim-dap",
     },
+    keys = {
+      "<F5>",
+      "<F10>",
+      "<F11>",
+      "<F12>",
+      "<leader>b",
+      "<leader>B",
+      "<leader>dr",
+      "<leader>dl",
+    },
     config = function ()
       -- Key Commands
       vim.cmd[[

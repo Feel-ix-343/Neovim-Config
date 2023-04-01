@@ -34,6 +34,7 @@ return {
       "mason-null-ls.nvim",
       "hrsh7th/cmp-nvim-lsp",
       'simrat39/rust-tools.nvim',
+      "nvim-navbuddy",
       {
         'scalameta/nvim-metals',
         dependencies = {
@@ -42,6 +43,7 @@ return {
       }
     },
     config = function()
+
 
       local on_attach = function(client, bufnr)
         local keymap = vim.keymap.set
@@ -86,6 +88,9 @@ return {
         keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
 
         keymap("i", "<C-K>", vim.lsp.buf.signature_help, { silent = true })
+
+        local navbuddy = require('nvim-navbuddy')
+        navbuddy.attach(client, bufnr)
       end
 
 
@@ -154,6 +159,9 @@ return {
           Lua = {
             completion = {
               callSnippet = "Replace"
+            },
+            workspace = {
+              checkThirdParty = false
             }
           },
         },
@@ -211,12 +219,12 @@ return {
     "jayp0521/mason-null-ls.nvim",
     event = "UIEnter",
     dependencies = { "mason.nvim" },
-    opts = {
-      automatic_setup = {
-        exclude = {"clangd"}
-      }
-    },
     config = function ()
+      require("mason-null-ls").setup({
+        automatic_setup = {
+          exclude = {"clangd"}
+        }
+      })
       require("mason-null-ls").setup_handlers()
     end
   },
@@ -238,6 +246,25 @@ return {
       ensure_installed = servers,
       automatic_installation = true
     }
+  },
+  {
+    "SmiteshP/nvim-navbuddy",
+    dependencies = {
+      "neovim/nvim-lspconfig",
+      "SmiteshP/nvim-navic",
+      "MunifTanjim/nui.nvim",
+      "numToStr/Comment.nvim"
+    },
+    lazy = true,
+    keys = {
+      { "<leader>o", "<cmd>Navbuddy<cr>", desc = "Navbuddy" },
+    },
+    config = function()
+      local navbuddy = require('nvim-navbuddy')
+      local actions = require('nvim-navbuddy.actions')
+
+      navbuddy.setup({ })
+    end
   }
 }
 

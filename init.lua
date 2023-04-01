@@ -12,7 +12,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.opt.guifont = {"JetBrainsMono Nerd Font",":h7"}
+vim.opt.guifont = {"JetBrainsMono Nerd Font",":h8"}
 
 --Remap space as leader key
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
@@ -35,8 +35,9 @@ vim.o.termguicolors = true
 -- vim.g.mellow_italic_functions = true
 -- vim.g.mellow_bold_functions = true
 -- vim.cmd [[colorscheme mellow]]
-vim.cmd [[let g:sonokai_style = 'maia']]
-vim.cmd [[colorscheme sonokai]]
+--vim.cmd [[let g:sonokai_style = 'maia']]
+--vim.cmd [[colorscheme sonokai]]
+vim.cmd("colorscheme kanagawa-dragon")
 -- colorscheme end
 
 --highlighting ;; Making background colors transparent
@@ -127,6 +128,7 @@ vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 
 
+
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -138,6 +140,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 vim.cmd [[autocmd FileType * set formatoptions-=cro]]
+
+-- Set the statuscolumn to show relative line numbers, then the sign column, all aligned to the right
+vim.cmd[[set statuscolumn=%=%r%s]]
+
 
 
 
