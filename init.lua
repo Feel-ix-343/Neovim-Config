@@ -71,6 +71,7 @@ vim.api.nvim_set_keymap('n', '<leader><leader>',':w<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>q', ':q<CR>', {noremap=true})
 
 vim.api.nvim_set_keymap('i', '<C-h>', '<C-w>', {noremap=true}) --mapping backspace to delete the whole word
+vim.api.nvim_set_keymap('i', '<C-BS>', '<C-w>', {noremap=true}) --mapping backspace to delete the whole word
 
 vim.api.nvim_set_keymap("n", "<leader>ps", ":PackerSync<CR>", {noremap=true})
 vim.keymap.set("n", "<leader>s", ":source %<CR>", {nowait=true, noremap=true})

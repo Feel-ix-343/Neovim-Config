@@ -1,10 +1,10 @@
 -- KEY COMMANDS ARE LOCATED IN THE LSPCONFIG ONATTACH FUNCTION
 return {
   "glepnir/lspsaga.nvim",
-  event = "UIEnter",
+  event = "VeryLazy",
   opts = {
     symbol_in_winbar = {
-      enable = true,
+      enable = false,
     },
     ui = {
       -- currently only round theme
