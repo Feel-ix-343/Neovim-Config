@@ -8,7 +8,9 @@ return {
     "<leader>tf",
     "<leader>tg",
     "<leader>tk",
-    "<leader>to"
+    "<leader>to",
+    "<leader>tb",
+    "<leader>tl"
   },
   opts = {
     pickers = {
@@ -25,8 +27,11 @@ return {
     vim.keymap.set("n", "<leader>tg", require("telescope.builtin").git_files, {noremap = true})
     vim.keymap.set("n", "<leader>tk", require("telescope.builtin").keymaps, {noremap=true})
     vim.keymap.set("n", "<leader>to", require("telescope.builtin").lsp_document_symbols, {noremap=true})
+    vim.keymap.set("n", "<leader>tb", require("telescope.builtin").buffers, {noremap=true})
+    vim.keymap.set("n", "<leader>tl", require("telescope.builtin").resume, {noremap=true})
 
     require('telescope').load_extension("harpoon")
+    require('telescope').load_extension('macros')
     vim.keymap.set("n", "<leader>th", require("telescope._extensions.marks"), {noremap = true})
   end
 }

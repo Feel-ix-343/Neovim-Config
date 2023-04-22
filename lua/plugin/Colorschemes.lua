@@ -3,7 +3,7 @@ return {
     "catppuccin/nvim",
     config = function ()
       require('catppuccin').setup({
-        transparent_background=false,
+        transparent_background=true,
         integrations = {
           cmp = true,
           gitsigns = true,
@@ -88,7 +88,8 @@ return {
             }
           }
         }
-      }
+      },
     }
-  }
+  },
+	{ "bluz71/vim-nightfly-colors", name = "nightfly", lazy = false, priority = 1000 },
 }

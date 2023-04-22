@@ -2,6 +2,9 @@
 return {
   "glepnir/lspsaga.nvim",
   event = "VeryLazy",
+  dependencies = {
+    "mason-lspconfig.nvim"
+  },
   opts = {
     symbol_in_winbar = {
       enable = false,

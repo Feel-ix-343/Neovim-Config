@@ -60,7 +60,7 @@ local servers = {
   "tsserver",
   "bashls",
   "astro",
-  "marksman",
+  -- "marksman",
   "tailwindcss",
   "sqlls",
   "jsonls"
@@ -77,13 +77,7 @@ return {
     lazy = true,
     event = "VeryLazy",
     dependencies = {
-      'folke/neodev.nvim',
-      "mason.nvim",
-      "null-ls.nvim",
-      "mason-null-ls.nvim",
-      "hrsh7th/cmp-nvim-lsp",
-      'simrat39/rust-tools.nvim',
-      "nvim-navbuddy",
+      "williamboman/mason-lspconfig.nvim",
       {
         'scalameta/nvim-metals',
         dependencies = {
@@ -134,15 +128,18 @@ return {
 
   },
 
-  -- formatters
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    "jayp0521/mason-null-ls.nvim",
     event = "VeryLazy",
-    dependencies = { "mason.nvim" },
-    opts = function()
+    dependencies = {
+      "williamboman/mason.nvim",
+      "jose-elias-alvarez/null-ls.nvim",
+    },
+    config = function ()
+      -- require null-ls
       local null_ls = require("null-ls")
 
-      return {
+      require("null-ls").setup({
         sources = {
           null_ls.builtins.code_actions.gitsigns.with({
             config = {
@@ -153,18 +150,9 @@ return {
           }),
           null_ls.builtins.completion.tags,
         }
-      }
-    end
-  },
 
+      })
 
-
-
-  {
-    "jayp0521/mason-null-ls.nvim",
-    event = "VeryLazy",
-    dependencies = { "mason.nvim", "williamboman/mason-lspconfig.nvim" },
-    config = function ()
       local mason_null = require("mason-null-ls")
       mason_null.setup({
         automatic_setup = {
@@ -187,19 +175,19 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = {
+      "mason.nvim",
       "hrsh7th/cmp-nvim-lsp",
+      'simrat39/rust-tools.nvim',
+      "folke/neodev.nvim"
     },
-
-
     event = "VeryLazy",
 
-
-    opts = {
-      ensure_installed = servers, -- Installs all servers in the list
-      automatic_installation = true
-    },
-
     config = function()
+      require("mason-lspconfig").setup({
+        ensure_installed = servers, -- Installs all servers in the list
+        automatic_installation = true
+      })
+
       local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
       require("mason-lspconfig").setup_handlers {

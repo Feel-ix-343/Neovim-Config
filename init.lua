@@ -31,13 +31,14 @@ vim.o.termguicolors = true
 -- vim.cmd.colorscheme "everforest"
 -- vim.opt.background = "dark"
 -- vim.cmd.colorscheme "oxocarbon"
--- vim.cmd.colorscheme "catppuccin"
+vim.cmd.colorscheme "catppuccin"
 -- vim.g.mellow_italic_functions = true
 -- vim.g.mellow_bold_functions = true
 -- vim.cmd [[colorscheme mellow]]
 --vim.cmd [[let g:sonokai_style = 'maia']]
 --vim.cmd [[colorscheme sonokai]]
-vim.cmd("colorscheme kanagawa-dragon")
+-- vim.cmd("colorscheme kanagawa-dragon")
+--vim.cmd("colorscheme nightfly")
 -- colorscheme end
 
 --highlighting ;; Making background colors transparent
@@ -78,9 +79,13 @@ vim.keymap.set("n", "<leader>s", ":source %<CR>", {nowait=true, noremap=true})
 
 vim.keymap.set("n", "G", "Gzz", {remap=true})
 
-vim.keymap.set("n", "H", ":tabprevious<CR>", {noremap=true})
-vim.keymap.set("n", "L", ":tabnext<CR>", {noremap=true})
+vim.keymap.set("n", "H", ":bprevious<CR>", {noremap=true})
+vim.keymap.set("n", "L", ":bnext<CR>", {noremap=true})
 vim.keymap.set("n", "<leader><tab>", ":tabnew<CR>", {noremap=true})
+
+
+vim.keymap.set("n", "<CR>", "o<esc>", {noremap=true})
+vim.keymap.set("n", "<C-l>", ":ToggleCheckbox<CR>", {noremap=true})
 
 -- keymappings end
 

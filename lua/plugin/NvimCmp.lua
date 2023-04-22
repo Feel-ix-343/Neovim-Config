@@ -28,6 +28,7 @@ return {
         format = lspkind.cmp_format({
           mode = 'symbol', -- show only symbol annotations
           maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+          symbol_map = { Copilot = " "},
           ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
 
           -- The function below will be called before any actual modifications from lspkind
@@ -46,16 +47,38 @@ return {
         ['<C-u>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         --   ['<C-e>'] = cmp.mapping.abort(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ['<CR>'] = cmp.mapping.confirm({
+          select = false,
+          behavior = cmp.ConfirmBehavior.Replace,
+        }),
       }),
       sources = cmp.config.sources({
         --{ name = "nvim_lsp_signature_help"},
+        { name = "copilot" },
         { name = 'nvim_lsp' },
         { name = 'luasnip' }, -- For luasnip users.
         { name = "path" },
       }, {
           -- { name = 'buffer' }, -- I don't like buffer completion
-        })
+        }),
+      sorting = {
+        priority_weight = 2,
+        comparators = {
+          require("copilot_cmp.comparators").prioritize,
+
+          -- Below is the default comparitor list and order for nvim-cmp
+          cmp.config.compare.offset,
+          -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
+          cmp.config.compare.exact,
+          cmp.config.compare.score,
+          cmp.config.compare.recently_used,
+          cmp.config.compare.locality,
+          cmp.config.compare.kind,
+          cmp.config.compare.sort_text,
+          cmp.config.compare.length,
+          cmp.config.compare.order,
+        },
+      },
     })
 
     -- Set configuration for specific filetype.

@@ -8,9 +8,7 @@ return {
     opts = {}
   },
 
-  'github/copilot.vim',
-
-    {'j-hui/fidget.nvim', lazy = true, opts = {}, event = "VeryLazy" },
+  -- {'j-hui/fidget.nvim', lazy = true, opts = {}, event = "VeryLazy" },
   {
     "numToStr/Comment.nvim",
     lazy = true,
@@ -21,6 +19,19 @@ return {
       require("Comment").setup()
     end
   },
+  "dkarter/bullets.vim",
+  {
+    "epwalsh/obsidian.nvim",
+    opts = {
+      dir = "~/Notes/",
+      completion =  {
+        nvim_cmp = true
+      }
+    },
+    cmd = "LoadObsidian", --this doesn't do anything but load the plugin
+  },
+  "dhruvasagar/vim-table-mode",
+  {"ellisonleao/glow.nvim", config = true, cmd = "Glow"},
 }
 
 
