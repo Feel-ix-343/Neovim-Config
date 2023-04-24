@@ -19,7 +19,7 @@ It has support for:
 ## Why I use Neovim
 
 My Reasons
-- Speed and flow from modal based editing; **I have learned the vim language, all of its verbs, nouns, and modifiers**
+- Speed and flow from modal based editing; **I have learned the vim language, all of its verbs, nouns, and modifiers**. There is minimal need to make new keybindings; moreso, I just learn new patterns in the vim language!
 - Endless customizability; 
     * Tree sitter plugins
     * LSP Plugins
