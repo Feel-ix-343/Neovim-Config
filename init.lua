@@ -127,9 +127,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 vim.cmd [[autocmd FileType * set formatoptions-=cro]]
 
--- Set the statuscolumn to show relative line numbers, then the sign column, all aligned to the right
-vim.cmd[[set statuscolumn=%=%r%s]]
-
 
 
 
