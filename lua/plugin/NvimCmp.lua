@@ -10,6 +10,8 @@ return {
     'saadparwaiz1/cmp_luasnip',
     'L3MON4D3/LuaSnip',
     {'onsails/lspkind.nvim', lazy=true},
+    "lukas-reineke/cmp-rg",
+    "kdheepak/cmp-latex-symbols"
   },
   config = function ()
     local cmp = require'cmp'
@@ -58,6 +60,11 @@ return {
         { name = 'nvim_lsp' },
         { name = 'luasnip' }, -- For luasnip users.
         { name = "path" },
+        {
+          name = "rg",
+          -- Try it when you feel cmp performance is poor
+          -- keyword_length = 3
+        },
       }, {
           -- { name = 'buffer' }, -- I don't like buffer completion
         }),
@@ -108,6 +115,17 @@ return {
       }, {
           { name = 'cmdline' }
         })
+    })
+
+    cmp.setup.filetype("markdown", {
+      sources = {
+        {
+          name = "latex_symbols",
+          option = {
+            strategy = 2, -- mixed
+          },
+        },
+      }
     })
   end
 }

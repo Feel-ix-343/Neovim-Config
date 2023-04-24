@@ -5,6 +5,17 @@ return {
   config = function()
     require("nvim-surround").setup({
       -- Configuration here, or leave empty to use defaults
+      surrounds = {
+        ["I"] = {
+          add = {"*", "*"}
+        },
+        ["O"] = {
+          add = {"**", "**"}
+        },
+        ["S"] = {
+          add = {"~~", "~~"}
+        }
+      }
     })
   end
 }

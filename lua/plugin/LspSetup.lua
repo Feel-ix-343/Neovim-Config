@@ -41,9 +41,6 @@ local on_attach = function(client, bufnr)
   keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
 
   keymap("i", "<C-K>", vim.lsp.buf.signature_help, { silent = true })
-
-  local navbuddy = require('nvim-navbuddy')
-  navbuddy.attach(client, bufnr)
 end
 
 
@@ -60,7 +57,7 @@ local servers = {
   "tsserver",
   "bashls",
   "astro",
-  -- "marksman",
+  "marksman",
   "tailwindcss",
   "sqlls",
   "jsonls"
@@ -74,8 +71,9 @@ return {
   -- lspconfig
   {
     "neovim/nvim-lspconfig",
-    lazy = true,
-    event = "VeryLazy",
+    keys = {
+      {"<leader>L", "<cmd>LspStart<CR>"}
+    },
     dependencies = {
       "williamboman/mason-lspconfig.nvim",
       {
@@ -130,7 +128,8 @@ return {
 
   {
     "jayp0521/mason-null-ls.nvim",
-    event = "VeryLazy",
+    -- event = "VeryLazy",
+    lazy = true,
     dependencies = {
       "williamboman/mason.nvim",
       "jose-elias-alvarez/null-ls.nvim",
@@ -178,9 +177,11 @@ return {
       "mason.nvim",
       "hrsh7th/cmp-nvim-lsp",
       'simrat39/rust-tools.nvim',
-      "folke/neodev.nvim"
+      "folke/neodev.nvim",
+      "SmiteshP/nvim-navbuddy",
     },
-    event = "VeryLazy",
+    -- event = "VeryLazy",
+    lazy = true,
 
     config = function()
       require("mason-lspconfig").setup({
@@ -262,7 +263,11 @@ return {
       local navbuddy = require('nvim-navbuddy')
       local actions = require('nvim-navbuddy.actions')
 
-      navbuddy.setup({ })
+      navbuddy.setup({
+        lsp = {
+          auto_attach = true,
+        }
+      })
     end
   }
 }

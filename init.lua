@@ -20,7 +20,13 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 --require("PackerImports")
-require("lazy").setup("plugin")
+require("lazy").setup("plugin", {
+  change_detection = {
+    notify = false
+  }
+})
+
+require("generalkeymaps")
 
 --Set colorscheme
 vim.o.termguicolors = true
@@ -31,13 +37,13 @@ vim.o.termguicolors = true
 -- vim.cmd.colorscheme "everforest"
 -- vim.opt.background = "dark"
 -- vim.cmd.colorscheme "oxocarbon"
-vim.cmd.colorscheme "catppuccin"
+-- vim.cmd.colorscheme "catppuccin"
 -- vim.g.mellow_italic_functions = true
 -- vim.g.mellow_bold_functions = true
 -- vim.cmd [[colorscheme mellow]]
 --vim.cmd [[let g:sonokai_style = 'maia']]
 --vim.cmd [[colorscheme sonokai]]
--- vim.cmd("colorscheme kanagawa-dragon")
+vim.cmd("colorscheme kanagawa-dragon")
 --vim.cmd("colorscheme nightfly")
 -- colorscheme end
 
@@ -62,32 +68,6 @@ vim.cmd[[
 --highlighting end
 
 
--- Main keymappings
-vim.api.nvim_set_keymap('n', '<leader>h', '<C-w>h', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>j', '<C-w>j', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>k', '<C-w>k', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>l', '<C-w>l', {noremap=true})
-
-vim.api.nvim_set_keymap('n', '<leader><leader>',':w<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>q', ':q<CR>', {noremap=true})
-
-vim.api.nvim_set_keymap('i', '<C-h>', '<C-w>', {noremap=true}) --mapping backspace to delete the whole word
-vim.api.nvim_set_keymap('i', '<C-BS>', '<C-w>', {noremap=true}) --mapping backspace to delete the whole word
-
-vim.api.nvim_set_keymap("n", "<leader>ps", ":PackerSync<CR>", {noremap=true})
-vim.keymap.set("n", "<leader>s", ":source %<CR>", {nowait=true, noremap=true})
-
-vim.keymap.set("n", "G", "Gzz", {remap=true})
-
-vim.keymap.set("n", "H", ":bprevious<CR>", {noremap=true})
-vim.keymap.set("n", "L", ":bnext<CR>", {noremap=true})
-vim.keymap.set("n", "<leader><tab>", ":tabnew<CR>", {noremap=true})
-
-
-vim.keymap.set("n", "<CR>", "o<esc>", {noremap=true})
-vim.keymap.set("n", "<C-l>", ":ToggleCheckbox<CR>", {noremap=true})
-
--- keymappings end
 
 
 -- folds
@@ -149,8 +129,6 @@ vim.cmd [[autocmd FileType * set formatoptions-=cro]]
 
 -- Set the statuscolumn to show relative line numbers, then the sign column, all aligned to the right
 vim.cmd[[set statuscolumn=%=%r%s]]
-
-
 
 
 
