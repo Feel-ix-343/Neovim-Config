@@ -1,12 +1,8 @@
 return {
   {'tpope/vim-obsession', lazy = true, cmd = "Obsession"},
-  { 'karb94/neoscroll.nvim', event = "VeryLazy", opts = {} },
+  --{ 'karb94/neoscroll.nvim', event = "VeryLazy", opts = {} },
   {'lewis6991/gitsigns.nvim', event = "VeryLazy", opts = {}},
   -- Lua
-  {
-    "folke/which-key.nvim",
-    opts = {}
-  },
 
   -- {'j-hui/fidget.nvim', lazy = true, opts = {}, event = "VeryLazy" },
   {
@@ -20,9 +16,19 @@ return {
     end
   },
 
-  "dkarter/bullets.vim",
+  {
+    "dkarter/bullets.vim",
+    event = "BufReadPre **.md"
+  },
   "dhruvasagar/vim-table-mode",
   {"ellisonleao/glow.nvim", config = true, cmd = "Glow"},
+
+  {
+    "preservim/vim-pencil",
+    cmd = "PencilEnable"
+  },
+  -- "junegunn/limelight.vim",
+  -- "junegunn/goyo.vim"
 }
 
 

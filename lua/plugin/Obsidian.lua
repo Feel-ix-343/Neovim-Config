@@ -61,5 +61,7 @@ return
           return "gf"
         end
       end, { noremap = false, expr = true })
+
+      vim.keymap.set("n", "<leader>O", "<cmd>ObsidianOpen<CR>")
     end,
   }

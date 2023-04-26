@@ -2,7 +2,6 @@
 return { 
   {
     'sindrets/diffview.nvim',
-    lazy = true,
     cmd = "DiffviewOpen",
     keys = {
       "<leader>go",
@@ -17,6 +16,7 @@ return {
       local diffview = require('diffview')
       vim.keymap.set("n", "<leader>go", ":DiffviewOpen<CR>")
       vim.keymap.set("n", "<leader>gc", ":DiffviewClose<CR>")
+
       diffview.setup()
 
       local diffviewOpen = false

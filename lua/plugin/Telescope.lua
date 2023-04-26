@@ -12,14 +12,17 @@ return {
     "<leader>tb",
     "<leader>tl"
   },
-  opts = {
-    pickers = {
-      colorscheme = {
-        enable_preview = true
-      }
-    }
-  },
   config = function (plugin, opts)
+    require("telescope").setup({
+      defaults = {
+        winblend = (function() if vim.g.neovide then return 90 else return 0 end end)()
+      },
+      pickers = {
+        colorscheme = {
+          enable_preview = true
+        }
+      }
+    })
 
     vim.keymap.set("n", "<leader>tr", require('telescope.builtin').lsp_references, {noremap = true})
     vim.keymap.set("n", "<leader>ts", require('telescope.builtin').live_grep, {noremap = true})

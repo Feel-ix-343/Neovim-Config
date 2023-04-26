@@ -12,12 +12,11 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.opt.guifont = {"JetBrainsMono Nerd Font",":h8"}
-
 --Remap space as leader key
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+
 
 --require("PackerImports")
 require("lazy").setup("plugin", {
@@ -68,6 +67,9 @@ vim.cmd[[
 --highlighting end
 
 
+-- Wrapping
+vim.cmd[[set linebreak]]
+vim.cmd[[set breakindentopt=list:-1]]
 
 
 -- folds
@@ -130,3 +132,28 @@ vim.cmd [[autocmd FileType * set formatoptions-=cro]]
 
 
 
+if vim.g.neovide then
+  vim.opt.guifont = {"JetBrainsMono Nerd Font",":h8"}
+
+
+  vim.g.neovide_padding_top = 0
+  vim.g.neovide_padding_bottom = 0
+  vim.g.neovide_padding_right = 0
+  vim.g.neovide_padding_left = 0
+
+  vim.cmd.colorscheme("catppuccin")
+
+  vim.g.neovide_transparency = 0.8
+  --vim.g.transparency = 0.8
+
+  vim.g.neovide_floating_blur_amount_x = 5
+  vim.g.neovide_floating_blur_amount_y = 5
+
+  vim.cmd[[set winblend=70]]
+  vim.cmd[[set pumblend=70]]
+
+  vim.g.neovide_scroll_animation_length = 0.3
+
+
+  vim.g.neovide_hide_mouse_when_typing = true
+end

@@ -33,7 +33,7 @@ return {
             ["aS"] = "@scopename.outer",
 
             ["p"] = "@par.inner",
-            ["s"] = "@section",
+            ["h"] = "@section",
 
           },
         },
