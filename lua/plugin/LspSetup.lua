@@ -72,14 +72,16 @@ return {
   {
     "neovim/nvim-lspconfig",
     keys = {
-      {"<leader>L", "<cmd>LspStart<CR>"}
+      {"<leader>Ls", "<cmd>LspStart<CR>"},
+      {"<leader>LS", "<cmd>LspStop<CR>"}
     },
     dependencies = {
       "williamboman/mason-lspconfig.nvim",
       {
         'scalameta/nvim-metals',
         dependencies = {
-          "nvim-lua/plenary.nvim"
+          "nvim-lua/plenary.nvim",
+          "mason-null-ls.nvim",
         }
       }
     },
@@ -128,7 +130,7 @@ return {
 
   {
     "jayp0521/mason-null-ls.nvim",
-    -- event = "VeryLazy",
+    --event = "VeryLazy",
     lazy = true,
     dependencies = {
       "williamboman/mason.nvim",
@@ -154,9 +156,7 @@ return {
 
       local mason_null = require("mason-null-ls")
       mason_null.setup({
-        automatic_setup = {
-          exclude = {"clangd"}
-        }
+        automatic_setup = true
       })
     end
   },

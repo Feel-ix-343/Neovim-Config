@@ -59,9 +59,11 @@ return {
       },
       -- callback where you can add custom code when the Zen window opens
       on_open = function(win)
+        vim.cmd[[:LspStop<CR>]]
       end,
       -- callback where you can add custom code when the Zen window closes
       on_close = function()
+        vim.cmd[[:LspStart<CR>]]
       end,
     }
   end

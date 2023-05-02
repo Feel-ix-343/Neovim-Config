@@ -12,10 +12,12 @@ vim.api.nvim_set_keymap('i', '<C-BS>', '<C-w>', {noremap=true}) --mapping backsp
 vim.api.nvim_set_keymap("n", "<leader>ps", ":PackerSync<CR>", {noremap=true})
 vim.keymap.set("n", "<leader>s", ":source %<CR>", {nowait=true, noremap=true})
 
-vim.keymap.set("n", "H", ":bprevious<CR>", {noremap=true})
-vim.keymap.set("n", "L", ":bnext<CR>", {noremap=true})
+vim.keymap.set("n", "<leader>bp", ":bprevious<CR>", {noremap=true})
+vim.keymap.set("n", "<leader>bn", ":bnext<CR>", {noremap=true})
+vim.keymap.set("n", "<leader>bd", ":bdelete<CR>", {noremap=true})
 vim.keymap.set("n", "<leader><tab>", ":tabnew<CR>", {noremap=true})
 
 
 vim.keymap.set("n", "<CR>", "o<esc>", {noremap=true})
+vim.keymap.set("n", "<S-CR>", "O<esc>", {noremap=true})
 vim.keymap.set("n", "<C-l>", ":ToggleCheckbox<CR>", {noremap=true})

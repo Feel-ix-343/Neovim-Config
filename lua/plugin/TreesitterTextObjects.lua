@@ -28,12 +28,15 @@ return {
             ["af"] = "@function.outer",
             ["il"] = "@loop.inner",
             ["ap"] = "@parameter.outer",
+            ["ip"] = "@parameter.inner",
             ["as"] = "@statement.outer",
             ["iS"] = "@scopename.inner",
             ["aS"] = "@scopename.outer",
 
-            ["p"] = "@par.inner",
-            ["h"] = "@section",
+            ["P"] = "@par.inner",
+            ["H"] = "@section",
+
+            -- markdown inline lists?
 
           },
         },
@@ -43,7 +46,8 @@ return {
           goto_next_start = {
             ["]f"] = "@function.outer",
             ["]]"] = "@class.outer",
-            ["]h"] = "@heading"
+            ["]h"] = "@heading",
+            ["]p"] = "@par.inner"
           },
           goto_next_end = {
             ["]F"] = "@function.outer",
@@ -52,7 +56,8 @@ return {
           goto_previous_start = {
             ["[f"] = "@function.outer",
             ["[["] = "@class.outer",
-            ["[h"] = "@heading"
+            ["[h"] = "@heading",
+            ["[p"] = "@par.inner"
           },
           goto_previous_end = {
             ["[F"] = "@function.outer",
@@ -78,6 +83,6 @@ return {
     vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next)
     vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous)
 
-    vim.cmd[[autocmd FileType markdown nmap _ <cmd>TSTextobjectGotoPreviousStart @par.inner<CR>]]
+    -- vim.cmd[[autocmd FileType markdown nmap _ <cmd>TSTextobjectGotoPreviousStart @par.inner<CR>]]
   end
 }

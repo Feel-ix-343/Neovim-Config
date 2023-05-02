@@ -3,7 +3,7 @@
 
 (atx_heading) @heading
 
-(list_item) @list_item
+(list (_) @list_item)
 
 (section) @section
 

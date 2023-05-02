@@ -1,6 +1,15 @@
 return {
   {'tpope/vim-obsession', lazy = true, cmd = "Obsession"},
   --{ 'karb94/neoscroll.nvim', event = "VeryLazy", opts = {} },
+  {
+    'glepnir/dashboard-nvim',
+    event = 'VimEnter',
+    config = function()
+      require('dashboard').setup {
+        -- config
+      }
+    end,
+  },
   {'lewis6991/gitsigns.nvim', event = "VeryLazy", opts = {}},
   -- Lua
 
@@ -29,6 +38,12 @@ return {
   },
   -- "junegunn/limelight.vim",
   -- "junegunn/goyo.vim"
+  {
+    'edluffy/hologram.nvim',
+    opts = {
+      auto_display = true
+    }
+  }
 }
 
 
