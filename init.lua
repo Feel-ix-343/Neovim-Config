@@ -135,7 +135,6 @@ vim.cmd [[autocmd FileType * set formatoptions-=cro]]
 if vim.g.neovide then
   vim.opt.guifont = {"JetBrainsMono Nerd Font",":h8"}
 
-
   vim.g.neovide_padding_top = 0
   vim.g.neovide_padding_bottom = 0
   vim.g.neovide_padding_right = 0
@@ -143,16 +142,22 @@ if vim.g.neovide then
 
   vim.cmd.colorscheme("catppuccin")
 
-  vim.g.neovide_transparency = 0.8
-  --vim.g.transparency = 0.8
+  -- -- Helper function for transparency formatting
+  -- local alpha = function()
+  --   return string.format("%x", math.floor(255 * vim.g.transparency or 0.8))
+  -- end
+  -- -- g:neovide_transparency should be 0 if you want to unify transparency of content and title bar.
+  -- vim.g.neovide_transparency = .9
+  -- vim.g.transparency = 0.8
+  -- vim.g.neovide_background_color = "#8BA4B0" .. alpha()
 
-  vim.g.neovide_floating_blur_amount_x = 5
-  vim.g.neovide_floating_blur_amount_y = 5
+  vim.g.neovide_floating_blur_amount_x = 4
+  vim.g.neovide_floating_blur_amount_y = 4
 
-  vim.cmd[[set winblend=70]]
-  vim.cmd[[set pumblend=70]]
+  vim.cmd[[set winblend=40]]
+  vim.cmd[[set pumblend=40]]
 
-  vim.g.neovide_scroll_animation_length = 0.3
+vim.g.neovide_scroll_animation_length = 0.3
 
 
   vim.g.neovide_hide_mouse_when_typing = true

@@ -32,7 +32,7 @@ local on_attach = function(client, bufnr)
     require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
   end, { silent = true })
   -- keymap("n", "<leader>o", "<cmd>Lspsaga outline<CR>", { silent = true })
-  keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>")
+  keymap("n", "K", vim.lsp.buf.hover, { silent = true })
   keymap("n", "<A-d>", "<cmd>Lspsaga open_floaterm<CR>", { silent = true })
   keymap("t", "<A-d>", [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]], { silent = true })
 
@@ -224,7 +224,7 @@ return {
           -- Example custom server
           -- Make runtime files discoverable to the server
 
-          require('neodev').setup({}) -- Such a life saver
+          require('neodev').setup() -- Such a life saver
           require("lspconfig").lua_ls.setup {
             on_attach = on_attach,
             settings = {
@@ -243,6 +243,26 @@ return {
           local capabilities = vim.lsp.protocol.make_client_capabilities()
           capabilities.offsetEncoding = { "utf-16" }
           require("lspconfig").clangd.setup({ capabilities = capabilities, on_attach = on_attach })
+        end,
+        ["texlab"] = function()
+          require('lspconfig').texlab.setup({
+            capabilities = capabilities, 
+            on_attach = on_attach,
+            settings = {
+              texlab = {
+                build = {
+                  onSave = true
+                },
+                forwardSearch = {
+                  executable = "okular",
+                  args = {
+                    "--unique",
+                    "file:%p#src:%l%f"
+                  }
+                }
+              }
+            }
+          })
         end
       }
     end

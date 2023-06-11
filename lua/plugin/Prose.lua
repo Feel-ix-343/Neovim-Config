@@ -1,6 +1,27 @@
-return
+return {
+  {
+    "dkarter/bullets.vim",
+    event = "BufReadPre **.md"
+  },
+
+  "dhruvasagar/vim-table-mode",
+
+  {
+    "preservim/vim-pencil",
+    ft = {"markdown", "tex"},
+    --- enabled = ,
+    config = function()
+      vim.cmd[[let g:pencil#conceallevel = 0]] -- no conceal
+      vim.cmd[[Pencil]]
+      vim.cmd[[autocmd Filetype markdown Pencil]]
+      vim.cmd[[autocmd Filetype tex Pencil]]
+    end,
+  },
+
+  {"ellisonleao/glow.nvim", config = true, cmd = "Glow"},
   {
     "epwalsh/obsidian.nvim",
+    enabled = true,
     lazy = true,
     event = { "BufReadPre /home/felix/Notes/**.md" },
     -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand':
@@ -65,3 +86,4 @@ return
       vim.keymap.set("n", "<leader>O", "<cmd>ObsidianOpen<CR>")
     end,
   }
+}

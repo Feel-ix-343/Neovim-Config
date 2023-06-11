@@ -8,21 +8,54 @@ return {
     },
     event = "VeryLazy",
     config = function ()
+      local colors = {
+        fg = "#838994",
+        bg = "none"
+      }
       require('lualine').setup {
         options = {
-          theme = 'catppuccin',
-          icons_enabled = true,
-          component_separators = { left = '', right = ''},
-          section_separators = { left = '', right = ''},
+          theme = {
+            -- Black and gray colors
+            normal = {
+              a = { fg = colors.fg, bg = colors.bg },
+              b = { fg = colors.fg, bg = colors.bg },
+              c = { fg = colors.fg, bg = colors.bg },
+            },
+            insert = {
+              a = { fg = colors.fg, bg = colors.bg },
+              b = { fg = colors.fg, bg = colors.bg },
+            },
+            visual = {
+              a = { fg = colors.fg, bg = colors.bg },
+              b = { fg = colors.fg, bg = colors.bg },
+            },
+            command = {
+              a = { fg = colors.fg, bg = colors.bg },
+              b = { fg = colors.fg, bg = colors.bg },
+            },
+            replace = {
+              a = { fg = colors.fg, bg = colors.bg },
+              b = { fg = colors.fg, bg = colors.bg },
+            },
+          },
+          icons_enabled = false,
+          -- component_separators = { left = '', right = ''},
+          -- section_separators = { left = '', right = ''},
         },
         sections = {
           lualine_c = {
             { require('NeoComposer.ui').status_recording },
-            require("lsp-progress").progress,
+            (
+              function()
+                if not (vim.bo.filetype == "markdown") then
+                  return require("lsp-progress").progress
+                end
+              end
+            )()
           },
-          lualine_x = {
-            "buffers"
-          }
+          -- lualine_x = {
+          --   "buffers"
+          -- }
         }
       }
     end

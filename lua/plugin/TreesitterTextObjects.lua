@@ -47,11 +47,11 @@ return {
             ["]f"] = "@function.outer",
             ["]]"] = "@class.outer",
             ["]h"] = "@heading",
-            ["]p"] = "@par.inner"
           },
           goto_next_end = {
             ["]F"] = "@function.outer",
             ["]["] = "@class.outer",
+            ["]p"] = "@par.inner"
           },
           goto_previous_start = {
             ["[f"] = "@function.outer",
@@ -67,10 +67,10 @@ return {
         swap = {
           enable = true,
           swap_next = {
-            ["<C-N>"] = {query = {"@list_item", "@parameter.inner"}}
+            ["<C-N>"] = {query = {"@list_item", "@par.outer", "@section", "@parameter.inner"}}
           },
           swap_previous = {
-            ["<C-P>"] = {query = {"@list_item", "@parameter.inner"}}
+            ["<C-P>"] = {query = {"@list_item", "@par.outer", "@section", "@parameter.inner"}}
           },
         },
       }

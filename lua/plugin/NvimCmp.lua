@@ -30,8 +30,8 @@ return {
         format = lspkind.cmp_format({
           mode = 'symbol', -- show only symbol annotations
           maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-          symbol_map = { Copilot = " "},
-          ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+          symbol_map = { Copilot = " " },
+          ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first),
 
           -- The function below will be called before any actual modifications from lspkind
           -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
@@ -60,11 +60,11 @@ return {
         { name = 'nvim_lsp' },
         { name = 'luasnip' }, -- For luasnip users.
         { name = "path" },
-        {
-          name = "rg",
-          -- Try it when you feel cmp performance is poor
-          -- keyword_length = 3
-        },
+        -- {
+        --   name = "rg",
+        --   -- Try it when you feel cmp performance is poor
+        --   -- keyword_length = 3
+        -- },
       }, {
           -- { name = 'buffer' }, -- I don't like buffer completion
         }),

@@ -3,7 +3,15 @@ return {
     "catppuccin/nvim",
     config = function ()
       require('catppuccin').setup({
-        transparent_background=true,
+        transparent_background=false,
+        highlight_overrides = {
+          --all = function()
+          --  return {
+          --    CursorLine = { bg = "none" },
+          --    Normal = { bg = "none" },
+          --  }
+          --end
+        },
         integrations = {
           cmp = true,
           gitsigns = true,
@@ -37,6 +45,7 @@ return {
           notify = true
         }
       })
+
     end,
     priority = 1000;
   },
