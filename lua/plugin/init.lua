@@ -87,60 +87,15 @@ return {
   { "https://git.sr.ht/~soywod/himalaya-vim", config = function()
     vim.g.himalaya_folder_picker = "native"
   end},
-  {
-    "folke/flash.nvim",
-    --enabled=false,
-    event = "VeryLazy",
-    ---@type Flash.Config
-    opts = {
-      jump = {
-        autojump = true
-      }
-    },
-    keys = {
-      {
-        "s",
-        mode = { "n", "x", "o" },
-        function()
-          -- default options: exact mode, multi window, all directions, with a backdrop
-          require("flash").jump()
-        end,
-        desc = "Flash",
-      },
-      {
-        "<leader>S",
-        mode = { "n", "o", "x" },
-        function()
-          require("flash").treesitter()
-        end,
-        desc = "Flash Treesitter",
-      },
-      {
-        "r",
-        mode = "o",
-        function()
-          require("flash").remote()
-        end,
-        desc = "Remote Flash",
-      },
-    },
-  },
-  {
-    "ggandor/leap.nvim",
-    enabled=false,
-    config = function()
-      require("leap").add_default_mappings()
-
-    end
-  },
-  {
-    {
-      'stevearc/oil.nvim',
-      opts = {},
-      -- Optional dependencies
-      --dependencies = { "nvim-tree/nvim-web-devicons" },
-    }
-  }
+  ,
+  -- {
+  --   "ggandor/leap.nvim",
+  --   enabled=false,
+  --   config = function()
+  --     require("leap").add_default_mappings()
+  --
+  --   end
+  -- },
 }
 
 
