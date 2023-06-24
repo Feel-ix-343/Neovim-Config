@@ -170,4 +170,14 @@ if vim.g.neovide then
   vim.g.neovide_hide_mouse_when_typing = true
 end
 
-vim.cmd[[autocmd BufWrite * execute "mksession!"]]
+--vim.cmd[[autocmd BufWrite * execute "mksession!"]]
+
+vim.cmd[[autocmd VimLeave * execute "mksession!"]]
+
+
+
+
+
+
+
+

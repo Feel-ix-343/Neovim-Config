@@ -52,7 +52,7 @@ return {
   {
     'folke/tokyonight.nvim',
     opts = {
-      transparent = true
+      transparent = false
     },
     priority = 1000;
   },

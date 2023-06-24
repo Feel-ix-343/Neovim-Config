@@ -15,6 +15,9 @@ return {
         ["S"] = {
           add = {"~~", "~~"}
         }
+      },
+      keymaps = {
+        delete = "dp"
       }
     })
   end

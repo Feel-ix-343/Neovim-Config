@@ -2,6 +2,10 @@
 return {
   {
     'stevearc/oil.nvim',
+    lazy = false,
+    keys = {
+      {"<leader>e", ":Oil<CR>"}
+    },
     opts = {
       -- Id is automatically added at the beginning, and name at the end
       -- See :help oil-columns
@@ -54,7 +58,7 @@ return {
         ["<C-p>"] = "actions.preview",
         ["<C-c>"] = "actions.close",
         ["<C-l>"] = "actions.refresh",
-        ["-"] = "actions.parent",
+        ["<BS>"] = "actions.parent",
         ["_"] = "actions.open_cwd",
         ["`"] = "actions.cd",
         ["~"] = "actions.tcd",

@@ -54,7 +54,7 @@ return {
             )()
           },
           lualine_x = {
-            "filename"
+            {"filename", path = 1}
           }
         }
       }

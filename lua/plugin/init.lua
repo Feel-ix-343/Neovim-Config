@@ -87,15 +87,6 @@ return {
   { "https://git.sr.ht/~soywod/himalaya-vim", config = function()
     vim.g.himalaya_folder_picker = "native"
   end},
-  ,
-  -- {
-  --   "ggandor/leap.nvim",
-  --   enabled=false,
-  --   config = function()
-  --     require("leap").add_default_mappings()
-  --
-  --   end
-  -- },
 }
 
 
