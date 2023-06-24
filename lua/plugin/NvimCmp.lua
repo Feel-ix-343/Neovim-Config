@@ -11,7 +11,7 @@ return {
     'L3MON4D3/LuaSnip',
     {'onsails/lspkind.nvim', lazy=true},
     "lukas-reineke/cmp-rg",
-    "kdheepak/cmp-latex-symbols"
+    "kdheepak/cmp-latex-symbols",
   },
   config = function ()
     local cmp = require'cmp'
@@ -30,7 +30,34 @@ return {
         format = lspkind.cmp_format({
           mode = 'symbol', -- show only symbol annotations
           maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-          symbol_map = { Copilot = " " },
+          symbol_map = { 
+            Copilot = " ",
+            Text = "󰉿",
+            Method = "󰆧",
+            Function = "󰊕",
+            Constructor = "",
+            Field = "󰜢",
+            Variable = "󰀫",
+            Class = "󰠱",
+            Interface = "",
+            Module = "",
+            Property = "󰜢",
+            Unit = "󰑭",
+            Value = "󰎠",
+            Enum = "",
+            Keyword = "󰌋",
+            Snippet = "",
+            Color = "󰏘",
+            File = "󰈙",
+            Reference = "󰈇",
+            Folder = "󰉋",
+            EnumMember = "",
+            Constant = "󰏿",
+            Struct = "󰙅",
+            Event = "",
+            Operator = "󰆕",
+            TypeParameter = "",
+          },
           ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first),
 
           -- The function below will be called before any actual modifications from lspkind

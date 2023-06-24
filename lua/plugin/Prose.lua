@@ -8,13 +8,14 @@ return {
 
   {
     "preservim/vim-pencil",
-    ft = {"markdown", "tex"},
+    ft = {"markdown", "tex", "bib"},
     --- enabled = ,
     config = function()
       vim.cmd[[let g:pencil#conceallevel = 0]] -- no conceal
       vim.cmd[[Pencil]]
       vim.cmd[[autocmd Filetype markdown Pencil]]
       vim.cmd[[autocmd Filetype tex Pencil]]
+      vim.cmd[[autocmd Filetype bib Pencil]]
     end,
   },
 

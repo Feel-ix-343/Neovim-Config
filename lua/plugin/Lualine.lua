@@ -38,7 +38,7 @@ return {
               b = { fg = colors.fg, bg = colors.bg },
             },
           },
-          icons_enabled = false,
+          icons_enabled = true,
           -- component_separators = { left = '', right = ''},
           -- section_separators = { left = '', right = ''},
         },
@@ -53,9 +53,9 @@ return {
               end
             )()
           },
-          -- lualine_x = {
-          --   "buffers"
-          -- }
+          lualine_x = {
+            "filename"
+          }
         }
       }
     end

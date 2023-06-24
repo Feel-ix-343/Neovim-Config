@@ -18,10 +18,14 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 
+-- import environment variabels
+require("envs")
+
+
 --require("PackerImports")
 require("lazy").setup("plugin", {
   change_detection = {
-    notify = false
+    notify = false,
   }
 })
 
@@ -31,7 +35,7 @@ require("generalkeymaps")
 vim.o.termguicolors = true
 
 -- require('github-theme')
--- vim.cmd.colorscheme "tokyonight-moon"
+-- vim.cm.colorscheme "tokyonight-moon"
 -- vim.cmd.colorscheme "nightfly"
 -- vim.cmd.colorscheme "everforest"
 -- vim.opt.background = "dark"
@@ -99,7 +103,7 @@ vim.o.hlsearch = false
 vim.wo.number = true
 
 --Enable mouse mode
-vim.o.mouse = 'a'
+--vim.o.mouse = 'a'
 
 --Enable break indent
 vim.o.breakindent = true
@@ -133,7 +137,8 @@ vim.cmd [[autocmd FileType * set formatoptions-=cro]]
 
 
 if vim.g.neovide then
-  vim.opt.guifont = {"JetBrainsMono Nerd Font",":h8"}
+  vim.opt.guifont = {"JetBrainsMono Nerd Font",":h14"}
+  --vim.opt.guifont = {"IntelOne Mono",":h14"}
 
   vim.g.neovide_padding_top = 0
   vim.g.neovide_padding_bottom = 0
@@ -141,6 +146,8 @@ if vim.g.neovide then
   vim.g.neovide_padding_left = 0
 
   vim.cmd.colorscheme("catppuccin")
+
+  vim.g.neovide_refresh_rate = 60
 
   -- -- Helper function for transparency formatting
   -- local alpha = function()
@@ -157,8 +164,10 @@ if vim.g.neovide then
   vim.cmd[[set winblend=40]]
   vim.cmd[[set pumblend=40]]
 
-vim.g.neovide_scroll_animation_length = 0.3
+  vim.g.neovide_scroll_animation_length = .6
 
 
   vim.g.neovide_hide_mouse_when_typing = true
 end
+
+vim.cmd[[autocmd BufWrite * execute "mksession!"]]

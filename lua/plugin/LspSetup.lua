@@ -41,6 +41,10 @@ local on_attach = function(client, bufnr)
   keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
 
   keymap("i", "<C-K>", vim.lsp.buf.signature_help, { silent = true })
+
+
+  keymap("n", "<leader>Lb", "<cmd>TexlabBuild<CR>", {desc = "Build the latex document"})
+  keymap("n", "<leader>Lf", "<cmd>TexlabForward<CR>", {desc = "Open PDF viewer of the latex document"})
 end
 
 
@@ -77,38 +81,8 @@ return {
     },
     dependencies = {
       "williamboman/mason-lspconfig.nvim",
-      {
-        'scalameta/nvim-metals',
-        dependencies = {
-          "nvim-lua/plenary.nvim",
-          "mason-null-ls.nvim",
-        }
-      }
     },
     config = function()
-      -- Metals
-      vim.opt_global.shortmess:remove("F")
-      local metals_config = require("metals").bare_config()
-
-      -- Example of settings
-      metals_config.settings = {
-        showImplicitArguments = true,
-        excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
-        showInferredType = true,
-        superMethodLensesEnabled = true,
-      }
-
-      -- starting metals
-      local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = { "scala", "sbt" },
-        callback = function()
-          on_attach()
-          require("metals").initialize_or_attach(metals_config)
-          require('metals').setup_dap()
-        end,
-        group = nvim_metals_group,
-      })
 
 
 
@@ -250,14 +224,18 @@ return {
             on_attach = on_attach,
             settings = {
               texlab = {
+                auxDirectory = "build",
                 build = {
-                  onSave = true
+                  onSave = true,
+                  args = {
+                    '-pdflatex=lualatex', '-pdf', '-interaction=nonstopmode', '-synctex=1', '%f', "-output-directory=build",
+                  }
                 },
                 forwardSearch = {
                   executable = "okular",
                   args = {
                     "--unique",
-                    "file:%p#src:%l%f"
+                    "file:%p#src:%l%f",
                   }
                 }
               }
@@ -289,6 +267,32 @@ return {
         }
       })
     end
-  }
+  },
+  {
+    'scalameta/nvim-metals',
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "mason-null-ls.nvim",
+    },
+    ft = { "scala", "sbt" },
+    config = function ()
+      -- Metals
+      vim.opt_global.shortmess:remove("F")
+      local metals_config = require("metals").bare_config()
+
+      -- Example of settings
+      metals_config.settings = {
+        showImplicitArguments = true,
+        excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
+        showInferredType = true,
+        superMethodLensesEnabled = true,
+      }
+
+      on_attach()
+      require("metals").initialize_or_attach(metals_config)
+      require('metals').setup_dap()
+
+    end
+  },
 }
 

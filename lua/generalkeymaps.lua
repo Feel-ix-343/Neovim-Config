@@ -21,3 +21,6 @@ vim.keymap.set("n", "<leader><tab>", ":tabnew<CR>", {noremap=true})
 vim.keymap.set("n", "<CR>", "o<esc>", {noremap=true})
 vim.keymap.set("n", "<S-CR>", "O<esc>", {noremap=true})
 vim.keymap.set("n", "<C-l>", ":ToggleCheckbox<CR>", {noremap=true})
+
+vim.keymap.set("n", "<leader>D", "d}")
+vim.keymap.set("n", "<leader>A", "}kA")

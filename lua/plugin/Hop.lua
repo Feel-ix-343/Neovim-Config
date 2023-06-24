@@ -1,5 +1,6 @@
 return {
   "phaazon/hop.nvim",
+  enabled=false,
   event = "VeryLazy",
   config = function ()
     require('hop').setup({keys = 'etovxqpdygfblzhckisuran'})
