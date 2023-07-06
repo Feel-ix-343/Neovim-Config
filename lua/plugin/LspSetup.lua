@@ -241,6 +241,28 @@ return {
               }
             }
           })
+        end,
+        ["sqlls"] = function()
+          require("lspconfig").sqlls.setup({
+            capabilities = capabilities, 
+            on_attach = on_attach,
+            settings = {
+              sqlls = {
+                connections= {
+                  {
+                    name= "Supabase-Postgres",
+                    adapter= "postgres",
+                    host= "localhost",
+                    port= 54322,
+                    user= "postgres",
+                    password= "postgres",
+                    database= "postgres",
+                    projectPaths= {"/home/felix/coding/LargerIdeas/Omnis/supabase/"}
+                  }
+                }
+              }
+            }
+          })
         end
       }
     end

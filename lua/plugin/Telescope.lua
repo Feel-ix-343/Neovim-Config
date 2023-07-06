@@ -51,13 +51,12 @@ return {
 
     vim.keymap.set("n", "<leader>tr", require('telescope.builtin').lsp_references, {noremap = true})
     vim.keymap.set("n", "<leader>ts", require('telescope.builtin').live_grep, {noremap = true})
-    vim.keymap.set("n", "<leader>tf", require("telescope.builtin").find_files, {noremap = true})
+    vim.keymap.set("n", "<leader>te", require("telescope.builtin").find_files, {noremap = true})
     vim.keymap.set("n", "<leader>tg", require("telescope.builtin").git_files, {noremap = true})
     vim.keymap.set("n", "<leader>tk", require("telescope.builtin").keymaps, {noremap=true})
     vim.keymap.set("n", "<leader>to", require("telescope.builtin").lsp_document_symbols, {noremap=true})
     vim.keymap.set("n", "<leader>tb", require("telescope.builtin").buffers, {noremap=true})
     vim.keymap.set("n", "<leader>tl", require("telescope.builtin").resume, {noremap=true})
-    vim.keymap.set("n", "<leader>te", ":Telescope file_browser<CR>")
     vim.keymap.set("n", "<leader>tu", require('telescope').extensions.undo.undo)
 
     require('telescope').load_extension("harpoon")
