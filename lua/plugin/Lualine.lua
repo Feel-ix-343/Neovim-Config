@@ -6,7 +6,7 @@ return {
       'linrongbin16/lsp-progress.nvim',
       "ecthelionvi/NeoComposer.nvim"
     },
-    event = "VeryLazy",
+    --event = "VeryLazy",
     config = function ()
       local colors = {
         fg = "#838994",

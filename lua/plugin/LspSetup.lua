@@ -1,7 +1,7 @@
 local on_attach = function(client, bufnr)
   local keymap = vim.keymap.set
   keymap("n", "gh", ":Lspsaga lsp_finder<CR>", { silent = true })
-  keymap("n", "<leader>a", "<cmd>Lspsaga code_action<CR>", { silent = true })
+  keymap("n", "<leader>a", vim.lsp.buf.code_action, { silent = true })
   keymap("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
 
   keymap("n", "gD", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
@@ -45,6 +45,9 @@ local on_attach = function(client, bufnr)
 
   keymap("n", "<leader>Lb", "<cmd>TexlabBuild<CR>", {desc = "Build the latex document"})
   keymap("n", "<leader>Lf", "<cmd>TexlabForward<CR>", {desc = "Open PDF viewer of the latex document"})
+
+  vim.lsp.buf.inlay_hint(bufnr, true)
+
 end
 
 
@@ -153,6 +156,7 @@ return {
       'simrat39/rust-tools.nvim',
       "folke/neodev.nvim",
       "SmiteshP/nvim-navbuddy",
+      "jose-elias-alvarez/typescript.nvim"
     },
     -- event = "VeryLazy",
     lazy = true,
@@ -180,7 +184,9 @@ return {
         ["rust_analyzer"] = function ()
           require("rust-tools").setup {
             tools = {
-              auto = true,
+              inlay_hints = {
+                auto = false
+              }
             },
             server = {
               on_attach = on_attach
@@ -260,6 +266,37 @@ return {
                     projectPaths= {"/home/felix/coding/LargerIdeas/Omnis/supabase/"}
                   }
                 }
+              }
+            }
+          })
+        end,
+        ["tsserver"] = function()
+          require("typescript").setup({
+            server = {
+              on_attach = on_attach,
+              settings = {
+                javascript = {
+                  inlayHints = {
+                    includeInlayEnumMemberValueHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                  },
+                },
+                typescript = {
+                  inlayHints = {
+                    includeInlayEnumMemberValueHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                  },
+                },
               }
             }
           })

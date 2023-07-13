@@ -2,6 +2,7 @@
 return {
   "jackMort/ChatGPT.nvim",
   keys = { "<leader>gpt" },
+  
   cmd = "ChatGPT",
   config = function()
     vim.keymap.set("n", "<leader>gpt", "<cmd>ChatGPT<CR>", {})
