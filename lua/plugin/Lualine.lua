@@ -3,10 +3,10 @@ return {
   {
     'nvim-lualine/lualine.nvim', -- Fancier statusline
     dependencies = {
-      'linrongbin16/lsp-progress.nvim',
-      "ecthelionvi/NeoComposer.nvim"
+      --'linrongbin16/lsp-progress.nvim',
+      -- "ecthelionvi/NeoComposer.nvim"
     },
-    --event = "VeryLazy",
+    event = "VeryLazy",
     config = function ()
       local colors = {
         fg = "#838994",
@@ -44,14 +44,14 @@ return {
         },
         sections = {
           lualine_c = {
-            { require('NeoComposer.ui').status_recording },
-            (
-              function()
-                if not (vim.bo.filetype == "markdown") then
-                  return require("lsp-progress").progress
-                end
-              end
-            )()
+            -- { require('NeoComposer.ui').status_recording },
+            -- (
+            --   function()
+            --     if not (vim.bo.filetype == "markdown") then
+            --       return require("lsp-progress").progress
+            --     end
+            --   end
+            -- )()
           },
           lualine_x = {
             {"filename", path = 1}

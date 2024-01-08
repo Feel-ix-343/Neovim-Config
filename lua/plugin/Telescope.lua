@@ -10,7 +10,7 @@ return {
   lazy = true,
   cmd = "Telescope",
   keys = {
-    "<leader>tr",
+    "<leader>ti",
     "<leader>ts",
     "<leader>tf",
     "<leader>tg",
@@ -20,6 +20,9 @@ return {
     "<leader>tl",
     "<leader>te",
     "<leader>tu",
+    "<leader>tc",
+    "<leader>td",
+    "<leader>gd"
   },
   config = function (plugin, opts)
     require("telescope").setup({
@@ -49,18 +52,21 @@ return {
       }
     })
 
-    vim.keymap.set("n", "<leader>tr", require('telescope.builtin').lsp_references, {noremap = true})
+    vim.keymap.set("n", "<leader>ti", require('telescope.builtin').lsp_references, {noremap = true})
     vim.keymap.set("n", "<leader>ts", require('telescope.builtin').live_grep, {noremap = true})
     vim.keymap.set("n", "<leader>te", require("telescope.builtin").find_files, {noremap = true})
     vim.keymap.set("n", "<leader>tg", require("telescope.builtin").git_files, {noremap = true})
     vim.keymap.set("n", "<leader>tk", require("telescope.builtin").keymaps, {noremap=true})
     vim.keymap.set("n", "<leader>to", require("telescope.builtin").lsp_document_symbols, {noremap=true})
     vim.keymap.set("n", "<leader>tb", require("telescope.builtin").buffers, {noremap=true})
+    vim.keymap.set("n", "<leader>tc", require("telescope.builtin").colorscheme, {noremap=true})
     vim.keymap.set("n", "<leader>tl", require("telescope.builtin").resume, {noremap=true})
+    vim.keymap.set("n", "<leader>td", require('telescope.builtin').lsp_definitions, {noremap=true})
+    vim.keymap.set("n", "gd", require('telescope.builtin').lsp_definitions, {noremap=true})
     vim.keymap.set("n", "<leader>tu", require('telescope').extensions.undo.undo)
 
     require('telescope').load_extension("harpoon")
-    require('telescope').load_extension('macros')
+    -- require('telescope').load_extension('macros')
     require('telescope').load_extension('file_browser')
     require("telescope").load_extension("undo")
     vim.keymap.set("n", "<leader>th", require("telescope._extensions.marks"), {noremap = true})

@@ -8,7 +8,7 @@ return {
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
     'saadparwaiz1/cmp_luasnip',
-    'L3MON4D3/LuaSnip',
+    {'L3MON4D3/LuaSnip', build="make install_jsregexp"},
     {'onsails/lspkind.nvim', lazy=true},
     "lukas-reineke/cmp-rg",
     "kdheepak/cmp-latex-symbols",
@@ -83,9 +83,8 @@ return {
       }),
       sources = cmp.config.sources({
         --{ name = "nvim_lsp_signature_help"},
-        { name = "copilot" },
-        { name = 'nvim_lsp' },
         { name = 'luasnip' }, -- For luasnip users.
+        { name = "copilot" },
         { name = "path" },
         -- {
         --   name = "rg",
@@ -93,7 +92,7 @@ return {
         --   -- keyword_length = 3
         -- },
       }, {
-          -- { name = 'buffer' }, -- I don't like buffer completion
+          --{ name = 'buffer' }, -- I don't like buffer completion
         }),
       sorting = {
         priority_weight = 2,
@@ -152,6 +151,16 @@ return {
             strategy = 2, -- mixed
           },
         },
+        {
+          name = 'nvim_lsp',
+          option = {
+            obsidian_ls = {
+              keyword_pattern = [[\(\k\| \|\/\|#\)\+]]
+            }
+          }
+        },
+        { name = 'luasnip' }, -- For luasnip users.
+        { name = "path" },
       }
     })
   end

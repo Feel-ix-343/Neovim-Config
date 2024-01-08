@@ -39,35 +39,35 @@ vim.o.termguicolors = true
 -- vim.cmd.colorscheme "nightfly"
 -- vim.cmd.colorscheme "everforest"
 -- vim.opt.background = "dark"
--- vim.cmd.colorscheme "oxocarbon"
+vim.cmd.colorscheme "oxocarbon"
 -- vim.cmd.colorscheme "catppuccin"
 -- vim.g.mellow_italic_functions = true
 -- vim.g.mellow_bold_functions = true
 -- vim.cmd [[colorscheme mellow]]
 --vim.cmd [[let g:sonokai_style = 'maia']]
 --vim.cmd [[colorscheme sonokai]]
-vim.cmd("colorscheme kanagawa-dragon")
+--vim.cmd("colorscheme kanagawa-dragon")
 --vim.cmd("colorscheme nightfly")
 -- colorscheme end
 
 --highlighting ;; Making background colors transparent
-vim.cmd[[
-  highlight NormalFloat guibg=none
-  highlight LspFloatWinNormal guibg=none
-  highlight BufferInactive guibg=none
-  highlight BufferInactiveSign guibg=none
-  highlight BufferInactiveMod guibg=none
-  highlight BufferInactiveIndex guibg=none
-  highlight BufferVisible guibg=none
-  highlight BufferVisibleSign guibg=none
-  highlight BufferVisibleMod guibg=none
-  highlight BufferVisibleIndex guibg=none
-  highlight BufferVisibleTarget guibg=none
-  highlight BufferInactiveTarget guibg=none
-  highlight BufferTabpage guibg=none
-  highlight BufferTabpages guibg=none
-  highlight CursorColumn guibg=none
-]]
+-- vim.cmd[[
+--   highlight NormalFloat guibg=none
+--   highlight LspFloatWinNormal guibg=none
+--   highlight BufferInactive guibg=none
+--   highlight BufferInactiveSign guibg=none
+--   highlight BufferInactiveMod guibg=none
+--   highlight BufferInactiveIndex guibg=none
+--   highlight BufferVisible guibg=none
+--   highlight BufferVisibleSign guibg=none
+--   highlight BufferVisibleMod guibg=none
+--   highlight BufferVisibleIndex guibg=none
+--   highlight BufferVisibleTarget guibg=none
+--   highlight BufferInactiveTarget guibg=none
+--   highlight BufferTabpage guibg=none
+--   highlight BufferTabpages guibg=none
+--   highlight CursorColumn guibg=none
+-- ]]
 --highlighting end
 
 
@@ -119,6 +119,8 @@ vim.o.smartcase = true
 vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 
+vim.o.cmdheight = 2
+
 
 
 -- Highlight on yank
@@ -137,7 +139,7 @@ vim.cmd [[autocmd FileType * set formatoptions-=cro]]
 
 
 if vim.g.neovide then
-  vim.opt.guifont = {"JetBrainsMono Nerd Font",":h14"}
+  vim.opt.guifont = {"JetBrainsMono Nerd Font",":h13"}
   --vim.opt.guifont = {"IntelOne Mono",":h14"}
 
   vim.g.neovide_padding_top = 0
@@ -145,7 +147,7 @@ if vim.g.neovide then
   vim.g.neovide_padding_right = 0
   vim.g.neovide_padding_left = 0
 
-  vim.cmd.colorscheme("catppuccin")
+  vim.cmd.colorscheme("everforest")
 
   vim.g.neovide_refresh_rate = 60
 
@@ -164,10 +166,16 @@ if vim.g.neovide then
   vim.cmd[[set winblend=40]]
   vim.cmd[[set pumblend=40]]
 
-  vim.g.neovide_scroll_animation_length = .6
+  vim.g.neovide_scroll_animation_length = .3
+  vim.g.neovide_cursor_animation_length = 0
+  vim.g.neovide_cursor_trail_size = .3
+  vim.g.neovide_cursor_vfx_mode = "pixiedust"
+  vim.g.neovide_cursor_vfx_particle_lifetime = 2
 
 
   vim.g.neovide_hide_mouse_when_typing = true
+
+  vim.g.neovim_confirm_quit = false
 end
 
 --vim.cmd[[autocmd BufWrite * execute "mksession!"]]

@@ -12,16 +12,20 @@ return {
       symbol_in_winbar = {
         enable = false,
       },
+      lightbulb = {
+        enable = true,
+        virtual_text = false,
+      },
       ui = {
         -- currently only round theme
         theme = 'round',
         -- border type can be single,double,rounded,solid,shadow.
-        border = 'single',
+        border = 'none',
         winblend = (function() if vim.g.neovide then return 40 else return 0 end end)(),
         expand = '',
         collapse = '',
         preview = ' ',
-        code_action = '',
+        code_action = '',
         diagnostic = '',
         incoming = ' ',
         outgoing = ' ',

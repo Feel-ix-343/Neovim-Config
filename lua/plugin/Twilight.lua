@@ -1,5 +1,6 @@
 return {
   "folke/twilight.nvim",
+  enable = false,
   lazy = true, -- this should be called by ZenMode.lua
   config = function()
     require("twilight").setup {

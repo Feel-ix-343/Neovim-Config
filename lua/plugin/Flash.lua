@@ -5,11 +5,11 @@ return {
   ---@type Flash.Config
   opts = {
     jump = {
-      autojump = true
+      autojump = false
     },
     modes = {
       char = {
-        enabled = false,
+        enabled = true,
       }
     }
   },

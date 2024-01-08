@@ -12,8 +12,7 @@ return {
     --- enabled = ,
     config = function()
       vim.cmd[[let g:pencil#conceallevel = 0]] -- no conceal
-      vim.cmd[[Pencil]]
-      vim.cmd[[autocmd Filetype markdown Pencil]]
+      vim.cmd[[autocmd Filetype markdown PencilSoft]]
       vim.cmd[[autocmd Filetype tex Pencil]]
       vim.cmd[[autocmd Filetype bib Pencil]]
     end,
@@ -23,7 +22,6 @@ return {
   {
     "epwalsh/obsidian.nvim",
     enabled = true,
-    lazy = true,
     event = { "BufReadPre /home/felix/Notes/**.md" },
     -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand':
     -- event = { "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md" },
@@ -49,7 +47,7 @@ return {
 
       -- Optional, completion.
       completion = {
-        nvim_cmp = true,  -- if using nvim-cmp, otherwise set to false
+        nvim_cmp = false,  -- if using nvim-cmp, otherwise set to false
       },
 
       -- Optional, customize how names/IDs for new notes are created.
@@ -76,13 +74,13 @@ return {
 
       -- Optional, override the 'gf' keymap to utilize Obsidian's search functionality.
       -- see also: 'follow_url_func' config option above.
-      vim.keymap.set("n", "gf", function()
-        if require("obsidian").util.cursor_on_markdown_link() then
-          return "<cmd>ObsidianFollowLink<CR>"
-        else
-          return "gf"
-        end
-      end, { noremap = false, expr = true })
+      -- vim.keymap.set("n", "<leader>gf", function()
+      --   if require("obsidian").util.cursor_on_markdown_link() then
+      --     return "<cmd>ObsidianFollowLink<CR>"
+      --   else
+      --     return "gf"
+      --   end
+      -- end, { noremap = false, expr = true })
 
       vim.keymap.set("n", "<leader>O", "<cmd>ObsidianOpen<CR>")
     end,

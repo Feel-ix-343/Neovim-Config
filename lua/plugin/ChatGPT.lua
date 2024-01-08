@@ -1,11 +1,11 @@
 -- Lazy
 return {
   "jackMort/ChatGPT.nvim",
-  keys = { "<leader>gpt" },
+  --keys = { "<leader>gpt" },
   
   cmd = "ChatGPT",
   config = function()
-    vim.keymap.set("n", "<leader>gpt", "<cmd>ChatGPT<CR>", {})
+    --vim.keymap.set("n", "<leader>gpt", "<cmd>ChatGPT<CR>", {})
     require("chatgpt").setup({
       api_key_cmd = os.getenv("OPENAI_API_KEY"),
       api_key_cmd = nil,
@@ -128,7 +128,7 @@ return {
         },
       },
       openai_params = {
-        model = "gpt-3.5-turbo",
+        model = "gpt-4",
         frequency_penalty = 0,
         presence_penalty = 0,
         max_tokens = 300,

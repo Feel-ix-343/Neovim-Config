@@ -89,6 +89,14 @@ return {
   { "https://git.sr.ht/~soywod/himalaya-vim", config = function()
     vim.g.himalaya_folder_picker = "native"
   end},
+  {
+    "CamdenClark/flyboy",
+    keys = {
+      {"<leader>gpt", ":FlyboyOpen<CR>"},
+      {"<leader>g4", ":FlyboySwitchModel gpt-4<CR>"},
+      {"<leader>gs", ":FlyboySendMessage<CR>"},
+    }
+  },
 }
 
 

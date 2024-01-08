@@ -1,11 +1,13 @@
+
+vim.filetype.add({extension = {typ = "typst"}})
 local on_attach = function(client, bufnr)
   local keymap = vim.keymap.set
   keymap("n", "gh", ":Lspsaga lsp_finder<CR>", { silent = true })
-  keymap("n", "<leader>a", vim.lsp.buf.code_action, { silent = true })
+  keymap("n", "<leader>a", ":Lspsaga code_action<CR>", { silent = true })
   keymap("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
 
   keymap("n", "gD", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
-  keymap("n","gd", "<cmd>Lspsaga goto_definition<CR>")
+  -- keymap("n","gd", vim.lsp.buf.definition) -- this is now a part of telescope
 
 
   keymap("n", "gT", "<cmd>Lspsaga peek_type_definition<CR>")
@@ -46,7 +48,7 @@ local on_attach = function(client, bufnr)
   keymap("n", "<leader>Lb", "<cmd>TexlabBuild<CR>", {desc = "Build the latex document"})
   keymap("n", "<leader>Lf", "<cmd>TexlabForward<CR>", {desc = "Open PDF viewer of the latex document"})
 
-  vim.lsp.buf.inlay_hint(bufnr, true)
+  --vim.lsp.buf.inlay_hint(bufnr, true)
 
 end
 
@@ -64,11 +66,12 @@ local servers = {
   "tsserver",
   "bashls",
   "astro",
-  "marksman",
+  --"marksman",
   "tailwindcss",
   "sqlls",
   "jsonls"
 }
+
 
 
 
@@ -79,15 +82,32 @@ return {
   {
     "neovim/nvim-lspconfig",
     keys = {
-      {"<leader>Ls", "<cmd>LspStart<CR>"},
-      {"<leader>LS", "<cmd>LspStop<CR>"}
+      {"<leader>ss", "<cmd>LspStart<CR>"},
+      {"<leader>sS", "<cmd>LspStop<CR>"}
     },
+    lazy = true,
     dependencies = {
       "williamboman/mason-lspconfig.nvim",
     },
     config = function()
 
+      vim.keymap.set("n", "<leader>si", "<cmd>LspInfo<CR>")
 
+
+      local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+      vim.lsp.set_log_level("debug")
+      local configs = require("lspconfig.configs")
+      configs["obsidian_ls"] = {
+        default_config = {
+          root_dir = function() return vim.fn.getcwd() end,
+          filetypes = {"markdown"},
+          cmd = {"/home/felix/coding/LargerIdeas/ObsidianLS/obsidian-ls/target/release/obsidian-ls"}
+        },
+        on_attach = on_attach,
+        capabilities = capabilities,
+      }
+      require("lspconfig").obsidian_ls.setup({})
 
       -- LSP Icons and highlighting for saga
       local signs = {
@@ -176,7 +196,15 @@ return {
         function (server_name) -- default handler (optional)
           require("lspconfig")[server_name].setup {
             on_attach = on_attach,
-            capabilities = capabilities
+            capabilities = capabilities,
+          }
+        end,
+        ["grammarly"] = function()
+          require("lspconfig").grammarly.setup {
+            on_attach = on_attach,
+            capabilities = capabilities,
+            cmd = {"n", "run", "16", "/home/felix/.local/share/nvim/mason/bin/grammarly-languageserver", "--stdio"},
+            init_options = {clientId = "client_BaDkMgx4X19X9UxxYRCXZo"}
           }
         end,
         -- Next, you can provide a dedicated handler for specific servers.
@@ -296,9 +324,35 @@ return {
                     includeInlayPropertyDeclarationTypeHints = true,
                     includeInlayVariableTypeHints = true,
                   },
+                  preferences = {
+                    jsxAttributeCompletionStyle = 'braces'
+                  }
                 },
               }
             }
+          })
+        end,
+        ["marksman"] = function ()
+          require'lspconfig'.marksman.setup{single_file_support = false}
+        end,
+        ["typst_lsp"] = function()
+          local util = require('lspconfig.util')
+          require'lspconfig'.typst_lsp.setup({
+            root_dir = function(fname)
+              if util.find_git_ancestor(fname) then
+                return util.find_git_ancestor(fname)
+              else return vim.fn.getcwd()
+              end
+            end,
+            on_attach = on_attach,
+            capabilities = capabilities,
+          })
+        end,
+        ["tailwindcss"] = function()
+          require'lspconfig'.tailwindcss.setup({
+            filetypes = {"jsx", "tsx", "astro"},
+            on_attach = on_attach,
+            capabilities = capabilities,
           })
         end
       }
@@ -354,4 +408,3 @@ return {
     end
   },
 }
-

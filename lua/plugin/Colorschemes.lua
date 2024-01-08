@@ -76,8 +76,8 @@ return {
       overrides = function(colors)
         local theme = colors.theme
         return {
-          NormalFloat = { bg = "none" },
-          FloatBorder = { bg = "none" },
+          -- NormalFloat = { bg = "none" },
+          -- FloatBorder = { bg = "none" },
 
           -- Save an hlgroup with dark background and dimmed foreground
           -- so that you can use it where your still want darker windows.
@@ -107,4 +107,21 @@ return {
     },
   },
   { "bluz71/vim-nightfly-colors", name = "nightfly", lazy = false, priority = 1000 },
+  {"https://git.sr.ht/~romainl/vim-bruin", lazy = false},
+  {"cpea2506/one_monokai.nvim", lazy = false},
+  {"rockerBOO/boo-colorscheme-nvim", lazy=false, config = function()
+    require("boo-colorscheme").use({
+      italic = true, -- toggle italics
+      theme = "boo"
+    })
+  end},
+  {
+    "tiagovla/tokyodark.nvim",
+    opts = {
+      -- custom options here
+    },
+    config = function(_, opts)
+      require("tokyodark").setup(opts) -- calling setup is optional
+    end,
+  }
 }
