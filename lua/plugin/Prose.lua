@@ -4,8 +4,6 @@ return {
     event = "BufReadPre **.md"
   },
 
-  "dhruvasagar/vim-table-mode",
-
   {
     "preservim/vim-pencil",
     ft = {"markdown", "tex", "bib"},
@@ -18,7 +16,6 @@ return {
     end,
   },
 
-  {"ellisonleao/glow.nvim", config = true, cmd = "Glow"},
   {
     "epwalsh/obsidian.nvim",
     enabled = true,
@@ -44,6 +41,10 @@ return {
     },
     opts = {
       dir = "~/Notes/",  -- no need to call 'vim.fn.expand' here
+
+      ui = {
+        enable = false
+      },
 
       -- Optional, completion.
       completion = {

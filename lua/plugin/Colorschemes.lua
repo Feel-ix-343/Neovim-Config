@@ -89,9 +89,9 @@ return {
           -- LazyNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
           -- MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
 
-          TelescopeBorder = { bg="none" },
-          CursorLine = { bg = "none" },
-          Folded = { bg = "none" }
+          -- TelescopeBorder = { bg="none" },
+          -- CursorLine = { bg = "none" },
+          -- Folded = { bg = "none" }
           -- lualine_c_normal = { bg = "none" },
         }
       end,

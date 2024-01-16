@@ -72,8 +72,8 @@ return {
         documentation = cmp.config.window.bordered(),
       },
       mapping = cmp.mapping.preset.insert({
-        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-u>'] = cmp.mapping.scroll_docs(4),
+        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-d>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         --   ['<C-e>'] = cmp.mapping.abort(),
         ['<CR>'] = cmp.mapping.confirm({
@@ -84,6 +84,7 @@ return {
       sources = cmp.config.sources({
         --{ name = "nvim_lsp_signature_help"},
         { name = 'luasnip' }, -- For luasnip users.
+        { name = "nvim_lsp" },
         { name = "copilot" },
         { name = "path" },
         -- {
@@ -155,7 +156,7 @@ return {
           name = 'nvim_lsp',
           option = {
             obsidian_ls = {
-              keyword_pattern = [[\(\k\| \|\/\|#\)\+]]
+              keyword_pattern = [[\(\k\| \|\/\|#\|\^\)\+]]
             }
           }
         },

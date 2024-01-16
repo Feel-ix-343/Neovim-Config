@@ -69,7 +69,14 @@ return {
     -- require('telescope').load_extension('macros')
     require('telescope').load_extension('file_browser')
     require("telescope").load_extension("undo")
-    vim.keymap.set("n", "<leader>th", require("telescope._extensions.marks"), {noremap = true})
+    vim.keymap.set("n", "<leader>th", require("telescope._extensions.marks"), {noremap = true}) vim.keymap.set("n", "<leader>th", require("telescope._extensions.marks"), {noremap = true})
+
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "TelescopePreviewerLoaded",
+      callback = function(args)
+          vim.wo.wrap = true
+      end,
+    })
   end
 }
 

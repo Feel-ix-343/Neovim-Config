@@ -204,7 +204,7 @@ return {
             on_attach = on_attach,
             capabilities = capabilities,
             cmd = {"n", "run", "16", "/home/felix/.local/share/nvim/mason/bin/grammarly-languageserver", "--stdio"},
-            init_options = {clientId = "client_BaDkMgx4X19X9UxxYRCXZo"}
+            init_options = {clientId = "client_BaDkMgx4X19X9UxxYRCXZo"},
           }
         end,
         -- Next, you can provide a dedicated handler for specific servers.
