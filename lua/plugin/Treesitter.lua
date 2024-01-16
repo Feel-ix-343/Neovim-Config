@@ -14,7 +14,11 @@ return {
       -- ensure_installed = "all",
       highlight = {
         enable = true,
-        --additional_vim_regex_highlighting = { "markdown" }
+        disable = {
+          "markdown" -- slow
+        },
+        -- additional_vim_regex_highlighting = { "markdown" }
+        additional_vim_regex_highlighting = false
       },
       indent = {
         enable = true

@@ -7,18 +7,18 @@ return {
   {
     "preservim/vim-pencil",
     ft = {"markdown", "tex", "bib"},
-    --- enabled = ,
     config = function()
       vim.cmd[[let g:pencil#conceallevel = 0]] -- no conceal
       vim.cmd[[autocmd Filetype markdown PencilSoft]]
       vim.cmd[[autocmd Filetype tex Pencil]]
       vim.cmd[[autocmd Filetype bib Pencil]]
+
+      vim.cmd[[autocmd Filetype markdown set nobreakindent]] -- this is set by pencil and its slow af
     end,
   },
 
   {
     "epwalsh/obsidian.nvim",
-    enabled = true,
     event = { "BufReadPre /home/felix/Notes/**.md" },
     -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand':
     -- event = { "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md" },

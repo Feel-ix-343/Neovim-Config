@@ -93,10 +93,10 @@ vim.opt.clipboard = 'unnamedplus' -- Setting the clip board to the regular copy/
 vim.opt.expandtab = true -- convert tabs to spaces
 vim.opt.shiftwidth = 2 -- the number of spaces inserted for each indentation
 vim.opt.tabstop = 2 -- insert 2 spaces for a tab
-vim.opt.cursorline = true -- highlight the current line
+-- vim.opt.cursorline = true -- highlight the current line
 vim.opt.relativenumber = true -- set relative numbered lines
 vim.opt.termguicolors = true
-vim.opt.scrolloff = 6
+vim.opt.scrolloff = 3
 
 --Set highlight on search
 vim.o.hlsearch = false
@@ -107,7 +107,7 @@ vim.wo.number = true
 --vim.o.mouse = 'a'
 
 --Enable break indent
-vim.o.breakindent = true
+-- vim.o.breakindent = true
 
 --Save undo history
 vim.opt.undofile = true
