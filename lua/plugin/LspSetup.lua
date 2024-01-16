@@ -4,11 +4,10 @@ local on_attach = function(client, bufnr)
   local keymap = vim.keymap.set
   keymap("n", "gh", ":Lspsaga lsp_finder<CR>", { silent = true })
   keymap("n", "<leader>a", ":Lspsaga code_action<CR>", { silent = true })
-  keymap("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
+  keymap("n", "gr", vim.lsp.buf.rename, { silent = true })
 
   keymap("n", "gD", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
   -- keymap("n","gd", vim.lsp.buf.definition) -- this is now a part of telescope
-
 
   keymap("n", "gT", "<cmd>Lspsaga peek_type_definition<CR>")
   keymap("n","gt", "<cmd>Lspsaga goto_type_definition<CR>")
@@ -173,10 +172,14 @@ return {
     dependencies = {
       "mason.nvim",
       "hrsh7th/cmp-nvim-lsp",
-      'simrat39/rust-tools.nvim',
       "folke/neodev.nvim",
       "SmiteshP/nvim-navbuddy",
-      "jose-elias-alvarez/typescript.nvim"
+      "jose-elias-alvarez/typescript.nvim",
+      {
+        'mrcjkb/rustaceanvim',
+        version = '^3', -- Recommended
+        ft = { 'rust' },
+      }
     },
     -- event = "VeryLazy",
     lazy = true,
@@ -210,22 +213,42 @@ return {
         -- Next, you can provide a dedicated handler for specific servers.
         -- For example, a handler override for the `rust_analyzer`:
         ["rust_analyzer"] = function ()
-          require("rust-tools").setup {
+          vim.g.rustaceanvim = {
+            -- Plugin configuration
             tools = {
-              inlay_hints = {
-                auto = false
-              }
             },
+            -- LSP configuration
             server = {
-              on_attach = on_attach
+              on_attach = function(client, bufnr)
+                on_attach(client, bufnr)
+              end,
+              settings = {
+                -- rust-analyzer language server configuration
+                ['rust-analyzer'] = {
+                },
+              },
             },
-            dap = { -- Enabling rust to use codelldb; This is related to the dap functions
-              adapter = require('rust-tools.dap').get_codelldb_adapter(
-                "codelldb",
-                vim.env.HOME .. "/.local/share/nvim/mason/packages/codelldb/extension/lldb/lib/liblldb.so" -- TODO: Set this yoruself
-              )
-            }
+            -- DAP configuration
+            dap = {
+            },
           }
+          on_attach()
+          -- require("rust-tools").setup {
+          --   tools = {
+          --     inlay_hints = {
+          --       auto = false
+          --     }
+          --   },
+          --   server = {
+          --     on_attach = on_attach
+          --   },
+          --   dap = { -- Enabling rust to use codelldb; This is related to the dap functions
+          --     adapter = require('rust-tools.dap').get_codelldb_adapter(
+          --       "codelldb",
+          --       vim.env.HOME .. "/.local/share/nvim/mason/packages/codelldb/extension/lldb/lib/liblldb.so" -- TODO: Set this yoruself
+          --     )
+          --   }
+          -- }
         end,
         ["lua_ls"] = function()
           -- LUA

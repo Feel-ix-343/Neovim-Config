@@ -14,6 +14,11 @@ return {
       vim.cmd[[autocmd Filetype bib Pencil]]
 
       vim.cmd[[autocmd Filetype markdown set nobreakindent]] -- this is set by pencil and its slow af
+
+
+      -- Wrapping
+      vim.cmd[[autocmd Filetype markdown set linebreak]]
+      vim.cmd[[autocmd Filetype markdown set breakindentopt=list:-1]]
     end,
   },
 

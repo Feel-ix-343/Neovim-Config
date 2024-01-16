@@ -72,11 +72,6 @@ vim.cmd.colorscheme "tokyonight"
 --highlighting end
 
 
--- Wrapping
-vim.cmd[[set linebreak]]
-vim.cmd[[set breakindentopt=list:-1]]
-
-
 -- folds
 vim.o.foldlevel = 99
 vim.o.foldcolumn = '1'
@@ -102,6 +97,8 @@ vim.opt.scrolloff = 3
 vim.o.hlsearch = false
 --Make line numbers default
 vim.wo.number = true
+
+vim.opt.wrap = false
 
 --Enable mouse mode
 --vim.o.mouse = 'a'

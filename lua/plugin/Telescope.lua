@@ -22,7 +22,7 @@ return {
     "<leader>tu",
     "<leader>tc",
     "<leader>td",
-    "<leader>gd"
+    "gd"
   },
   config = function (plugin, opts)
     require("telescope").setup({
