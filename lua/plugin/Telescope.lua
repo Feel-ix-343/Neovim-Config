@@ -58,6 +58,7 @@ return {
     vim.keymap.set("n", "<leader>tg", require("telescope.builtin").git_files, {noremap = true})
     vim.keymap.set("n", "<leader>tk", require("telescope.builtin").keymaps, {noremap=true})
     vim.keymap.set("n", "<leader>to", require("telescope.builtin").lsp_document_symbols, {noremap=true})
+    vim.keymap.set("n", "<leader>tO", require("telescope.builtin").lsp_workspace_symbols, {noremap=true})
     vim.keymap.set("n", "<leader>tb", require("telescope.builtin").buffers, {noremap=true})
     vim.keymap.set("n", "<leader>tc", require("telescope.builtin").colorscheme, {noremap=true})
     vim.keymap.set("n", "<leader>tl", require("telescope.builtin").resume, {noremap=true})

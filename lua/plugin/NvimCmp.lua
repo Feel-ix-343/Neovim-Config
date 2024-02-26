@@ -25,6 +25,9 @@ return {
           require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
         end,
       },
+      performance = {
+        max_view_entries = 50,
+      },
       formatting = {
         fields = {"kind", "abbr", "menu"},
         format = lspkind.cmp_format({
@@ -95,24 +98,24 @@ return {
       }, {
           --{ name = 'buffer' }, -- I don't like buffer completion
         }),
-      sorting = {
-        priority_weight = 2,
-        comparators = {
-          require("copilot_cmp.comparators").prioritize,
-
-          -- Below is the default comparitor list and order for nvim-cmp
-          cmp.config.compare.offset,
-          -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
-          cmp.config.compare.exact,
-          cmp.config.compare.score,
-          cmp.config.compare.recently_used,
-          cmp.config.compare.locality,
-          cmp.config.compare.kind,
-          cmp.config.compare.sort_text,
-          cmp.config.compare.length,
-          cmp.config.compare.order,
-        },
-      },
+      -- sorting = {
+      --   priority_weight = 2,
+      --   comparators = {
+      --     require("copilot_cmp.comparators").prioritize,
+      --
+      --     -- Below is the default comparitor list and order for nvim-cmp
+      --     cmp.config.compare.offset,
+      --     -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
+      --     cmp.config.compare.exact,
+      --     cmp.config.compare.score,
+      --     cmp.config.compare.recently_used,
+      --     cmp.config.compare.locality,
+      --     cmp.config.compare.kind,
+      --     cmp.config.compare.sort_text,
+      --     cmp.config.compare.length,
+      --     cmp.config.compare.order,
+      --   },
+      -- },
     })
 
     -- Set configuration for specific filetype.
@@ -155,7 +158,7 @@ return {
         {
           name = 'nvim_lsp',
           option = {
-            obsidian_ls = {
+            markdown_oxide = {
               keyword_pattern = [[\(\k\| \|\/\|#\|\^\)\+]]
             }
           }

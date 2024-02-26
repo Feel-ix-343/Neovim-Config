@@ -104,7 +104,7 @@ vim.opt.wrap = false
 --vim.o.mouse = 'a'
 
 --Enable break indent
--- vim.o.breakindent = true
+vim.o.breakindent = true
 
 --Save undo history
 vim.opt.undofile = true

@@ -3,7 +3,16 @@ return {
   dependencies = {-- lazy loaded
     {'nvim-treesitter/nvim-treesitter-textobjects'},
     'JoosepAlviste/nvim-ts-context-commentstring',
+    -- additional parser
+    {"nushell/tree-sitter-nu"},
+    {
+      "chrisgrieser/nvim-various-textobjs",
+      lazy = false,
+      opts = { useDefaultKeymaps = true },
+    },
   },
+
+  build = ":TSUpdate",
 
 
   --event = "BufReadPre",

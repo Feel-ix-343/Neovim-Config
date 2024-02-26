@@ -13,7 +13,7 @@ return {
       vim.cmd[[autocmd Filetype tex Pencil]]
       vim.cmd[[autocmd Filetype bib Pencil]]
 
-      vim.cmd[[autocmd Filetype markdown set nobreakindent]] -- this is set by pencil and its slow af
+      -- vim.cmd[[autocmd Filetype markdown set nobreakindent]] -- this is set by pencil and its slow af
 
 
       -- Wrapping

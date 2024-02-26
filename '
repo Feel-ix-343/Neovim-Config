@@ -49,16 +49,6 @@ local on_attach = function(client, bufnr)
 
   --vim.lsp.buf.inlay_hint(bufnr, true)
 
-  --vim.lsp.codelens.refresh()
-
-  -- refresh codelens on TextChanged and InsertLeave as well
-  vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave', 'CursorHold', 'LspAttach' }, {
-    buffer = bufnr,
-    callback = vim.lsp.codelens.refresh,
-  })
-  -- trigger codelens refresh
-  vim.api.nvim_exec_autocmds('User', { pattern = 'LspAttached' })
-
 end
 
 
@@ -105,37 +95,28 @@ return {
 
       local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-      capabilities.workspace = {
-        didChangeWatchedFiles = {
-          dynamicRegistration = true,
-        },
-      }
+      vim.env.OBSIDIAN_DEBUG
 
       -- Set up language servers that are not installed by mason
 
-      if vim.env.MOXIDE_DEBUG then
-        vim.lsp.set_log_level("debug") -- My language server for markdown!!!
-      end
-
+      vim.lsp.set_log_level("debug") -- My language server for markdown!!!
       local configs = require("lspconfig.configs")
-      configs["markdown_oxide"] = {
+      configs["obsidian_ls"] = {
         default_config = {
           root_dir = function() return vim.fn.getcwd() end,
           filetypes = {"markdown"},
           cmd = {(function()
             if vim.env.MOXIDE_DEBUG then
-              return "/home/felix/coding/LargerIdeas/ObsidianLS/obsidian-ls/target/debug/markdown-oxide"
+              return "/home/felix/coding/LargerIdeas/ObsidianLS/obsidian-ls/target/debug/obsidian-ls"
             else
-              return "/home/felix/coding/LargerIdeas/ObsidianLS/obsidian-ls/target/release/markdown-oxide"
+              return "/home/felix/coding/LargerIdeas/ObsidianLS/obsidian-ls/target/release/obsidian-ls"
             end
           end)()}
         },
         on_attach = on_attach,
         capabilities = capabilities,
       }
-      require("lspconfig").markdown_oxide.setup({
-        capabilities = capabilities
-      })
+      require("lspconfig").obsidian_ls.setup({})
 
       require'lspconfig'.nushell.setup({
         cmd = {"/home/felix/coding/OpenSource/nushell/target/release/nu", "--lsp"}
@@ -198,11 +179,7 @@ return {
     cmd = "Mason",
     lazy = true,
     keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
-    opts = {
-      registries = {
-        "github:feel-ix-343/mason-registry"
-      }
-    }
+    opts = {}
   },
 
   {
@@ -304,22 +281,6 @@ return {
                 workspace = {
                   checkThirdParty = false
                 }
-              },
-            },
-          }
-        end,
-        ["yamlls"] = function()
-          require("lspconfig").yamlls.setup {
-            settings = {
-              yaml = {
-                schemaStore = {
-                  -- You must disable built-in schemaStore support if you want to use
-                  -- this plugin and its advanced options like `ignore`.
-                  enable = false,
-                  -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-                  url = "",
-                },
-                schemas = require('schemastore').yaml.schemas(),
               },
             },
           }
@@ -427,7 +388,7 @@ return {
         end,
         ["tailwindcss"] = function()
           require'lspconfig'.tailwindcss.setup({
-            filetypes = {"javascriptreact", "typescriptreact", "html", "astro"},
+            filetypes = {"jsx", "tsx", "astro"},
             on_attach = on_attach,
             capabilities = capabilities,
           })
