@@ -117,24 +117,32 @@ return {
         vim.lsp.set_log_level("debug") -- My language server for markdown!!!
       end
 
-      local configs = require("lspconfig.configs")
-      configs["markdown_oxide"] = {
-        default_config = {
-          root_dir = function() return vim.fn.getcwd() end,
-          filetypes = {"markdown"},
-          cmd = {(function()
-            if vim.env.MOXIDE_DEBUG then
-              return "/home/felix/coding/LargerIdeas/ObsidianLS/obsidian-ls/target/debug/markdown-oxide"
-            else
-              return "/home/felix/coding/LargerIdeas/ObsidianLS/obsidian-ls/target/release/markdown-oxide"
-            end
-          end)()}
-        },
-        on_attach = on_attach,
-        capabilities = capabilities,
-      }
+      local lspconfig = require("lspconfig")
+
+      -- local configs = require("lspconfig.configs")
+      -- configs["markdown_oxide"] = {
+      --   default_config = {
+      --   root_dir = lspconfig.util.root_pattern('.git', vim.fn.getcwd()),
+      --     filetypes = {"markdown"},
+      --     cmd = {(function()
+      --       if vim.env.MOXIDE_DEBUG then
+      --         return "/home/felix/coding/LargerIdeas/ObsidianLS/obsidian-ls/target/debug/markdown-oxide"
+      --       else
+      --         return "/home/felix/coding/LargerIdeas/ObsidianLS/obsidian-ls/target/release/markdown-oxide"
+      --       end
+      --     end)()},
+      --   },
+      -- }
       require("lspconfig").markdown_oxide.setup({
-        capabilities = capabilities
+        cmd = {(function()
+          if vim.env.MOXIDE_DEBUG then
+            return "/home/felix/coding/LargerIdeas/ObsidianLS/obsidian-ls/target/debug/markdown-oxide"
+          else
+            return "/home/felix/coding/LargerIdeas/ObsidianLS/obsidian-ls/target/release/markdown-oxide"
+          end
+        end)()},
+        capabilities = capabilities,
+        on_attach = on_attach,
       })
 
       require'lspconfig'.nushell.setup({
