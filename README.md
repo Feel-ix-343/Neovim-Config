@@ -1,3 +1,10 @@
+> [!warning]
+> This repo is not well maintained!
+>
+> I will only provide infrequent updates. 
+
+
+
 # Neovim-Config
 This is my personal neovim config.
 
