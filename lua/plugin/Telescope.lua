@@ -25,11 +25,23 @@ return {
     "gd"
   },
   config = function (plugin, opts)
+
+
+    local actions = require("telescope.actions")
+
+    local open_with_trouble = require("trouble.sources.telescope").open
+    -- Use this to add more results without clearing the trouble list
+    local add_to_trouble = require("trouble.sources.telescope").add
+
     require("telescope").setup({
       defaults = require("telescope.themes").get_ivy {
         winblend = (function() if vim.g.neovide then return 40 else return 0 end end)(),
         layout_config = {
           height = 0.6
+        },
+        mappings = {
+          i = { ["<c-t>"] = open_with_trouble },
+          n = { ["<c-t>"] = open_with_trouble },
         }
       },
       pickers = {
@@ -45,11 +57,6 @@ return {
           },
         }
       },
-      extensions = {
-        file_browser = {
-          hijack_netrw = true,
-        }
-      }
     })
 
     vim.keymap.set("n", "<leader>ti", require('telescope.builtin').lsp_references, {noremap = true})

@@ -17,12 +17,13 @@ return {
     local cmp = require'cmp'
 
     local lspkind = require('lspkind')
+    local luasnip = require("luasnip")
 
     cmp.setup({
       snippet = {
         -- REQUIRED - you must specify a snippet engine
         expand = function(args)
-          require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+          require('luasnip').lsp_expand(args.body, {indent = false}) -- For `luasnip` users.
         end,
       },
       performance = {
@@ -79,12 +80,35 @@ return {
         ['<C-d>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         --   ['<C-e>'] = cmp.mapping.abort(),
-        ['<CR>'] = cmp.mapping.confirm({
+        ['<C-l>'] = cmp.mapping.confirm({
           select = false,
           behavior = cmp.ConfirmBehavior.Replace,
         }),
+        ["<Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_next_item()
+          elseif luasnip.locally_jumpable(1) then
+            luasnip.jump(1)
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
+
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item()
+          elseif luasnip.locally_jumpable(-1) then
+            luasnip.jump(-1)
+          else
+            fallback()
+          end
+        end, {  "i", "s" }),
       }),
       sources = cmp.config.sources({
+        {
+          name = "lazydev",
+          group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+        },
         --{ name = "nvim_lsp_signature_help"},
         { name = 'luasnip' }, -- For luasnip users.
         { name = "nvim_lsp" },
@@ -98,24 +122,24 @@ return {
       }, {
           --{ name = 'buffer' }, -- I don't like buffer completion
         }),
-      -- sorting = {
-      --   priority_weight = 2,
-      --   comparators = {
-      --     require("copilot_cmp.comparators").prioritize,
-      --
-      --     -- Below is the default comparitor list and order for nvim-cmp
-      --     cmp.config.compare.offset,
-      --     -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
-      --     cmp.config.compare.exact,
-      --     cmp.config.compare.score,
-      --     cmp.config.compare.recently_used,
-      --     cmp.config.compare.locality,
-      --     cmp.config.compare.kind,
-      --     cmp.config.compare.sort_text,
-      --     cmp.config.compare.length,
-      --     cmp.config.compare.order,
-      --   },
-      -- },
+      sorting = {
+        priority_weight = 2,
+        comparators = {
+          require("copilot_cmp.comparators").prioritize,
+          cmp.config.compare.sort_text,
+
+          -- Below is the default comparitor list and order for nvim-cmp
+          cmp.config.compare.offset,
+          -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
+          cmp.config.compare.exact,
+          cmp.config.compare.score,
+          cmp.config.compare.recently_used,
+          cmp.config.compare.locality,
+          cmp.config.compare.kind,
+          cmp.config.compare.length,
+          cmp.config.compare.order,
+        },
+      },
     })
 
     -- Set configuration for specific filetype.

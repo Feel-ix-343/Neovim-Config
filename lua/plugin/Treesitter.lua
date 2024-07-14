@@ -5,11 +5,11 @@ return {
     'JoosepAlviste/nvim-ts-context-commentstring',
     -- additional parser
     {"nushell/tree-sitter-nu"},
-    {
-      "chrisgrieser/nvim-various-textobjs",
-      lazy = false,
-      opts = { useDefaultKeymaps = true },
-    },
+    -- {
+    --   "chrisgrieser/nvim-various-textobjs",
+    --   lazy = false,
+    --   opts = { useDefaultKeymaps = true },
+    -- },
   },
 
   build = ":TSUpdate",
@@ -24,7 +24,7 @@ return {
       highlight = {
         enable = true,
         disable = {
-          "markdown" -- slow
+          -- "markdown" -- slow
         },
         -- additional_vim_regex_highlighting = { "markdown" }
         additional_vim_regex_highlighting = false

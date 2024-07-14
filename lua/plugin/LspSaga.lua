@@ -20,7 +20,7 @@ return {
         -- currently only round theme
         theme = 'round',
         -- border type can be single,double,rounded,solid,shadow.
-        border = 'none',
+        border = 'single',
         winblend = (function() if vim.g.neovide then return 40 else return 0 end end)(),
         expand = '',
         collapse = '',

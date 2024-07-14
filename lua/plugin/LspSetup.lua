@@ -2,9 +2,11 @@
 vim.filetype.add({extension = {typ = "typst"}})
 local on_attach = function(client, bufnr)
   local keymap = vim.keymap.set
-  keymap("n", "gh", ":Lspsaga lsp_finder<CR>", { silent = true })
-  keymap("n", "<leader>a", ":Lspsaga code_action<CR>", { silent = true })
+  keymap("n", "gh", ":Lspsaga finder<CR>", { silent = true })
+  keymap({"n"}, "<leader>a", ":Lspsaga code_action<CR>", { silent = true })
+  keymap("v", "<leader>a", vim.lsp.buf.code_action, { silent = true })
   keymap("n", "gr", vim.lsp.buf.rename, { silent = true })
+  keymap("n", "gd", "<cmd>Lspsaga goto_definition<CR>", {silent = true})
 
   keymap("n", "gD", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
   -- keymap("n","gd", vim.lsp.buf.definition) -- this is now a part of telescope
@@ -47,17 +49,56 @@ local on_attach = function(client, bufnr)
   keymap("n", "<leader>Lb", "<cmd>TexlabBuild<CR>", {desc = "Build the latex document"})
   keymap("n", "<leader>Lf", "<cmd>TexlabForward<CR>", {desc = "Open PDF viewer of the latex document"})
 
-  --vim.lsp.buf.inlay_hint(bufnr, true)
+  local inlay_hint_enable = false
+  vim.lsp.inlay_hint.enable(inlay_hint_enable)
+  keymap("n",
+    "<leader>i",
+    function()
+      inlay_hint_enable = not inlay_hint_enable
+      vim.lsp.inlay_hint.enable(inlay_hint_enable)
+    end,
+    {desc = "Toggle inlay hint"})
+  -- vim.lsp.buf.inlay_hint(bufnr, true)
 
   --vim.lsp.codelens.refresh()
+  local function check_codelens_support()
+    local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+    for _, c in ipairs(clients) do
+      if c.server_capabilities.codeLensProvider then
+        return true
+      end
+    end
+    return false
+  end
+  keymap("n", "<leader>R", vim.lsp.codelens.run, {desc = "Run code lens"})
 
   -- refresh codelens on TextChanged and InsertLeave as well
-  vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave', 'CursorHold', 'LspAttach' }, {
+  vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave', 'CursorHold', 'LspAttach', 'BufEnter' }, {
     buffer = bufnr,
-    callback = vim.lsp.codelens.refresh,
+    callback = function ()
+      if check_codelens_support() then
+        vim.lsp.codelens.refresh({bufnr = 0})
+      end
+    end
   })
   -- trigger codelens refresh
   vim.api.nvim_exec_autocmds('User', { pattern = 'LspAttached' })
+
+  -- setup Markdown Oxide daily note commands
+  if client.name == "markdown_oxide" then
+
+    vim.api.nvim_create_user_command(
+      "Daily",
+      function(args)
+        local input = args.args
+
+	vim.lsp.buf.execute_command({command="jump", arguments={input}})
+
+      end,
+      {desc = 'Open daily note', nargs = "*"}
+    )
+  end
+
 
 end
 
@@ -65,21 +106,21 @@ end
 
 
 -- Server to preconfigure. others are manually configured in lspconfig setup
-local servers = {
-  'clangd',
-  'pyright',
-  'html',
-  'cssls',
-  "lua_ls",
-  "rust_analyzer",
-  "tsserver",
-  "bashls",
-  "astro",
-  --"marksman",
-  "tailwindcss",
-  "sqlls",
-  "jsonls"
-}
+-- local servers = {
+--   'clangd',
+--   'pyright',
+--   'html',
+--   'cssls',
+--   "lua_ls",
+--   "rust_analyzer",
+--   "tsserver",
+--   "bashls",
+--   "astro",
+--   --"marksman",
+--   "tailwindcss",
+--   "sqlls",
+--   "jsonls"
+-- }
 
 
 
@@ -90,18 +131,25 @@ return {
   -- lspconfig
   {
     "neovim/nvim-lspconfig",
+    event = { "BufReadPost", "BufNewFile" },
     keys = {
       {"<leader>ss", "<cmd>LspStart<CR>"},
-      {"<leader>sS", "<cmd>LspStop<CR>"}
+      {"<leader>sS", "<cmd>LspStop<CR>"},
+      {"<leader>sr", "<cmd>LspRestart<CR>"}
     },
+    cmd = "LspStart",
     lazy = true,
     dependencies = {
       "williamboman/mason-lspconfig.nvim",
+      "hrsh7th/cmp-nvim-lsp",
+      "SmiteshP/nvim-navbuddy",
+      "jose-elias-alvarez/typescript.nvim",
+      "simrat39/rust-tools.nvim"
     },
     config = function()
 
-      vim.keymap.set("n", "<leader>si", "<cmd>LspInfo<CR>")
 
+      vim.keymap.set("n", "<leader>si", "<cmd>LspInfo<CR>")
 
       local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
@@ -114,40 +162,116 @@ return {
       -- Set up language servers that are not installed by mason
 
       if vim.env.MOXIDE_DEBUG then
-        vim.lsp.set_log_level("debug") -- My language server for markdown!!!
+        vim.lsp.set_log_level("debug")
       end
 
-      local lspconfig = require("lspconfig")
-
-      -- local configs = require("lspconfig.configs")
-      -- configs["markdown_oxide"] = {
-      --   default_config = {
-      --   root_dir = lspconfig.util.root_pattern('.git', vim.fn.getcwd()),
-      --     filetypes = {"markdown"},
-      --     cmd = {(function()
-      --       if vim.env.MOXIDE_DEBUG then
-      --         return "/home/felix/coding/LargerIdeas/ObsidianLS/obsidian-ls/target/debug/markdown-oxide"
-      --       else
-      --         return "/home/felix/coding/LargerIdeas/ObsidianLS/obsidian-ls/target/release/markdown-oxide"
-      --       end
-      --     end)()},
-      --   },
-      -- }
       require("lspconfig").markdown_oxide.setup({
-        cmd = {(function()
-          if vim.env.MOXIDE_DEBUG then
-            return "/home/felix/coding/LargerIdeas/ObsidianLS/obsidian-ls/target/debug/markdown-oxide"
+          cmd = {(function()
+            if vim.env.MOXIDE_DEBUG then
+              return "/home/felix/coding/LargerIdeas/MarkdownOxide/markdown-oxide/target/debug/markdown-oxide"
+          elseif vim.env.MOXIDE_BIN then
+            return "markdown-oxide"
           else
-            return "/home/felix/coding/LargerIdeas/ObsidianLS/obsidian-ls/target/release/markdown-oxide"
+            return "/home/felix/coding/LargerIdeas/MarkdownOxide/markdown-oxide/target/release/markdown-oxide"
           end
-        end)()},
+          end)()},
+        root_dir = function(fname, _)
+          return require("lspconfig").util.root_pattern('.obsidian', '.moxide.toml', '.git')(fname) or vim.uv.cwd()
+        end,
         capabilities = capabilities,
         on_attach = on_attach,
+	commands = {
+	  Today = {
+             function()
+	       vim.lsp.buf.execute_command({command="jump", arguments={"today"}})
+	     end,
+	     description = "Open today's daily note"
+	  },
+	  Tomorrow = {
+             function()
+	       vim.lsp.buf.execute_command({command="jump", arguments={"tomorrow"}})
+	     end,
+	     description = "Open tomorrow's daily note"
+	  },
+	  Yesterday = {
+             function()
+	       vim.lsp.buf.execute_command({command="jump", arguments={"yesterday"}})
+	     end,
+	     description = "Open yesterday's daily note"
+	  },
+	}
       })
+
+
+      require("lspconfig").hls.setup({
+        on_attach = on_attach,
+        capabilities = capabilities
+      })
+
+
+      -- require("lspconfig").grammarly.setup({
+      --   on_attach = on_attach,
+      --   capabilities = capabilities,
+      --   init_options = {clientId = "client_BaDkMgx4X19X9UxxYRCXZo"},
+      -- })
+      --
+      --
+      -- require("rust-tools").setup {
+      --   tools = {
+      --     inlay_hints = {
+      --       auto = false
+      --     }
+      --   },
+      --   server = {
+      --     on_attach = on_attach,
+      --     capabilities = capabilities
+      --   },
+      --   -- dap = { -- Enabling rust to use codelldb; This is related to the dap functions
+      --   --   adapter = require('rust-tools.dap').get_codelldb_adapter(
+      --   --     "codelldb",
+      --   --     vim.env.HOME .. "/.local/share/nvim/mason/packages/codelldb/extension/lldb/lib/liblldb.so"
+      --   --   )
+      --   -- }
+      -- }
+
 
       require'lspconfig'.nushell.setup({
         cmd = {"/home/felix/coding/OpenSource/nushell/target/release/nu", "--lsp"}
       })
+
+
+      require("typescript").setup({
+            server = {
+              on_attach = on_attach,
+              settings = {
+                javascript = {
+                  inlayHints = {
+                    includeInlayEnumMemberValueHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                  },
+                },
+                typescript = {
+                  inlayHints = {
+                    includeInlayEnumMemberValueHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                  },
+                  preferences = {
+                    jsxAttributeCompletionStyle = 'braces'
+                  }
+                },
+              }
+            }
+          })
 
 
       -- LSP Icons and highlighting for saga
@@ -207,9 +331,9 @@ return {
     lazy = true,
     keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
     opts = {
-      registries = {
-        "github:feel-ix-343/mason-registry"
-      }
+      -- registries = {
+      --  -- "github:feel-ix-343/mason-registry"
+      -- }
     }
   },
 
@@ -217,23 +341,14 @@ return {
     "williamboman/mason-lspconfig.nvim",
     dependencies = {
       "mason.nvim",
-      "hrsh7th/cmp-nvim-lsp",
-      "folke/neodev.nvim",
-      "SmiteshP/nvim-navbuddy",
-      "jose-elias-alvarez/typescript.nvim",
-      {
-        'mrcjkb/rustaceanvim',
-        version = '^3', -- Recommended
-        ft = { 'rust' },
-      }
     },
     -- event = "VeryLazy",
     lazy = true,
 
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = servers, -- Installs all servers in the list
-        automatic_installation = true
+        -- ensure_installed = servers, -- Installs all servers in the list
+        automatic_installation = false
       })
 
       local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -252,67 +367,65 @@ return {
           require("lspconfig").grammarly.setup {
             on_attach = on_attach,
             capabilities = capabilities,
-            cmd = {"n", "run", "16", "/home/felix/.local/share/nvim/mason/bin/grammarly-languageserver", "--stdio"},
+            -- cmd = {"n", "run", "16", "/home/felix/.local/share/nvim/mason/bin/grammarly-languageserver", "--stdio"},
             init_options = {clientId = "client_BaDkMgx4X19X9UxxYRCXZo"},
           }
         end,
         -- Next, you can provide a dedicated handler for specific servers.
         -- For example, a handler override for the `rust_analyzer`:
-        ["rust_analyzer"] = function ()
-          vim.g.rustaceanvim = {
-            -- Plugin configuration
-            tools = {
-            },
-            -- LSP configuration
-            server = {
-              on_attach = function(client, bufnr)
-                on_attach(client, bufnr)
-              end,
-              settings = {
-                -- rust-analyzer language server configuration
-                ['rust-analyzer'] = {
-                },
-              },
-            },
-            -- DAP configuration
-            dap = {
-            },
-          }
-          on_attach()
-          -- require("rust-tools").setup {
-          --   tools = {
-          --     inlay_hints = {
-          --       auto = false
-          --     }
-          --   },
-          --   server = {
-          --     on_attach = on_attach
-          --   },
-          --   dap = { -- Enabling rust to use codelldb; This is related to the dap functions
-          --     adapter = require('rust-tools.dap').get_codelldb_adapter(
-          --       "codelldb",
-          --       vim.env.HOME .. "/.local/share/nvim/mason/packages/codelldb/extension/lldb/lib/liblldb.so" -- TODO: Set this yoruself
-          --     )
-          --   }
-          -- }
-        end,
+        -- ["rust_analyzer"] = function ()
+	--   -- vim.g.rustaceanvim = {
+        --   --   -- Plugin configuration
+        --   --   tools = {
+        --   --   },
+        --   --   -- LSP configuration
+        --   --   server = {
+        --   --     on_attach = function(client, bufnr)
+        --   --       on_attach(client, bufnr)
+        --   --     end,
+        --   --     settings = {
+        --   --       -- rust-analyzer language server configuration
+        --   --       ['rust-analyzer'] = {
+        --   --       },
+        --   --     },
+        --   --   },
+        --   --   -- DAP configuration
+        --   --   dap = {
+        --   --   },
+        --   -- }
+        --   require("rust-tools").setup {
+        --     tools = {
+        --       inlay_hints = {
+        --         auto = false
+        --       }
+        --     },
+        --     server = {
+        --       on_attach = on_attach
+        --     },
+        --     -- dap = { -- Enabling rust to use codelldb; This is related to the dap functions
+        --     --   adapter = require('rust-tools.dap').get_codelldb_adapter(
+        --     --     "codelldb",
+        --     --     vim.env.HOME .. "/.local/share/nvim/mason/packages/codelldb/extension/lldb/lib/liblldb.so"
+        --     --   )
+        --     -- }
+        --   }
+        -- end,
         ["lua_ls"] = function()
           -- LUA
           -- Example custom server
           -- Make runtime files discoverable to the server
 
-          require('neodev').setup() -- Such a life saver
           require("lspconfig").lua_ls.setup {
             on_attach = on_attach,
             settings = {
-              Lua = {
-                completion = {
-                  callSnippet = "Replace"
-                },
-                workspace = {
-                  checkThirdParty = false
-                }
-              },
+              -- Lua = {
+              --   completion = {
+              --     callSnippet = "Replace"
+              --   },
+              --   workspace = {
+              --     checkThirdParty = false
+              --   }
+              -- },
             },
           }
         end,
@@ -460,9 +573,9 @@ return {
       local actions = require('nvim-navbuddy.actions')
 
       navbuddy.setup({
-        lsp = {
-          auto_attach = true,
-        }
+        -- lsp = {
+        --   auto_attach = true,
+        -- }
       })
     end
   },
@@ -492,4 +605,102 @@ return {
 
     end
   },
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^4', -- Recommended
+    ft = { 'rust' },
+    config = function ()
+      vim.g.rustaceanvim = {
+        -- Plugin configuration
+        tools = {
+        },
+        -- LSP configuration
+        server = {
+          on_attach = function(client, bufnr)
+            on_attach(client, bufnr)
+
+            vim.keymap.set(
+              "n",
+              "<leader>a",
+              function()
+                vim.cmd.RustLsp('codeAction')
+              end
+            )
+
+
+            vim.keymap.set(
+              "n",
+              "<leader>rd",
+              function()
+                vim.cmd.RustLsp('renderDiagnostic')
+              end
+            )
+
+
+            local autocmd_group = vim.api.nvim_create_augroup("AsyncSaveGroup", { clear = true })
+
+            -- Run cargo fmt async on save
+            vim.api.nvim_create_autocmd("BufWritePost", {
+              pattern = "*.*",
+              group = autocmd_group,
+              callback = function()
+                -- Define the command to run asynchronously
+                -- Use vim.loop.spawn to run the command asynchronously
+                local handle
+                handle = vim.loop.spawn("cargo", {
+                  args = { "fmt" },
+                  stdio = {nil, nil, nil},  -- No need to capture stdio
+                }, function(code, signal)
+                    -- This callback runs when the command completes
+                    if code == 0 then
+                      -- Command succeeded, now execute :wall
+                      vim.schedule(function()
+                        vim.cmd("e")
+                      end)
+                    else
+                      -- Handle command failure if needed
+                      print("cargo fmt failed with exit code " .. code)
+                    end
+                    -- Close the handle
+                    handle:close()
+                  end)
+              end,
+            })
+
+          end,
+          default_settings = {
+            -- rust-analyzer language server configuration
+            ['rust-analyzer'] = {
+            },
+          },
+        },
+        -- DAP configuration
+        dap = {
+        },
+      }
+    end
+  },
+
+  {
+    'saecki/crates.nvim',
+    tag = 'stable',
+    config = function()
+      require('crates').setup({
+        lsp = {
+          enabled = true,
+          on_attach = on_attach,
+          actions = true,
+          completion = true,
+          hover = true,
+        },
+        completion = {
+          crates = {
+            enabled = true, -- disabled by default
+            max_results = 10, -- The maximum number of search results to display
+            min_chars = 1 -- The minimum number of charaters to type before completions begin appearing
+          }
+        }
+      })
+    end,
+  }
 }

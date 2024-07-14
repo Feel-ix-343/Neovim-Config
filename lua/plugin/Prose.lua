@@ -6,9 +6,9 @@ return {
 
   {
     "preservim/vim-pencil",
-    ft = {"markdown", "tex", "bib"},
+    ft = {"markdown", "tex", "bib", "typst"},
     config = function()
-      vim.cmd[[let g:pencil#conceallevel = 0]] -- no conceal
+      vim.cmd[[let g:pencil#conceallevel = 2]] -- no conceal
       vim.cmd[[autocmd Filetype markdown PencilSoft]]
       vim.cmd[[autocmd Filetype tex Pencil]]
       vim.cmd[[autocmd Filetype bib Pencil]]
@@ -24,7 +24,7 @@ return {
 
   {
     "epwalsh/obsidian.nvim",
-    event = { "BufReadPre /home/felix/Notes/**.md" },
+    -- event = { "BufReadPre /home/felix/notes/**.md" },
     -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand':
     -- event = { "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md" },
     dependencies = {
@@ -45,10 +45,19 @@ return {
       -- "junegunn/fzf.vim"
     },
     opts = {
-      dir = "~/Notes/",  -- no need to call 'vim.fn.expand' here
+  workspaces = {
+    {
+      name = "personal",
+      path = "~/notes/",
+    },
+    {
+      name = "Markdown Oxide",
+      path = "/home/felix/coding/LargerIdeas/MarkdownOxide/markdown-oxide/docs/Markdown Oxide Docs",
+    },
+  },
 
       ui = {
-        enable = false
+        enable = true,
       },
 
       -- Optional, completion.
@@ -74,6 +83,8 @@ return {
 
       -- Optional, set to true to force ':ObsidianOpen' to bring the app to the foreground.
       open_app_foreground = false,
+
+      mappings = { }
     },
     config = function(_, opts)
       require("obsidian").setup(opts)
@@ -89,6 +100,22 @@ return {
       -- end, { noremap = false, expr = true })
 
       vim.keymap.set("n", "<leader>O", "<cmd>ObsidianOpen<CR>")
+
     end,
+  },
+
+  {
+    "oflisback/obsidian-bridge.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim" },
+    config = function() require("obsidian-bridge").setup({
+	    scroll_sync = false
+    }) end,
+    -- event = {
+    --   "BufReadPre *.md",
+    --   "BufNewFile *.md",
+    -- },
+    lazy = true,
+    cmd = "ObsidianBridge"
   }
+
 }

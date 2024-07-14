@@ -1,6 +1,6 @@
 return {
   "folke/flash.nvim",
-  --enabled=false,
+  enabled=false,
   event = "VeryLazy",
   ---@type Flash.Config
   opts = {
@@ -15,7 +15,7 @@ return {
   },
   keys = {
     {
-      "<leader>f",
+      "s",
       mode = { "n", "x", "o" },
       function()
         -- default options: exact mode, multi window, all directions, with a backdrop

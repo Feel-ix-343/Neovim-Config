@@ -15,8 +15,16 @@ vim.keymap.set("n", "<leader><tab>", ":tabnew<CR>", {noremap=true})
 
 
 vim.keymap.set("n", "<CR>", "o<esc>", {noremap=true})
-vim.keymap.set("n", "<S-CR>", "O<esc>", {noremap=true})
+vim.keymap.set("n", "<C-CR>", "O<esc>", {noremap=true})
 vim.keymap.set("n", "<C-l>", ":ToggleCheckbox<CR>", {noremap=true})
 
 vim.keymap.set("n", "<leader>D", "d}")
 vim.keymap.set("n", "<leader>A", "}kA")
+
+vim.keymap.set("n", "<leader>n", ":tabnext<CR>")
+vim.keymap.set("n", "<leader>p", ":tabprevious<CR>")
+
+
+vim.keymap.set("x", "<leader>d", "ygvop", {desc = "Yank and insert opposite"})
+vim.keymap.set("n", "<leader>w", ":w<CR>", {desc = "Write"})
+vim.keymap.set("n", "<leader>W", ":wa<CR>", {desc = "Write All"})

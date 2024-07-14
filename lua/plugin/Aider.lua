@@ -1,0 +1,3 @@
+return {
+  "joshuavial/aider.nvim"
+}

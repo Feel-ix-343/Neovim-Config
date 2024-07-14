@@ -1,5 +1,7 @@
 return {
-  {'lewis6991/gitsigns.nvim', event = "VeryLazy", opts = {}},
+  {'lewis6991/gitsigns.nvim', event = "VeryLazy", opts = {}, keys = {
+    {"<leader>ga", ":Gitsigns stage_hunk<CR>"}
+  }},
   -- Lua
 
   {
@@ -72,6 +74,21 @@ return {
     end
   },
   "b0o/schemastore.nvim",
+  {
+    'MeanderingProgrammer/markdown.nvim',
+    enabled = false,
+    name = 'render-markdown', -- Only needed if you have another plugin named markdown.nvim
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+      require('render-markdown').setup({
+        conceal = {
+          rendered = 0
+        }
+      })
+    end,
+  },
+  'JojoMakesGames/git-remote-url.nvim',
+  {"romainl/vim-qf"},
 }
 
 

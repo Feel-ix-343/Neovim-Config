@@ -36,7 +36,7 @@ vim.o.termguicolors = true
 
 -- require('github-theme')
 -- vim.cm.colorscheme "tokyonight-moon"
-vim.cmd.colorscheme "tokyonight"
+vim.cmd.colorscheme "tokyonight-storm"
 -- vim.cmd.colorscheme "nightfly"
 -- vim.cmd.colorscheme "everforest"
 -- vim.opt.background = "dark"
