@@ -91,7 +91,7 @@ vim.opt.tabstop = 2 -- insert 2 spaces for a tab
 -- vim.opt.cursorline = true -- highlight the current line
 vim.opt.relativenumber = true -- set relative numbered lines
 vim.opt.termguicolors = true
-vim.opt.scrolloff = 3
+vim.opt.scrolloff = 10
 
 --Set highlight on search
 vim.o.hlsearch = false

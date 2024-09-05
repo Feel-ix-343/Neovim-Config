@@ -28,3 +28,7 @@ vim.keymap.set("n", "<leader>p", ":tabprevious<CR>")
 vim.keymap.set("x", "<leader>d", "ygvop", {desc = "Yank and insert opposite"})
 vim.keymap.set("n", "<leader>w", ":w<CR>", {desc = "Write"})
 vim.keymap.set("n", "<leader>W", ":wa<CR>", {desc = "Write All"})
+vim.keymap.set("n", "<leader>q", ":q<CR>", {desc = "Quit buffer"})
+
+vim.keymap.set("n", "<leader>.", "<C-W>10>", {desc = "Move split right"})
+vim.keymap.set("n", "<leader>,", "<C-W>10<", {desc = "Move split left"})

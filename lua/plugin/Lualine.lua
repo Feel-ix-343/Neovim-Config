@@ -45,13 +45,11 @@ return {
         sections = {
           lualine_c = {
             -- { require('NeoComposer.ui').status_recording },
-            -- (
-            --   function()
-            --     if not (vim.bo.filetype == "markdown") then
-            --       return require("lsp-progress").progress
-            --     end
-            --   end
-            -- )()
+            (
+              function()
+                return require("lsp-progress").progress
+              end
+            )()
           },
           lualine_x = {
             {"filename", path = 1}

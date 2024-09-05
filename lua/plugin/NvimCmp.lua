@@ -9,7 +9,7 @@ return {
     'hrsh7th/cmp-cmdline',
     'saadparwaiz1/cmp_luasnip',
     {'L3MON4D3/LuaSnip', build="make install_jsregexp"},
-    {'onsails/lspkind.nvim', lazy=true},
+    {'onsails/lspkind.nvim'},
     "lukas-reineke/cmp-rg",
     "kdheepak/cmp-latex-symbols",
   },
@@ -33,8 +33,9 @@ return {
         fields = {"kind", "abbr", "menu"},
         format = lspkind.cmp_format({
           mode = 'symbol', -- show only symbol annotations
-          maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-          symbol_map = { 
+          maxwidth = 70, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+          show_labelDetails = false,
+          symbol_map = {
             Copilot = " ",
             Text = "󰉿",
             Method = "󰆧",
@@ -66,8 +67,11 @@ return {
 
           -- The function below will be called before any actual modifications from lspkind
           -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-          before = function (entry, vim_item)
-            return vim_item
+          before = function (entry, item)
+            if vim.bo.filetype == "rust" then
+              item.menu = ""
+            end
+            return item
           end
         })
       },
@@ -85,9 +89,7 @@ return {
           behavior = cmp.ConfirmBehavior.Replace,
         }),
         ["<Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          elseif luasnip.locally_jumpable(1) then
+          if luasnip.locally_jumpable(1) then
             luasnip.jump(1)
           else
             fallback()
@@ -171,12 +173,14 @@ return {
         })
     })
 
+
+
     cmp.setup.filetype("markdown", {
       sources = {
         {
           name = "latex_symbols",
           option = {
-            strategy = 2, -- mixed
+            strategy = 1, -- mixed
           },
         },
         {

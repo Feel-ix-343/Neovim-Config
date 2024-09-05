@@ -11,6 +11,7 @@ return {
   cmd = "Telescope",
   keys = {
     "<leader>ti",
+    "<leader>tm",
     "<leader>ts",
     "<leader>tf",
     "<leader>tg",
@@ -70,6 +71,7 @@ return {
     vim.keymap.set("n", "<leader>tc", require("telescope.builtin").colorscheme, {noremap=true})
     vim.keymap.set("n", "<leader>tl", require("telescope.builtin").resume, {noremap=true})
     vim.keymap.set("n", "<leader>td", require('telescope.builtin').lsp_definitions, {noremap=true})
+    vim.keymap.set("n", "<leader>tm", require('telescope.builtin').lsp_implementations, {noremap=true})
     vim.keymap.set("n", "gd", require('telescope.builtin').lsp_definitions, {noremap=true})
     vim.keymap.set("n", "<leader>tu", require('telescope').extensions.undo.undo)
 

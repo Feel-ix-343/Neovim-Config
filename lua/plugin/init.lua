@@ -1,7 +1,4 @@
 return {
-  {'lewis6991/gitsigns.nvim', event = "VeryLazy", opts = {}, keys = {
-    {"<leader>ga", ":Gitsigns stage_hunk<CR>"}
-  }},
   -- Lua
 
   {
@@ -31,6 +28,7 @@ return {
     dependencies = {
       "MunifTanjim/nui.nvim",
     },
+    enabled = false,
     config = function ()
       require("noice").setup({
 
@@ -63,13 +61,13 @@ return {
         if not require("noice.lsp").scroll(4) then
           return "<c-d>"
         end
-      end, { silent = true, expr = true })
+      end, { silent = true, expr = true, noremap = true })
 
       vim.keymap.set({ "n", "i", "s" }, "<c-u>", function()
         if not require("noice.lsp").scroll(-4) then
           return "<c-u>"
         end
-      end, { silent = true, expr = true })
+      end, { silent = true, expr = true, noremap = true })
 
     end
   },

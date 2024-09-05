@@ -1,5 +1,5 @@
 
-vim.filetype.add({extension = {typ = "typst"}})
+vim.filetype.add({extension = {typ = "typst", ua = "uiua"}})
 local on_attach = function(client, bufnr)
   local keymap = vim.keymap.set
   keymap("n", "gh", ":Lspsaga finder<CR>", { silent = true })
@@ -166,40 +166,50 @@ return {
       end
 
       require("lspconfig").markdown_oxide.setup({
-          cmd = {(function()
-            if vim.env.MOXIDE_DEBUG then
-              return "/home/felix/coding/LargerIdeas/MarkdownOxide/markdown-oxide/target/debug/markdown-oxide"
+        cmd = {(function()
+          if vim.env.MOXIDE_DEBUG then
+            return "/home/felix/coding/LargerIdeas/MarkdownOxide/markdown-oxide/target/debug/markdown-oxide"
           elseif vim.env.MOXIDE_BIN then
             return "markdown-oxide"
           else
             return "/home/felix/coding/LargerIdeas/MarkdownOxide/markdown-oxide/target/release/markdown-oxide"
           end
-          end)()},
+        end)()},
         root_dir = function(fname, _)
           return require("lspconfig").util.root_pattern('.obsidian', '.moxide.toml', '.git')(fname) or vim.uv.cwd()
         end,
-        capabilities = capabilities,
+        capabilities =  vim.tbl_deep_extend(
+          'force',
+          capabilities,
+          {
+            workspace = {
+              didChangeWatchedFiles = {
+                dynamicRegistration = true,
+              },
+            },
+          }
+        ),
         on_attach = on_attach,
-	commands = {
-	  Today = {
-             function()
-	       vim.lsp.buf.execute_command({command="jump", arguments={"today"}})
-	     end,
-	     description = "Open today's daily note"
-	  },
-	  Tomorrow = {
-             function()
-	       vim.lsp.buf.execute_command({command="jump", arguments={"tomorrow"}})
-	     end,
-	     description = "Open tomorrow's daily note"
-	  },
-	  Yesterday = {
-             function()
-	       vim.lsp.buf.execute_command({command="jump", arguments={"yesterday"}})
-	     end,
-	     description = "Open yesterday's daily note"
-	  },
-	}
+        commands = {
+          Today = {
+            function()
+              vim.lsp.buf.execute_command({command="jump", arguments={"today"}})
+            end,
+            description = "Open today's daily note"
+          },
+          Tomorrow = {
+            function()
+              vim.lsp.buf.execute_command({command="jump", arguments={"tomorrow"}})
+            end,
+            description = "Open tomorrow's daily note"
+          },
+          Yesterday = {
+            function()
+              vim.lsp.buf.execute_command({command="jump", arguments={"yesterday"}})
+            end,
+            description = "Open yesterday's daily note"
+          },
+        }
       })
 
 
@@ -207,6 +217,21 @@ return {
         on_attach = on_attach,
         capabilities = capabilities
       })
+      require("lspconfig").uiua.setup({
+        on_attach = function (client, bufnr)
+          vim.keymap.set("n", "<leader>r", "<cmd>write<CR><cmd>!uiua run --no-format<CR>")
+          vim.keymap.set("n", "<leader>f", "<cmd>!uiua fmt<CR><cmd>e<CR>")
+          on_attach(client, bufnr)
+        end,
+        capabilities = capabilities
+      })
+
+
+
+      -- require("lspconfig").ltex.setup({
+      --   on_attach = on_attach,
+      --   capabilities = capabilities
+      -- })
 
 
       -- require("lspconfig").grammarly.setup({
@@ -241,44 +266,43 @@ return {
 
 
       require("typescript").setup({
-            server = {
-              on_attach = on_attach,
-              settings = {
-                javascript = {
-                  inlayHints = {
-                    includeInlayEnumMemberValueHints = true,
-                    includeInlayFunctionLikeReturnTypeHints = true,
-                    includeInlayFunctionParameterTypeHints = true,
-                    includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                    includeInlayPropertyDeclarationTypeHints = true,
-                    includeInlayVariableTypeHints = true,
-                  },
-                },
-                typescript = {
-                  inlayHints = {
-                    includeInlayEnumMemberValueHints = true,
-                    includeInlayFunctionLikeReturnTypeHints = true,
-                    includeInlayFunctionParameterTypeHints = true,
-                    includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                    includeInlayPropertyDeclarationTypeHints = true,
-                    includeInlayVariableTypeHints = true,
-                  },
-                  preferences = {
-                    jsxAttributeCompletionStyle = 'braces'
-                  }
-                },
+        server = {
+          on_attach = on_attach,
+          settings = {
+            javascript = {
+              inlayHints = {
+                includeInlayEnumMemberValueHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayVariableTypeHints = true,
+              },
+            },
+            typescript = {
+              inlayHints = {
+                includeInlayEnumMemberValueHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayVariableTypeHints = true,
+              },
+              preferences = {
+                jsxAttributeCompletionStyle = 'braces'
               }
-            }
-          })
-
+            },
+          }
+        }
+      })
 
       -- LSP Icons and highlighting for saga
       local signs = {
         Error = " ",
         Warn  = " ",
-        Hint  = "ﴞ",
+        Hint  = "",
         Info  = " ",
       }
 
@@ -286,6 +310,9 @@ return {
         local hl = "DiagnosticSign" .. type
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
       end
+
+
+
     end
 
   },
@@ -361,6 +388,7 @@ return {
           require("lspconfig")[server_name].setup {
             on_attach = on_attach,
             capabilities = capabilities,
+            autostart = false
           }
         end,
         ["grammarly"] = function()
@@ -374,7 +402,7 @@ return {
         -- Next, you can provide a dedicated handler for specific servers.
         -- For example, a handler override for the `rust_analyzer`:
         -- ["rust_analyzer"] = function ()
-	--   -- vim.g.rustaceanvim = {
+        --   -- vim.g.rustaceanvim = {
         --   --   -- Plugin configuration
         --   --   tools = {
         --   --   },
@@ -573,36 +601,10 @@ return {
       local actions = require('nvim-navbuddy.actions')
 
       navbuddy.setup({
-        -- lsp = {
-        --   auto_attach = true,
-        -- }
+        lsp = {
+          auto_attach = true,
+        }
       })
-    end
-  },
-  {
-    'scalameta/nvim-metals',
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "mason-null-ls.nvim",
-    },
-    ft = { "scala", "sbt" },
-    config = function ()
-      -- Metals
-      vim.opt_global.shortmess:remove("F")
-      local metals_config = require("metals").bare_config()
-
-      -- Example of settings
-      metals_config.settings = {
-        showImplicitArguments = true,
-        excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
-        showInferredType = true,
-        superMethodLensesEnabled = true,
-      }
-
-      on_attach()
-      require("metals").initialize_or_attach(metals_config)
-      require('metals').setup_dap()
-
     end
   },
   {
@@ -671,6 +673,11 @@ return {
           default_settings = {
             -- rust-analyzer language server configuration
             ['rust-analyzer'] = {
+              completion = {
+                fullFunctionSignatures = {
+                  enable = true
+                }
+              }
             },
           },
         },
@@ -702,5 +709,30 @@ return {
         }
       })
     end,
+  },
+  {
+    "scalameta/nvim-metals",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    ft = { "scala", "sbt", "java" },
+    opts = function()
+      local metals_config = require("metals").bare_config()
+      metals_config.on_attach = function(client, bufnr)
+        on_attach(client, bufnr)
+      end
+
+      metals_config.settings = {
+        showImplicitArguments = true,
+        showImplicitConversionsAndClasses = true,
+        useGlobalExecutable = true,
+        showInferredType = true
+      }
+
+      return metals_config
+    end,
+    config = function(_, metals_config)
+      require("metals").initialize_or_attach(metals_config)
+    end
   }
 }
