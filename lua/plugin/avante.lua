@@ -8,14 +8,14 @@ return {
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
     --- The below is optional, make sure to setup it properly if you have lazy=true
-    {
-      'MeanderingProgrammer/render-markdown.nvim',
-      opts = {
-        -- file_types = { "markdown", "Avante" },
-        file_types = {  "Avante" },
-      },
-      ft = { "markdown", "Avante" },
-    },
+    -- {
+    --   'MeanderingProgrammer/render-markdown.nvim',
+    --   opts = {
+    --     -- file_types = { "markdown", "Avante" },
+    --     file_types = {  "Avante" },
+    --   },
+    --   ft = { "markdown", "Avante" },
+    -- },
   },
 
   config = function()
@@ -30,6 +30,13 @@ return {
       {
         ---@alias Provider "openai" | "claude" | "azure"  | "copilot" | [string]
         provider = "claude",
+        behaviour = {
+          auto_suggestions = false, -- Experimental stage
+          auto_set_highlight_group = true,
+          auto_set_keymaps = true,
+          auto_apply_diff_after_generation = false,
+          support_paste_from_clipboard = false,
+        },
         -- claude = {
         --   endpoint = "https://api.anthropic.com",
         --   model = "claude-3-5-sonnet-20240620",
