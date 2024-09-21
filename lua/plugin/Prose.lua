@@ -50,10 +50,10 @@ return {
       name = "personal",
       path = "~/notes/",
     },
-    {
-      name = "Markdown Oxide",
-      path = "/home/felix/coding/LargerIdeas/MarkdownOxide/markdown-oxide/docs/Markdown Oxide Docs",
-    },
+    -- {
+    --   name = "Markdown Oxide",
+    --   path = "/home/felix/coding/LargerIdeas/MarkdownOxide/markdown-oxide/docs/Markdown Oxide Docs",
+    -- },
   },
 
       ui = {

@@ -3,8 +3,7 @@ vim.filetype.add({extension = {typ = "typst", ua = "uiua"}})
 local on_attach = function(client, bufnr)
   local keymap = vim.keymap.set
   keymap("n", "gh", ":Lspsaga finder<CR>", { silent = true })
-  keymap({"n"}, "<leader>a", ":Lspsaga code_action<CR>", { silent = true })
-  keymap("v", "<leader>a", vim.lsp.buf.code_action, { silent = true })
+  keymap({"n", "v"}, "<leader>a", vim.lsp.buf.code_action, { silent = true })
   keymap("n", "gr", vim.lsp.buf.rename, { silent = true })
   keymap("n", "gd", "<cmd>Lspsaga goto_definition<CR>", {silent = true})
 
@@ -524,7 +523,7 @@ return {
             }
           })
         end,
-        ["tsserver"] = function()
+        ["ts_ls"] = function()
           require("typescript").setup({
             server = {
               on_attach = on_attach,
