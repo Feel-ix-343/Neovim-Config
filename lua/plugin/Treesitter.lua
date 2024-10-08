@@ -14,13 +14,13 @@ return {
 
   build = ":TSUpdate",
 
-
-  --event = "BufReadPre",
+  event = {"BufReadPost", "BufNewFile"},
   config = function ()
     vim.g.skip_ts_context_commentstring_module = true
     local treesitter = require'nvim-treesitter.configs'
     treesitter.setup {
-      -- ensure_installed = "all",
+      ensure_installed = {},
+      auto_install = true,
       highlight = {
         enable = true,
         disable = {
