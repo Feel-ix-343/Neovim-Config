@@ -1,6 +1,8 @@
 return {
   "yetone/avante.nvim",
-  event = "VeryLazy",
+  keys = {
+    { "<leader>E", mode = { "n", "v" } },
+  },
   build = "make", -- This is Optional, only if you want to use tiktoken_core to calculate tokens count
   dependencies = {
     "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
@@ -87,9 +89,16 @@ return {
       }
     )
 
-    -- Set up the manual keybinding for Avante edit
-    vim.keymap.set('v', '<leader>E', function()
-      require('avante').edit()
-    end, { noremap = true, silent = true, desc = "Avante Edit" })
+    -- Set up the manual keybindings for Avante edit
+    local function avante_edit()
+      if vim.fn.mode() == 'v' or vim.fn.mode() == 'V' then
+        vim.cmd('normal! y')
+        require('avante').edit(vim.fn.getreg('"'))
+      else
+        require('avante').edit()
+      end
+    end
+
+    vim.keymap.set({'n', 'v'}, '<leader>E', avante_edit, { noremap = true, silent = true, desc = "Avante Edit" })
   end
 }
