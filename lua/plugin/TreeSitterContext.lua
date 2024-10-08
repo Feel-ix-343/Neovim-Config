@@ -1,6 +1,6 @@
 return {
   'nvim-treesitter/nvim-treesitter-context',
-  enabled = false,
+  enabled = true,
   dependencies = {
     'nvim-treesitter/nvim-treesitter'
   },
@@ -22,7 +22,7 @@ return {
       zindex = 20, -- The Z-index of the context window
     }
 
-    vim.cmd[[hi TreesitterContextBottom gui=underline guisp=black]]
+    vim.cmd[[hi TreesitterContextBottom gui=underline]]
   end
 }
 

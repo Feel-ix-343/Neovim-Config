@@ -1,6 +1,5 @@
 
-return { 
-  {
+  return {
     'sindrets/diffview.nvim',
     cmd = "DiffviewOpen",
     keys = {
@@ -32,30 +31,4 @@ return {
       vim.keymap.set("n", "<leader>gd", toggleDiffview)
 
     end
-  },
-  {
-    'NeogitOrg/neogit',
-    lazy = true,
-    cmd = "Neogit",
-    keys = {
-      "<leader>gg"
-    },
-    dependencies = 'nvim-lua/plenary.nvim',
-    config = function ()
-      require('neogit').setup({
-        integrations = {
-          diffview = true
-        }
-      })
-      vim.keymap.set("n", "<leader>gg", ":Neogit<CR>")
-    end
-  },
-  {'lewis6991/gitsigns.nvim', event = "VeryLazy", opts = {}, keys = {
-    {"<leader>ga", ":Gitsigns stage_hunk<CR>"},
-    {"<leader>gr", ":Gitsigns reset_hunk<CR>"},
-    {"<leader>gu", ":Gitsigns undo_stage_hunk<CR>"},
-    {"<leader>gn", ":Gitsigns next_hunk<CR>"},
-    {"<leader>gp", ":Gitsigns prev_hunk<CR>"},
-    {"<leader>gh", ":Gitsigns preview_hunk<CR>"},
-  }},
-}
+  }
