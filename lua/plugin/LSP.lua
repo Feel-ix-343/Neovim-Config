@@ -140,13 +140,12 @@ return {
   -- lspconfig
   {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" },
+    cmd = "LspInitialize",
     keys = {
-      {"<leader>ss", "<cmd>LspStart<CR>"},
+      {"<leader>ss", "<cmd>LspInitialize<CR>", desc = "Initialize LSP"},
       {"<leader>sS", "<cmd>LspStop<CR>"},
       {"<leader>sr", "<cmd>LspRestart<CR>"}
     },
-    cmd = "LspStart",
     lazy = true,
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
@@ -154,6 +153,10 @@ return {
       "simrat39/rust-tools.nvim"
     },
     config = function()
+      vim.api.nvim_create_user_command("LspInitialize", function()
+        require("lspconfig")
+        vim.cmd("LspStart")
+      end, {})
 
 
       vim.keymap.set("n", "<leader>si", "<cmd>LspInfo<CR>")
