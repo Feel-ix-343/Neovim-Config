@@ -104,22 +104,23 @@ end
 
 
 
--- Server to preconfigure. others are manually configured in lspconfig setup
--- local servers = {
---   'clangd',
---   'pyright',
---   'html',
---   'cssls',
---   "lua_ls",
---   "rust_analyzer",
---   "tsserver",
---   "bashls",
---   "astro",
---   --"marksman",
---   "tailwindcss",
---   "sqlls",
---   "jsonls"
--- }
+-- Servers to preconfigure. Others are manually configured in lspconfig setup
+local servers = {
+  'clangd',
+  'pyright',
+  'html',
+  'cssls',
+  "lua_ls",
+  "rust_analyzer",
+  "tsserver",
+  "bashls",
+  "astro",
+  "tailwindcss",
+  "sqlls",
+  "jsonls",
+  "gopls",
+  "nil_ls"
+}
 
 
 
@@ -222,11 +223,20 @@ return {
         capabilities = capabilities
       })
 
+      -- Setup for preconfigured servers
+      for _, lsp in ipairs(servers) do
+        require('lspconfig')[lsp].setup {
+          on_attach = on_attach,
+          capabilities = capabilities,
+        }
+      end
 
-      require'lspconfig'.nushell.setup({
-        cmd = {"/home/felix/coding/OpenSource/nushell/target/release/nu", "--lsp"}
+      -- Specific configurations
+      require('lspconfig').nushell.setup({
+        cmd = {"/home/felix/coding/OpenSource/nushell/target/release/nu", "--lsp"},
+        on_attach = on_attach,
+        capabilities = capabilities,
       })
-
 
       require("typescript").setup({
         server = {
