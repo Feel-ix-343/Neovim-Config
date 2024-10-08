@@ -142,7 +142,6 @@ return {
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "SmiteshP/nvim-navbuddy",
-      "jose-elias-alvarez/typescript.nvim",
       "simrat39/rust-tools.nvim"
     },
     config = function()
@@ -238,38 +237,6 @@ return {
         capabilities = capabilities,
       })
 
-      require("typescript").setup({
-        server = {
-          on_attach = on_attach,
-          settings = {
-            javascript = {
-              inlayHints = {
-                includeInlayEnumMemberValueHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayVariableTypeHints = true,
-              },
-            },
-            typescript = {
-              inlayHints = {
-                includeInlayEnumMemberValueHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayVariableTypeHints = true,
-              },
-              preferences = {
-                jsxAttributeCompletionStyle = 'braces'
-              }
-            },
-          }
-        }
-      })
 
       -- LSP Icons and highlighting for saga
       local signs = {
