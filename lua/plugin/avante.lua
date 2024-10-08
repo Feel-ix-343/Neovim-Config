@@ -93,9 +93,9 @@ return {
     local function avante_edit()
       if vim.fn.mode() == 'v' or vim.fn.mode() == 'V' then
         vim.cmd('normal! y')
-        require('avante').edit(vim.fn.getreg('"'))
+        require('avante').AvanteEdit(vim.fn.getreg('"'))
       else
-        require('avante').edit()
+        require('avante').AvanteEdit()
       end
     end
 
