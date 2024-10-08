@@ -1,7 +1,7 @@
 return {
   'hrsh7th/nvim-cmp',
   lazy = true,
-  event = "CmdlineEnter",
+  event = {"InsertEnter", "CmdlineEnter"},
   dependencies = {
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-buffer',
@@ -9,15 +9,14 @@ return {
     'hrsh7th/cmp-cmdline',
     'saadparwaiz1/cmp_luasnip',
     {'L3MON4D3/LuaSnip', build="make install_jsregexp"},
-    {'onsails/lspkind.nvim'},
+    'onsails/lspkind.nvim',
     "lukas-reineke/cmp-rg",
     {"kdheepak/cmp-latex-symbols", ft = "markdown"},
   },
-  config = function ()
-    local cmp = require'cmp'
-
+  config = function()
+    local cmp = require('cmp')
     local lspkind = require('lspkind')
-    local luasnip = require("luasnip")
+    local luasnip = require('luasnip')
 
     cmp.setup({
       snippet = {
@@ -147,10 +146,10 @@ return {
     -- Set configuration for specific filetype.
     cmp.setup.filetype('gitcommit', {
       sources = cmp.config.sources({
-        { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+        { name = 'git' },  -- You can specify the `cmp_git` source if you have installed it.
       }, {
-          { name = 'buffer' },
-        })
+        { name = 'buffer' },
+      })
     })
 
     -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
