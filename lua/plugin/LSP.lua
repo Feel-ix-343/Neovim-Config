@@ -1,5 +1,14 @@
 
-vim.filetype.add({extension = {typ = "typst", ua = "uiua"}})
+if vim.filetype and vim.filetype.add then
+  vim.filetype.add({extension = {typ = "typst", ua = "uiua"}})
+elseif vim.filetype and vim.filetype.plugin and vim.filetype.plugin.add then
+  vim.filetype.plugin.add({extension = {typ = "typst", ua = "uiua"}})
+else
+  vim.cmd([[
+    autocmd BufRead,BufNewFile *.typ setfiletype typst
+    autocmd BufRead,BufNewFile *.ua setfiletype uiua
+  ]])
+end
 local on_attach = function(client, bufnr)
   local keymap = vim.keymap.set
   keymap("n", "gh", ":Lspsaga finder<CR>", { silent = true })
