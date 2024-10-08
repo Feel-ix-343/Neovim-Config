@@ -11,7 +11,7 @@ return {
     {'L3MON4D3/LuaSnip', build="make install_jsregexp"},
     {'onsails/lspkind.nvim'},
     "lukas-reineke/cmp-rg",
-    "kdheepak/cmp-latex-symbols",
+    {"kdheepak/cmp-latex-symbols", ft = "markdown"},
   },
   config = function ()
     local cmp = require'cmp'
@@ -176,7 +176,7 @@ return {
 
 
     cmp.setup.filetype("markdown", {
-      sources = {
+      sources = cmp.config.sources({
         {
           name = "latex_symbols",
           option = {
@@ -193,7 +193,7 @@ return {
         },
         { name = 'luasnip' }, -- For luasnip users.
         { name = "path" },
-      }
+      })
     })
   end
 }
