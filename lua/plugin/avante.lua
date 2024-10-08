@@ -60,32 +60,7 @@ return {
           max_tokens = 4096,
           ["local"] = false,
         },
-        mappings = {
-          ask = "<leader>AA",
-          edit = "<leader>AE",
-          refresh = "<leader>AR",
-          --- @class AvanteConflictMappings
-          diff = {
-            ours = "co",
-            theirs = "ct",
-            none = "c0",
-            both = "cb",
-            next = "]x",
-            prev = "[x",
-          },
-          jump = {
-            next = "]]",
-            prev = "[[",
-          },
-          submit = {
-            normal = "<CR>",
-            insert = "<C-s>",
-          },
-          toggle = {
-            debug = "<leader>AD",
-            hint = "<leader>AH",
-          },
-        },
+        -- Removed mappings configuration
         hints = { enabled = true },
         windows = {
           wrap = true, -- similar to vim.o.wrap
