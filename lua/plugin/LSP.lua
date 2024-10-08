@@ -121,7 +121,7 @@ local servers = {
   'cssls',
   "lua_ls",
   "rust_analyzer",
-  "tsserver",
+  "ts_ls",
   "bashls",
   "astro",
   "tailwindcss",
@@ -240,6 +240,16 @@ return {
       end
 
       -- Specific configurations
+      require('lspconfig').ts_ls.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        init_options = {
+          preferences = {
+            disableSuggestions = true,
+          },
+        },
+      })
+
       require('lspconfig').nushell.setup({
         cmd = {"/home/felix/coding/OpenSource/nushell/target/release/nu", "--lsp"},
         on_attach = on_attach,
