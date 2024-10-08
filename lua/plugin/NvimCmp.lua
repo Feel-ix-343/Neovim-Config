@@ -104,18 +104,13 @@ return {
           end
         end, {  "i", "s" }),
       }),
-      sources = function()
-        local common_sources = {
-          { name = "nvim_lsp" },
-          { name = "luasnip" },
-          { name = "copilot" },
-          { name = "path" },
-        }
-        if vim.bo.filetype == "lua" then
-          table.insert(common_sources, 1, { name = "lazydev", group_index = 0 })
-        end
-        return common_sources
-      end,
+      sources = cmp.config.sources({
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
+        { name = "copilot" },
+        { name = "path" },
+        { name = "lazydev", group_index = 0, condition = function() return vim.bo.filetype == "lua" end },
+      }),
       sorting = {
         priority_weight = 2,
         comparators = {
