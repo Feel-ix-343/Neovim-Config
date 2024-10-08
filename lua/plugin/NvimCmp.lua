@@ -1,17 +1,16 @@
 return {
   'hrsh7th/nvim-cmp',
-  lazy = true,
   event = {"InsertEnter", "CmdlineEnter"},
   dependencies = {
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-cmdline',
-    'saadparwaiz1/cmp_luasnip',
-    {'L3MON4D3/LuaSnip', build="make install_jsregexp"},
-    'onsails/lspkind.nvim',
-    "lukas-reineke/cmp-rg",
-    {"kdheepak/cmp-latex-symbols", ft = "markdown"},
+    {'hrsh7th/cmp-nvim-lsp', event = "InsertEnter"},
+    {'hrsh7th/cmp-buffer', event = "InsertEnter"},
+    {'hrsh7th/cmp-path', event = "InsertEnter"},
+    {'hrsh7th/cmp-cmdline', event = "CmdlineEnter"},
+    {'saadparwaiz1/cmp_luasnip', event = "InsertEnter"},
+    {'L3MON4D3/LuaSnip', event = "InsertEnter", build="make install_jsregexp"},
+    {'onsails/lspkind.nvim', event = "InsertEnter"},
+    {"lukas-reineke/cmp-rg", event = "InsertEnter"},
+    {"kdheepak/cmp-latex-symbols", ft = {"tex", "latex", "markdown"}},
   },
   config = function()
     local cmp = require('cmp')
@@ -105,41 +104,31 @@ return {
           end
         end, {  "i", "s" }),
       }),
-      sources = cmp.config.sources({
-        {
-          name = "lazydev",
-          group_index = 0, -- set group index to 0 to skip loading LuaLS completions
-        },
-        --{ name = "nvim_lsp_signature_help"},
-        { name = 'luasnip' }, -- For luasnip users.
-        { name = "nvim_lsp" },
-        { name = "copilot" },
-        { name = "path" },
-        -- {
-        --   name = "rg",
-        --   -- Try it when you feel cmp performance is poor
-        --   -- keyword_length = 3
-        -- },
-      }, {
-          --{ name = 'buffer' }, -- I don't like buffer completion
-        }),
+      sources = function()
+        local common_sources = {
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
+          { name = "copilot" },
+          { name = "path" },
+        }
+        if vim.bo.filetype == "lua" then
+          table.insert(common_sources, 1, { name = "lazydev", group_index = 0 })
+        end
+        return common_sources
+      end,
       sorting = {
         priority_weight = 2,
         comparators = {
           require("copilot_cmp.comparators").prioritize,
-          cmp.config.compare.sort_text,
-
-          -- Below is the default comparitor list and order for nvim-cmp
           cmp.config.compare.offset,
-          -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
           cmp.config.compare.exact,
           cmp.config.compare.score,
-          cmp.config.compare.recently_used,
-          cmp.config.compare.locality,
           cmp.config.compare.kind,
-          cmp.config.compare.length,
-          cmp.config.compare.order,
         },
+      },
+      completion = {
+        keyword_length = 1,
+        throttle_time = 80,
       },
     })
 
