@@ -6,7 +6,8 @@ return {
       --'linrongbin16/lsp-progress.nvim',
       -- "ecthelionvi/NeoComposer.nvim"
     },
-    event = "VeryLazy",
+    lazy = false, -- This ensures the plugin is loaded eagerly
+    priority = 1000, -- High priority to load it before other plugins
     config = function ()
       local colors = {
         fg = "#838994",
