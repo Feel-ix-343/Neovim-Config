@@ -86,5 +86,10 @@ return {
         },
       }
     )
+
+    -- Set up the manual keybinding for Avante edit
+    vim.keymap.set('n', '<leader>E', function()
+      require('avante').edit()
+    end, { noremap = true, silent = true, desc = "Avante Edit" })
   end
 }
