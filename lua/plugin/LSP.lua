@@ -11,47 +11,34 @@ else
 end
 local on_attach = function(client, bufnr)
   local keymap = vim.keymap.set
-  keymap("n", "gh", ":Lspsaga finder<CR>", { silent = true })
-  keymap({"n", "v"}, "<leader>a", vim.lsp.buf.code_action, { silent = true })
-  keymap("n", "gr", vim.lsp.buf.rename, { silent = true })
-  keymap("n", "gd", "<cmd>Lspsaga goto_definition<CR>", {silent = true})
+  keymap("n", "gh", vim.lsp.buf.references, { silent = true, desc = "Show references" })
+  keymap({"n", "v"}, "<leader>a", vim.lsp.buf.code_action, { silent = true, desc = "Code action" })
+  keymap("n", "gr", vim.lsp.buf.rename, { silent = true, desc = "Rename" })
+  keymap("n", "gd", vim.lsp.buf.definition, { silent = true, desc = "Go to definition" })
+  keymap("n", "gD", vim.lsp.buf.declaration, { silent = true, desc = "Go to declaration" })
+  keymap("n", "gt", vim.lsp.buf.type_definition, { silent = true, desc = "Go to type definition" })
 
-  keymap("n", "gD", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
-  -- keymap("n","gd", vim.lsp.buf.definition) -- this is now a part of telescope
+  -- Show diagnostics
+  keymap("n", "<leader>sl", vim.diagnostic.open_float, { silent = true, desc = "Show line diagnostics" })
+  keymap("n", "<leader>sc", vim.diagnostic.open_float, { silent = true, desc = "Show cursor diagnostics" })
+  keymap("n", "<leader>sb", vim.diagnostic.setloclist, { silent = true, desc = "Show buffer diagnostics" })
 
-  keymap("n", "gT", "<cmd>Lspsaga peek_type_definition<CR>")
-  keymap("n","gt", "<cmd>Lspsaga goto_type_definition<CR>")
-
-  -- Show line diagnostics
-  -- You can pass argument ++unfocus to
-  -- unfocus the show_line_diagnostics floating window
-  keymap("n", "<leader>sl", "<cmd>Lspsaga show_line_diagnostics<CR>")
-
-  -- Show cursor diagnostics
-  -- Like show_line_diagnostics, it supports passing the ++unfocus argument
-  keymap("n", "<leader>sc", "<cmd>Lspsaga show_cursor_diagnostics<CR>")
-
-  -- Show buffer diagnostics
-  keymap("n", "<leader>sb", "<cmd>Lspsaga show_buf_diagnostics<CR>")
-
-  keymap("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { silent = true })
-  keymap("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", { silent = true })
+  keymap("n", "[e", vim.diagnostic.goto_prev, { silent = true, desc = "Previous diagnostic" })
+  keymap("n", "]e", vim.diagnostic.goto_next, { silent = true, desc = "Next diagnostic" })
   keymap("n", "[E", function()
-    require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
-  end, { silent = true })
+    vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+  end, { silent = true, desc = "Previous error" })
   keymap("n", "]E", function()
-    require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
-  end, { silent = true })
-  -- keymap("n", "<leader>o", "<cmd>Lspsaga outline<CR>", { silent = true })
-  keymap("n", "K", vim.lsp.buf.hover, { silent = true })
-  keymap("n", "<A-d>", "<cmd>Lspsaga open_floaterm<CR>", { silent = true })
-  keymap("t", "<A-d>", [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]], { silent = true })
+    vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+  end, { silent = true, desc = "Next error" })
+
+  keymap("n", "K", vim.lsp.buf.hover, { silent = true, desc = "Hover documentation" })
 
   -- Call hierarchy
-  keymap("n", "<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>")
-  keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
+  keymap("n", "<Leader>ci", vim.lsp.buf.incoming_calls, { silent = true, desc = "Incoming calls" })
+  keymap("n", "<Leader>co", vim.lsp.buf.outgoing_calls, { silent = true, desc = "Outgoing calls" })
 
-  keymap("i", "<C-K>", vim.lsp.buf.signature_help, { silent = true })
+  keymap("i", "<C-K>", vim.lsp.buf.signature_help, { silent = true, desc = "Signature help" })
 
 
   keymap("n", "<leader>Lb", "<cmd>TexlabBuild<CR>", {desc = "Build the latex document"})
@@ -219,6 +206,8 @@ return {
           },
         }
       })
+
+      -- Remove LSP Saga related configurations
 
 
       require("lspconfig").hls.setup({
