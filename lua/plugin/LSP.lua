@@ -349,5 +349,23 @@ return {
     config = function(_, metals_config)
       require("metals").initialize_or_attach(metals_config)
     end
+  },
+
+  -- Tailwind CSS configuration
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        tailwindcss = {
+          on_attach = on_attach,
+          capabilities = capabilities,
+          filetypes = { "aspnetcorerazor", "astro", "astro-markdown", "blade", "clojure", "django-html", "htmldjango", "edge", "eelixir", "elixir", "ejs", "erb", "eruby", "gohtml", "haml", "handlebars", "hbs", "html", "html-eex", "heex", "jade", "leaf", "liquid", "mustache", "njk", "nunjucks", "php", "razor", "slim", "twig", "css", "less", "postcss", "sass", "scss", "stylus", "sugarss", "javascript", "javascriptreact", "reason", "rescript", "typescript", "typescriptreact", "vue", "svelte" },
+          -- Exclude Markdown files
+          root_dir = function(fname)
+            return require('lspconfig').util.root_pattern('tailwind.config.js', 'tailwind.config.cjs', 'tailwind.config.mjs', 'tailwind.config.ts', 'postcss.config.js', 'postcss.config.cjs', 'postcss.config.mjs', 'postcss.config.ts', 'package.json', 'node_modules', '.git')(fname) and not vim.fn.fnamemodify(fname, ':e') == 'md'
+          end,
+        },
+      },
+    },
   }
 }
