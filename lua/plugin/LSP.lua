@@ -124,7 +124,7 @@ local servers = {
   "ts_ls",
   "bashls",
   "astro",
-  "tailwindcss",
+  -- "tailwindcss", -- Commented out to be configured separately
   "sqlls",
   "jsonls",
   "gopls",
