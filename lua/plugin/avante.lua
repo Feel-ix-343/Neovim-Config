@@ -98,19 +98,14 @@ return {
     )
 
     local avante = require("avante")
-    local set_keymap = function(mode, lhs, rhs, opts)
-      if rhs then
-        vim.keymap.set(mode, lhs, rhs, opts)
-      end
-    end
 
-    set_keymap({'n', 'v'}, '<leader>ae', avante.edit, { noremap = true, silent = true, desc = "Avante Edit" })
-    set_keymap({'n', 'v'}, '<leader>ac', avante.chat, { noremap = true, silent = true, desc = "Avante Chat" })
-    set_keymap({'n', 'v'}, '<leader>as', avante.suggest, { noremap = true, silent = true, desc = "Avante Suggest" })
-    set_keymap({'n', 'v'}, '<leader>ar', avante.rewrite, { noremap = true, silent = true, desc = "Avante Rewrite" })
-    set_keymap({'n', 'v'}, '<leader>af', avante.fix, { noremap = true, silent = true, desc = "Avante Fix" })
-    set_keymap({'n', 'v'}, '<leader>at', avante.test, { noremap = true, silent = true, desc = "Avante Test" })
-    set_keymap({'n', 'v'}, '<leader>ad', avante.diff, { noremap = true, silent = true, desc = "Avante Diff" })
-    set_keymap({'n', 'v'}, '<leader>aa', avante.ask, { noremap = true, silent = true, desc = "Avante Ask" })
+    vim.keymap.set({'n', 'v'}, '<leader>ae', avante.edit, { noremap = true, silent = true, desc = "Avante Edit" })
+    vim.keymap.set({'n', 'v'}, '<leader>ac', avante.chat, { noremap = true, silent = true, desc = "Avante Chat" })
+    vim.keymap.set({'n', 'v'}, '<leader>as', avante.suggest, { noremap = true, silent = true, desc = "Avante Suggest" })
+    vim.keymap.set({'n', 'v'}, '<leader>ar', avante.rewrite, { noremap = true, silent = true, desc = "Avante Rewrite" })
+    vim.keymap.set({'n', 'v'}, '<leader>af', avante.fix, { noremap = true, silent = true, desc = "Avante Fix" })
+    vim.keymap.set({'n', 'v'}, '<leader>at', avante.test, { noremap = true, silent = true, desc = "Avante Test" })
+    vim.keymap.set({'n', 'v'}, '<leader>ad', avante.diff, { noremap = true, silent = true, desc = "Avante Diff" })
+    vim.keymap.set({'n', 'v'}, '<leader>aa', avante.ask, { noremap = true, silent = true, desc = "Avante Ask" })
   end
 }
