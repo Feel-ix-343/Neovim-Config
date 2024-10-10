@@ -12,7 +12,7 @@ end
 local on_attach = function(client, bufnr)
   local keymap = vim.keymap.set
   keymap("n", "gh", "<cmd>Telescope lsp_references<CR>", { silent = true, desc = "Show references" })
-  keymap({"n", "v"}, "<leader>a", vim.lsp.buf.code_action, { silent = true, desc = "Code action" })
+  keymap({"n", "v"}, "<leader>ca", vim.lsp.buf.code_action, { silent = true, desc = "Code action" })
   keymap("n", "gr", vim.lsp.buf.rename, { silent = true, desc = "Rename" })
   keymap("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { silent = true, desc = "Go to definition" })
   keymap("n", "gD", "<cmd>Telescope lsp_declarations<CR>", { silent = true, desc = "Go to declaration" })
