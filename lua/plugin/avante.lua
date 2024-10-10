@@ -1,16 +1,6 @@
 return {
   "yetone/avante.nvim",
   enable = true,
-  keys = {
-    { "<leader>ae", mode = { "n", "v" }, desc = "Avante Edit" },
-    { "<leader>ac", mode = { "n", "v" }, desc = "Avante Chat" },
-    { "<leader>as", mode = { "n", "v" }, desc = "Avante Suggest" },
-    { "<leader>ar", mode = { "n", "v" }, desc = "Avante Rewrite" },
-    { "<leader>af", mode = { "n", "v" }, desc = "Avante Fix" },
-    { "<leader>at", mode = { "n", "v" }, desc = "Avante Test" },
-    { "<leader>ad", mode = { "n", "v" }, desc = "Avante Diff" },
-    { "<leader>aa", mode = { "n", "v" }, desc = "Avante Ask" },
-  },
   build = "make", -- This is Optional, only if you want to use tiktoken_core to calculate tokens count
   dependencies = {
     "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
@@ -97,15 +87,5 @@ return {
       }
     )
 
-    local avante = require("avante")
-
-    vim.keymap.set({'n', 'v'}, '<leader>ae', avante.edit, { noremap = true, silent = true, desc = "Avante Edit" })
-    vim.keymap.set({'n', 'v'}, '<leader>ac', avante.chat, { noremap = true, silent = true, desc = "Avante Chat" })
-    vim.keymap.set({'n', 'v'}, '<leader>as', avante.suggest, { noremap = true, silent = true, desc = "Avante Suggest" })
-    vim.keymap.set({'n', 'v'}, '<leader>ar', avante.rewrite, { noremap = true, silent = true, desc = "Avante Rewrite" })
-    vim.keymap.set({'n', 'v'}, '<leader>af', avante.fix, { noremap = true, silent = true, desc = "Avante Fix" })
-    vim.keymap.set({'n', 'v'}, '<leader>at', avante.test, { noremap = true, silent = true, desc = "Avante Test" })
-    vim.keymap.set({'n', 'v'}, '<leader>ad', avante.diff, { noremap = true, silent = true, desc = "Avante Diff" })
-    vim.keymap.set({'n', 'v'}, '<leader>aa', avante.ask, { noremap = true, silent = true, desc = "Avante Ask" })
   end
 }
