@@ -34,7 +34,7 @@ return {
         ---@alias Provider "openai" | "claude" | "azure"  | "copilot" | [string]
         provider = "claude",
         behaviour = {
-          auto_suggestions = false, -- Experimental stage
+          auto_suggestions = true,
           auto_set_highlight_group = true,
           auto_set_keymaps = false,
           auto_apply_diff_after_generation = false,

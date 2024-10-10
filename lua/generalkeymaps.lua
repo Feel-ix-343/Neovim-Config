@@ -12,6 +12,8 @@ vim.keymap.set("n", "<leader>bp", ":bprevious<CR>", {noremap=true})
 vim.keymap.set("n", "<leader>bn", ":bnext<CR>", {noremap=true})
 vim.keymap.set("n", "<leader>bd", ":bdelete<CR>", {noremap=true})
 vim.keymap.set("n", "<leader><tab>", ":tabnew<CR>", {noremap=true})
+-- map leader shift tab to tab close
+vim.keymap.set("n", "<leader><S-Tab>", ":tabclose<CR>", {noremap=true})
 
 
 vim.keymap.set("n", "<CR>", "o<esc>", {noremap=true})
