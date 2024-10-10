@@ -11,12 +11,12 @@ else
 end
 local on_attach = function(client, bufnr)
   local keymap = vim.keymap.set
-  keymap("n", "gh", vim.lsp.buf.references, { silent = true, desc = "Show references" })
+  keymap("n", "gh", "<cmd>Telescope lsp_references<CR>", { silent = true, desc = "Show references" })
   keymap({"n", "v"}, "<leader>a", vim.lsp.buf.code_action, { silent = true, desc = "Code action" })
   keymap("n", "gr", vim.lsp.buf.rename, { silent = true, desc = "Rename" })
-  keymap("n", "gd", vim.lsp.buf.definition, { silent = true, desc = "Go to definition" })
-  keymap("n", "gD", vim.lsp.buf.declaration, { silent = true, desc = "Go to declaration" })
-  keymap("n", "gt", vim.lsp.buf.type_definition, { silent = true, desc = "Go to type definition" })
+  keymap("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { silent = true, desc = "Go to definition" })
+  keymap("n", "gD", "<cmd>Telescope lsp_declarations<CR>", { silent = true, desc = "Go to declaration" })
+  keymap("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", { silent = true, desc = "Go to type definition" })
 
   -- Show diagnostics
   keymap("n", "<leader>sl", vim.diagnostic.open_float, { silent = true, desc = "Show line diagnostics" })
