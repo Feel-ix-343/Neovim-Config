@@ -1,5 +1,6 @@
 return {
   "yetone/avante.nvim",
+  enable = false,
   keys = {
     { "<leader>E", mode = { "n", "v" } },
   },
@@ -89,16 +90,6 @@ return {
       }
     )
 
-    -- Set up the manual keybindings for Avante edit
-    local function avante_edit()
-      if vim.fn.mode() == 'v' or vim.fn.mode() == 'V' then
-        vim.cmd('normal! y')
-        require('avante').AvanteEdit(vim.fn.getreg('"'))
-      else
-        require('avante').AvanteEdit()
-      end
-    end
-
-    vim.keymap.set({'n', 'v'}, '<leader>E', avante_edit, { noremap = true, silent = true, desc = "Avante Edit" })
+    vim.keymap.set({'n', 'v'}, '<leader>E', ":AvanteEdit<CR>", { noremap = true, silent = true, desc = "Avante Edit" })
   end
 }
