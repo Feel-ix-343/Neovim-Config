@@ -17,6 +17,8 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Copy current file path relative to git root to clipboard
+vim.api.nvim_set_keymap('n', '<leader>y', [[<cmd>lua vim.fn.setreg('+', vim.fn.trim(vim.fn.system('git ls-files --full-name ' .. vim.fn.expand('%:p'))))<CR>]], { noremap = true, silent = true })
 
 -- import environment variabels
 require("envs")
