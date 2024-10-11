@@ -11,6 +11,7 @@ vim.api.nvim_set_keymap('i', '<C-BS>', '<C-w>', {noremap=true}) --mapping backsp
 vim.keymap.set("n", "<leader>bp", ":bprevious<CR>", {noremap=true})
 vim.keymap.set("n", "<leader>bn", ":bnext<CR>", {noremap=true})
 vim.keymap.set("n", "<leader>bd", ":bdelete<CR>", {noremap=true})
+vim.keymap.set("n", "<leader>bD", ":bdelete!<CR>", {noremap=true, desc = "Force delete buffer"})
 vim.keymap.set("n", "<leader><tab>", ":tabnew<CR>", {noremap=true})
 -- map leader shift tab to tab close
 vim.keymap.set("n", "<leader><S-Tab>", ":tabclose<CR>", {noremap=true})
@@ -31,6 +32,7 @@ vim.keymap.set("x", "<leader>d", "ygvop", {desc = "Yank and insert opposite"})
 vim.keymap.set("n", "<leader>w", ":w<CR>", {desc = "Write"})
 vim.keymap.set("n", "<leader>W", ":wa<CR>", {desc = "Write All"})
 vim.keymap.set("n", "<leader>q", ":q<CR>", {desc = "Quit buffer"})
+vim.keymap.set("n", "<leader>Q", ":q!<CR>", {desc = "Force quit buffer"})
 
 vim.keymap.set("n", "<leader>.", "<C-W>10>", {desc = "Move split right"})
 vim.keymap.set("n", "<leader>,", "<C-W>10<", {desc = "Move split left"})
