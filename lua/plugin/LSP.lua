@@ -248,6 +248,19 @@ return {
         capabilities = capabilities,
       })
 
+      require('lspconfig').rust_analyzer.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          ['rust-analyzer'] = {
+            cargo = {
+              buildScripts = {
+                enable = true,
+              },
+            },
+          },
+        },
+      })
 
       -- LSP Icons and highlighting for saga
       local signs = {

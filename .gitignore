@@ -2,3 +2,4 @@
 Session.vim
 plugin/packer_compiled.lua
 envs.lua
+.aider*
