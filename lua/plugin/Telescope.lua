@@ -23,6 +23,7 @@ return {
     "<leader>tu",
     "<leader>tc",
     "<leader>td",
+    "<leader>tt",
     "gd"
   },
   config = function (plugin, opts)
@@ -72,6 +73,7 @@ return {
     vim.keymap.set("n", "<leader>tl", require("telescope.builtin").resume, {noremap=true, desc = "Resume last picker"})
     vim.keymap.set("n", "<leader>td", require('telescope.builtin').lsp_definitions, {noremap=true, desc = "Go to definition"})
     vim.keymap.set("n", "<leader>tm", require('telescope.builtin').lsp_implementations, {noremap=true, desc = "Go to implementation"})
+    vim.keymap.set("n", "<leader>tt", require('telescope.builtin').treesitter, {noremap=true, desc = "Go to implementation"})
     vim.keymap.set("n", "gd", require('telescope.builtin').lsp_definitions, {noremap=true, desc = "Go to definition"})
     vim.keymap.set("n", "<leader>tu", require('telescope').extensions.undo.undo, {desc = "Undo tree"})
 

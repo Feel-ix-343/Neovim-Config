@@ -137,7 +137,8 @@ return {
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "SmiteshP/nvim-navbuddy",
-      "simrat39/rust-tools.nvim"
+      "simrat39/rust-tools.nvim",
+      "b0o/schemastore.nvim"
     },
     config = function()
       vim.api.nvim_create_user_command("LspInitialize", function()
@@ -146,9 +147,19 @@ return {
       end, {})
 
 
+      local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+      -- Setup for preconfigured servers
+      for _, lsp in ipairs(servers) do
+        require('lspconfig')[lsp].setup {
+          on_attach = on_attach,
+          capabilities = capabilities,
+        }
+      end
+
+
       vim.keymap.set("n", "<leader>si", "<cmd>LspInfo<CR>")
 
-      local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
       capabilities.workspace = {
         didChangeWatchedFiles = {
@@ -167,7 +178,7 @@ return {
           elseif vim.env.MOXIDE_BIN then
             return "markdown-oxide"
           else
-            return "/home/felix/coding/LargerIdeas/MarkdownOxide/markdown-oxide/target/release/markdown-oxide"
+            return "/home/felix/coding/LargerIdeas/MarkdownOxide/markdown-oxide-master/target/release/markdown-oxide"
           end
         end)()},
         root_dir = function(fname, _)
@@ -223,14 +234,6 @@ return {
         capabilities = capabilities
       })
 
-      -- Setup for preconfigured servers
-      for _, lsp in ipairs(servers) do
-        require('lspconfig')[lsp].setup {
-          on_attach = on_attach,
-          capabilities = capabilities,
-        }
-      end
-
       -- Specific configurations
       require('lspconfig').ts_ls.setup({
         on_attach = on_attach,
@@ -261,6 +264,16 @@ return {
           },
         },
       })
+
+      require('lspconfig').yamlls.setup {
+        settings = {
+          ['yaml'] = {
+            schemaStore = {
+              enable = true
+            }
+          },
+        },
+      }
 
       -- LSP Icons and highlighting for saga
       local signs = {

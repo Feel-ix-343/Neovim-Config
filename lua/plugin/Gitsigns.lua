@@ -1,11 +1,7 @@
 
-return {
-  {'lewis6991/gitsigns.nvim', 
+return {'lewis6991/gitsigns.nvim',
    event = {"BufReadPre", "BufNewFile"},
-   cond = function()
-     return vim.fn.isdirectory(".git") == 1
-   end,
-   opts = {}, 
+   opts = {},
    keys = {
     {"<leader>ga", ":Gitsigns stage_hunk<CR>"},
     {"<leader>gr", ":Gitsigns reset_hunk<CR>"},
@@ -13,5 +9,6 @@ return {
     {"<leader>gn", ":Gitsigns next_hunk<CR>"},
     {"<leader>gp", ":Gitsigns prev_hunk<CR>"},
     {"<leader>gh", ":Gitsigns preview_hunk<CR>"},
-  }},
+    {"<leader>gb", ":Gitsigns blame_line<CR>"},
+  }
 }
