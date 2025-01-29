@@ -36,3 +36,18 @@ vim.keymap.set("n", "<leader>Q", ":q!<CR>", {desc = "Force quit buffer"})
 
 vim.keymap.set("n", "<leader>.", "<C-W>10>", {desc = "Move split right"})
 vim.keymap.set("n", "<leader>,", "<C-W>10<", {desc = "Move split left"})
+
+vim.keymap.set("n", "<leader>aa", function()
+    local buffers = vim.fn.getbufinfo({buflisted = 1})
+    local file_paths = {}
+    for _, buf in ipairs(buffers) do
+        if buf.name and buf.name ~= "" then
+            -- Convert to absolute path
+            local absolute_path = '"' .. vim.fn.fnamemodify(buf.name, ":p") .. '"'
+            table.insert(file_paths, absolute_path)
+        end
+    end
+    local files = table.concat(file_paths, " ")
+    vim.cmd(string.format("!alacritty -e aider -- %s &", files))
+
+end, {desc = "Open buffers in Aider"})

@@ -40,7 +40,6 @@
   "nvim-treesitter-context": { "branch": "master", "commit": "78a81c7494e7d1a08dd1200b556933e513fd9f29" },
   "nvim-treesitter-textobjects": { "branch": "master", "commit": "b91c98afa6c42819aea6cbc1ba38272f5456a5cf" },
   "nvim-ts-context-commentstring": { "branch": "main", "commit": "9c74db656c3d0b1c4392fc89a016b1910539e7c0" },
-  "nvim-web-devicons": { "branch": "master", "commit": "56f17def81478e406e3a8ec4aa727558e79786f3" },
   "oil.nvim": { "branch": "master", "commit": "ccab9d5e09e2d0042fbbe5b6bd05e82426247067" },
   "one_monokai.nvim": { "branch": "main", "commit": "18da45f4b0fdfa8ff2c354ac748e03cb910725e6" },
   "oxocarbon.nvim": { "branch": "main", "commit": "004777819ba294423b638a35a75c9f0c7be758ed" },
