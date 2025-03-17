@@ -318,28 +318,28 @@ return {
       })
     end
   },
-  {
-    'saecki/crates.nvim',
-    tag = 'stable',
-    config = function()
-      require('crates').setup({
-        lsp = {
-          enabled = true,
-          on_attach = on_attach,
-          actions = true,
-          completion = true,
-          hover = true,
-        },
-        completion = {
-          crates = {
-            enabled = true, -- disabled by default
-            max_results = 10, -- The maximum number of search results to display
-            min_chars = 1 -- The minimum number of charaters to type before completions begin appearing
-          }
-        }
-      })
-    end,
-  },
+  -- {
+  --   'saecki/crates.nvim',
+  --   tag = 'stable',
+  --   config = function()
+  --     require('crates').setup({
+  --       lsp = {
+  --         enabled = true,
+  --         on_attach = on_attach,
+  --         actions = true,
+  --         completion = true,
+  --         hover = true,
+  --       },
+  --       completion = {
+  --         crates = {
+  --           enabled = true, -- disabled by default
+  --           max_results = 10, -- The maximum number of search results to display
+  --           min_chars = 1 -- The minimum number of charaters to type before completions begin appearing
+  --         }
+  --       }
+  --     })
+  --   end,
+  -- },
   {
     "scalameta/nvim-metals",
     dependencies = {
