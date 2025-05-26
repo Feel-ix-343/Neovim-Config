@@ -178,7 +178,7 @@ return {
           elseif vim.env.MOXIDE_BIN then
             return "markdown-oxide"
           else
-            return "/home/felix/coding/LargerIdeas/MarkdownOxide/markdown-oxide-master/target/release/markdown-oxide"
+            return "/home/felix/oxide/markdown-oxide/target/release/markdown-oxide"
           end
         end)()},
         root_dir = function(fname, _)
