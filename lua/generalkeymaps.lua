@@ -51,3 +51,64 @@ vim.keymap.set("n", "<leader>aa", function()
     vim.cmd(string.format("!alacritty -e aider -- %s &", files))
 
 end, {desc = "Open buffers in Aider"})
+
+vim.keymap.set("n", "<leader>cc", function()
+    local current_file = vim.fn.expand('%:p')
+    if not current_file or current_file == "" then
+        print("No file currently open")
+        return
+    end
+    vim.cmd(string.format('!alacritty -e claude --dangerously-skip-permissions "%s" &', current_file))
+end, {desc = "Open current file in Claude Code"})
+
+vim.keymap.set("v", "<leader>cc", function()
+    local current_file = vim.fn.expand('%:p')
+    if not current_file or current_file == "" then
+        print("No file currently open")
+        return
+    end
+    
+    -- Exit visual mode to get proper selection marks
+    vim.cmd('normal! \\<esc>')
+    
+    -- Get visual selection bounds  
+    local start_line = vim.fn.line("'<")
+    local end_line = vim.fn.line("'>")
+    local start_col = vim.fn.col("'<")
+    local end_col = vim.fn.col("'>")
+    
+    local lines = vim.fn.getline(start_line, end_line)
+    
+    -- Handle partial line selections
+    if #lines == 1 then
+        lines[1] = string.sub(lines[1], start_col, end_col)
+    elseif #lines > 1 then
+        lines[1] = string.sub(lines[1], start_col)
+        lines[#lines] = string.sub(lines[#lines], 1, end_col)
+    end
+    
+    -- Format with line numbers
+    local formatted_lines = {}
+    for i, line in ipairs(lines) do
+        table.insert(formatted_lines, string.format("%d\t%s", start_line + i - 1, line))
+    end
+    local selection_text = table.concat(formatted_lines, "\n")
+    
+    -- Create a temp file with the selection info
+    local temp_file = "/tmp/claude_selection_" .. os.time() .. ".md"
+    local file = io.open(temp_file, "w")
+    if file then
+        file:write("# Selected Code\n\n")
+        file:write("From: `" .. vim.fn.expand('%:t') .. "` (lines " .. start_line .. "-" .. end_line .. ")\n\n")
+        file:write("```" .. vim.bo.filetype .. "\n")
+        file:write(selection_text)
+        file:write("\n```\n")
+        file:close()
+        
+        -- Open Claude with both files - selection context first, then main file
+        vim.cmd(string.format('!alacritty -e bash -c "claude --dangerously-skip-permissions \'%s\' \'%s\'" &', 
+            temp_file, current_file))
+    else
+        print("Failed to create temp file")
+    end
+end, {desc = "Open selection in Claude Code"})

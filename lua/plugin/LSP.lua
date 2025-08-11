@@ -115,7 +115,9 @@ local servers = {
   "sqlls",
   "jsonls",
   "gopls",
-  "nil_ls"
+  "nil_ls",
+  "eslint",
+  "copilot"
 }
 
 
@@ -243,6 +245,56 @@ return {
             disableSuggestions = true,
           },
         },
+        settings = {
+          typescript = {
+            preferences = {
+              includePackageJsonAutoImports = "on",
+            },
+            suggest = {
+              completeFunctionCalls = true,
+            },
+            inlayHints = {
+              includeInlayParameterNameHints = "all",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
+          javascript = {
+            preferences = {
+              includePackageJsonAutoImports = "on",
+            },
+            suggest = {
+              completeFunctionCalls = true,
+            },
+            inlayHints = {
+              includeInlayParameterNameHints = "all",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
+          completions = {
+            completeFunctionCalls = true,
+          },
+        },
+        commands = {
+          OrganizeImports = {
+            function()
+              vim.lsp.buf.execute_command({
+                command = "_typescript.organizeImports",
+                arguments = {vim.api.nvim_buf_get_name(0)},
+              })
+            end,
+            description = "Organize Imports",
+          },
+        },
       })
 
       require('lspconfig').nushell.setup({
@@ -274,6 +326,23 @@ return {
           },
         },
       }
+
+      -- GitHub Copilot language server configuration
+      require('lspconfig').copilot.setup({
+        cmd = { "copilot-language-server", "--stdio" },
+        on_attach = on_attach,
+        capabilities = capabilities,
+        filetypes = { "gitcommit", "gitrebase", "yaml", "typescript", "javascript", "lua", "c", "cpp", "go", "python", "sh", "zsh", "css", "html", "json", "toml", "nix", "rust", "markdown", "text", "tex", "vim", "vimdoc", "scss", "less", "sass", "xml", "yaml", "dart", "java", "kotlin", "swift", "objc", "objcpp", "dockerfile", "graphql", "prisma", "templ", "astro", "vue", "svelte", "typescriptreact", "javascriptreact" },
+        root_dir = function(fname)
+          return require('lspconfig').util.root_pattern('.git')(fname) or vim.fn.getcwd()
+        end,
+        settings = {
+          http = {
+            proxy = "",
+            proxyStrictSSL = false,
+          },
+        },
+      })
 
       -- LSP Icons and highlighting for saga
       local signs = {
