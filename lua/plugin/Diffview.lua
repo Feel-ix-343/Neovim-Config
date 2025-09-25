@@ -17,7 +17,13 @@
       vim.keymap.set("n", "<leader>go", ":DiffviewOpen<CR>")
       vim.keymap.set("n", "<leader>gc", ":DiffviewClose<CR>")
 
-      diffview.setup()
+      diffview.setup({
+        hooks = {
+          diff_buf_read = function(bufnr)
+            vim.opt_local.foldenable = false
+          end,
+        },
+      })
 
       local diffviewOpen = false
       local toggleDiffview = function ()
