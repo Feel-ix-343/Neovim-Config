@@ -37,10 +37,9 @@ return {
       restore_win_options = true,
       -- Skip the confirmation popup for simple operations
       skip_confirm_for_simple_edits = false,
-      -- Deleted files will be removed with the trash_command (below).
+      -- Deleted files will be removed using built-in trash functionality.
+      -- Set to true to enable sending deleted files to trash instead of permanent deletion.
       delete_to_trash = false,
-      -- Change this to customize the command used when deleting to trash
-      trash_command = "trash-put",
       -- Selecting a new/moved/renamed file or directory will prompt you to save changes first
       prompt_save_on_select_new_entry = true,
       -- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
